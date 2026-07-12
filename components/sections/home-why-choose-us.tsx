@@ -50,7 +50,7 @@ export function HomeWhyChooseUs() {
                     <CheckCircle2 className="h-5 w-5 shrink-0 text-accent" />
                     <h3 className="text-sm font-semibold">{reason.title}</h3>
                   </div>
-                  <p className="pl-7.5 text-sm leading-relaxed text-muted-foreground">
+                  <p className="pl-8 text-sm leading-relaxed text-muted-foreground">
                     {reason.description}
                   </p>
                 </div>
