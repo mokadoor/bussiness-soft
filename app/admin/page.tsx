@@ -197,6 +197,10 @@ export default function AdminDashboard() {
           </div>
         )}
       </Card>
+
+      <footer className="mt-8 border-t border-border pt-5 text-sm text-muted-foreground">
+        Admin dashboard — use the panel to manage content, messages, and site data.
+      </footer>
     </div>
   );
 }
