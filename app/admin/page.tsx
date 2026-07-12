@@ -1,0 +1,144 @@
+'use client';
+
+import * as React from 'react';
+import Link from 'next/link';
+import { supabase } from '@/lib/supabase/client';
+import { Boxes, Wrench, Factory, Building2, MessageSquareQuote, Users, Mail, Newspaper, BarChart3, HelpCircle, ArrowRight, Inbox } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+
+type CountResult = { count: number } | null;
+
+const sections = [
+  { label: 'Products', href: '/admin/products', icon: Boxes, table: 'products' },
+  { label: 'Services', href: '/admin/services', icon: Wrench, table: 'services' },
+  { label: 'Industries', href: '/admin/industries', icon: Factory, table: 'industries' },
+  { label: 'Clients', href: '/admin/clients', icon: Building2, table: 'clients' },
+  { label: 'Testimonials', href: '/admin/testimonials', icon: MessageSquareQuote, table: 'testimonials' },
+  { label: 'Team', href: '/admin/team', icon: Users, table: 'team_members' },
+  { label: 'FAQs', href: '/admin/faqs', icon: HelpCircle, table: 'faqs' },
+  { label: 'Statistics', href: '/admin/statistics', icon: BarChart3, table: 'statistics' },
+  { label: 'News', href: '/admin/news', icon: Newspaper, table: 'news' },
+  { label: 'Messages', href: '/admin/messages', icon: Mail, table: 'contact_messages' },
+];
+
+type RecentMessage = {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  status: string;
+  created_at: string;
+};
+
+export default function AdminDashboard() {
+  const [counts, setCounts] = React.useState<Record<string, number>>({});
+  const [messages, setMessages] = React.useState<RecentMessage[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    async function load() {
+      const entries = await Promise.all(
+        sections.map(async (s) => {
+          const { count } = await supabase
+            .from(s.table)
+            .select('*', { count: 'exact', head: true });
+          return [s.table, count ?? 0] as const;
+        })
+      );
+      setCounts(Object.fromEntries(entries));
+
+      const { data } = await supabase
+        .from('contact_messages')
+        .select('id, name, email, subject, status, created_at')
+        .order('created_at', { ascending: false })
+        .limit(5);
+      setMessages((data as RecentMessage[]) ?? []);
+      setLoading(false);
+    }
+    load();
+  }, []);
+
+  return (
+    <div>
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Overview of your website content and recent activity.
+        </p>
+      </div>
+
+      {/* Stats grid */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+        {sections.map((s) => {
+          const Icon = s.icon;
+          return (
+            <Link key={s.href} href={s.href}>
+              <Card className="group p-5 transition-all hover:-translate-y-0.5 hover:shadow-card-hover">
+                <div className="flex items-center justify-between">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <span className="text-2xl font-bold tracking-tight">
+                    {loading ? '—' : counts[s.table] ?? 0}
+                  </span>
+                </div>
+                <p className="mt-3 text-sm font-medium text-muted-foreground">{s.label}</p>
+              </Card>
+            </Link>
+          );
+        })}
+      </div>
+
+      {/* Recent messages */}
+      <Card className="mt-8 p-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Inbox className="h-5 w-5 text-primary" />
+            <h2 className="text-lg font-semibold tracking-tight">Recent Messages</h2>
+          </div>
+          <Link
+            href="/admin/messages"
+            className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+          >
+            View all
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+        {messages.length === 0 ? (
+          <p className="mt-6 text-sm text-muted-foreground">No messages yet.</p>
+        ) : (
+          <div className="mt-4 divide-y divide-border">
+            {messages.map((msg) => (
+              <Link
+                key={msg.id}
+                href="/admin/messages"
+                className="flex items-center justify-between py-3 transition-colors hover:bg-secondary/40 -mx-2 px-2 rounded-md"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium">{msg.name}</p>
+                  <p className="truncate text-xs text-muted-foreground">{msg.subject}</p>
+                </div>
+                <div className="ml-4 flex shrink-0 items-center gap-3">
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                      msg.status === 'new'
+                        ? 'bg-accent/10 text-accent'
+                        : msg.status === 'read'
+                        ? 'bg-secondary text-muted-foreground'
+                        : 'bg-emerald-500/10 text-emerald-600'
+                    }`}
+                  >
+                    {msg.status}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {new Date(msg.created_at).toLocaleDateString()}
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </Card>
+    </div>
+  );
+}
