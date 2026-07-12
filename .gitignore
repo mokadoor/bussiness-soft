@@ -12,6 +12,9 @@
 /.next/
 /out/
 
+# local node runtime
+/node-local/
+
 # production
 /build
 

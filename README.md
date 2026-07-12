@@ -1,3 +1,4 @@
 # bussiness-soft
 
-[![Open in Bolt](https://bolt.new/static/open-in-bolt.svg)](https://bolt.new/~/sb1-qjsvbtcj)
+This project stores Supabase secrets in environment variables.
+Create a local `.env` or `.env.local` based on `.env.example` before running the app.
