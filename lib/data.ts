@@ -216,6 +216,7 @@ export type Product = {
   category: string;
   icon: string;
   color: string;
+  image: string;
   summary: string;
   description: string;
   features: { title: string; description: string; icon: string }[];
@@ -232,6 +233,7 @@ export const products: Product[] = [
     category: 'ERP Suite',
     icon: 'Boxes',
     color: 'from-[#0F4C81] to-[#00A8E8]',
+    image: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800',
     summary:
       'A powerful, user-friendly ERP covering finance, sales, purchasing, inventory, production, and HR — built for Tunisian regulations and scalable to multi-company groups.',
     description:
@@ -322,6 +324,7 @@ export const products: Product[] = [
     category: 'Customer Relationship',
     icon: 'HeartHandshake',
     color: 'from-[#00A8E8] to-[#0F4C81]',
+    image: 'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800',
     summary:
       'A complete CRM to manage leads, opportunities, sales pipelines, and customer interactions — fully integrated with Nexus ERP.',
     description:
@@ -405,6 +408,7 @@ export const products: Product[] = [
     category: 'Industry ERP',
     icon: 'TreePine',
     color: 'from-[#1d5e3a] to-[#0F4C81]',
+    image: 'https://images.pexels.com/photos/803975/pexels-photo-803975.jpeg?auto=compress&cs=tinysrgb&w=800',
     summary:
       'An industry-specific ERP built for wood manufacturers — covering cutting optimization, BOMs, work orders, and costing.',
     description:
@@ -488,6 +492,7 @@ export const products: Product[] = [
     category: 'Point of Sale',
     icon: 'ScanLine',
     color: 'from-[#00A8E8] to-[#1d5e3a]',
+    image: 'https://images.pexels.com/photos/4212931/pexels-photo-4212931.jpeg?auto=compress&cs=tinysrgb&w=800',
     summary:
       'A modern POS system for retail stores, restaurants, and service points — with offline support and real-time sync to Nexus ERP.',
     description:
@@ -705,6 +710,7 @@ export type Client = {
   industry: string;
   products: string[];
   description: string;
+  image: string;
 };
 
 export const clients: Client[] = [
@@ -712,6 +718,7 @@ export const clients: Client[] = [
     name: 'Tunisie Plast Industries',
     industry: 'Manufacturing',
     products: ['Nexus ERP'],
+    image: 'https://images.pexels.com/photos/3823624/pexels-photo-3823624.jpeg?auto=compress&cs=tinysrgb&w=600',
     description:
       'A leading plastics manufacturer unified finance, production, and inventory on Nexus ERP across two plants.',
   },
@@ -719,6 +726,7 @@ export const clients: Client[] = [
     name: 'Groupe Atlas Distribution',
     industry: 'Distribution',
     products: ['Nexus ERP', 'Nexus CRM'],
+    image: 'https://images.pexels.com/photos/6169023/pexels-photo-6169023.jpeg?auto=compress&cs=tinysrgb&w=600',
     description:
       'A national distributor consolidated four companies into a single Nexus ERP instance with CRM for its sales teams.',
   },
@@ -726,6 +734,7 @@ export const clients: Client[] = [
     name: 'Meubles & Bois du Nord',
     industry: 'Wood Industry',
     products: ['Nexus Bois'],
+    image: 'https://images.pexels.com/photos/803975/pexels-photo-803975.jpeg?auto=compress&cs=tinysrgb&w=600',
     description:
       'A furniture manufacturer reduced material waste by 18% with Nexus Bois cutting optimization.',
   },
@@ -733,6 +742,7 @@ export const clients: Client[] = [
     name: 'Market Plus Stores',
     industry: 'Retail',
     products: ['Nexus Smart Point', 'Nexus ERP'],
+    image: 'https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg?auto=compress&cs=tinysrgb&w=600',
     description:
       'A 14-store retail chain deployed Nexus Smart Point with real-time inventory sync to Nexus ERP.',
   },
@@ -740,6 +750,7 @@ export const clients: Client[] = [
     name: 'MediClinic Tunis',
     industry: 'Healthcare',
     products: ['Custom Software'],
+    image: 'https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg?auto=compress&cs=tinysrgb&w=600',
     description:
       'A private clinic group operates on a custom clinic management platform built by our team.',
   },
@@ -747,6 +758,7 @@ export const clients: Client[] = [
     name: 'Constructa TN',
     industry: 'Construction',
     products: ['Nexus ERP'],
+    image: 'https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=600',
     description:
       'A construction company gained real-time project margins with Nexus ERP project accounting.',
   },
@@ -754,6 +766,7 @@ export const clients: Client[] = [
     name: 'Ecole Future Plus',
     industry: 'Education',
     products: ['Custom Software'],
+    image: 'https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg?auto=compress&cs=tinysrgb&w=600',
     description:
       'A network of private schools manages students, fees, and parent communication on a tailored platform.',
   },
@@ -761,6 +774,7 @@ export const clients: Client[] = [
     name: 'LogiTrans Tunisie',
     industry: 'Distribution',
     products: ['Nexus ERP', 'Nexus Smart Point'],
+    image: 'https://images.pexels.com/photos/221060/pexels-photo-221060.jpeg?auto=compress&cs=tinysrgb&w=600',
     description:
       'A logistics and wholesale distributor streamlined warehouse and route operations on Nexus ERP.',
   },

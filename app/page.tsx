@@ -10,7 +10,15 @@ import { HomeClientLogos } from '@/components/sections/home-client-logos';
 import { HomeTestimonials } from '@/components/sections/home-testimonials';
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { HomeContactPreview } from '@/components/sections/home-contact-preview';
-import { company, stats } from '@/lib/data';
+import { company } from '@/lib/data';
+import {
+  fetchProducts,
+  fetchServices,
+  fetchIndustries,
+  fetchClients,
+  fetchTestimonials,
+  fetchStats,
+} from '@/lib/supabase/queries';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -37,7 +45,19 @@ const websiteLd = {
   url: company.website,
 };
 
-export default function HomePage() {
+// Revalidate every 60 seconds so admin edits appear within a minute
+export const revalidate = 60;
+
+export default async function HomePage() {
+  const [products, services, industries, clients, testimonials, stats] = await Promise.all([
+    fetchProducts(),
+    fetchServices(),
+    fetchIndustries(),
+    fetchClients(),
+    fetchTestimonials(),
+    fetchStats(),
+  ]);
+
   return (
     <>
       <script
@@ -50,14 +70,14 @@ export default function HomePage() {
       />
       <HomeHero />
       <HomeHighlights />
-      <HomeAbout />
-      <HomeFeaturedProducts />
-      <HomeServices />
+      <HomeAbout stats={stats} />
+      <HomeFeaturedProducts products={products} />
+      <HomeServices services={services} />
       <HomeWhyChooseUs />
-      <HomeStatistics />
-      <HomeIndustries />
-      <HomeClientLogos />
-      <HomeTestimonials />
+      <HomeStatistics stats={stats} />
+      <HomeIndustries industries={industries} />
+      <HomeClientLogos clients={clients} />
+      <HomeTestimonials testimonials={testimonials} />
       <CtaBanner />
       <HomeContactPreview />
     </>
