@@ -1,9 +1,9 @@
 import { Container } from '@/components/layout/container';
 import { SectionHeader } from '@/components/layout/section-header';
 import { FadeIn } from '@/components/ui/motion';
-import { clients } from '@/lib/data';
+import type { DbClient } from '@/lib/supabase/queries';
 
-export function HomeClientLogos() {
+export function HomeClientLogos({ clients }: { clients: DbClient[] }) {
   const row = [...clients, ...clients];
   return (
     <section className="border-y border-border bg-secondary/20 py-16 lg:py-20">
@@ -22,7 +22,7 @@ export function HomeClientLogos() {
           <div className="flex w-max animate-marquee items-center gap-4">
             {row.map((client, i) => (
               <div
-                key={`${client.name}-${i}`}
+                key={`${client.id}-${i}`}
                 className="flex h-20 w-56 shrink-0 items-center justify-center rounded-xl border border-border/70 bg-background px-6 shadow-sm"
               >
                 <span className="text-center text-sm font-bold tracking-tight text-muted-foreground">

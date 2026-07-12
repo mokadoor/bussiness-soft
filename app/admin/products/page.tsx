@@ -28,6 +28,8 @@ const fields: FieldDef[] = [
   { key: 'tagline', label: 'Tagline', type: 'text', full: true, placeholder: 'The complete Tunisian ERP...' },
   { key: 'category', label: 'Category', type: 'text', placeholder: 'ERP Suite' },
   { key: 'icon', label: 'Icon (Lucide name)', type: 'text', placeholder: 'Boxes' },
+  { key: 'image', label: 'Image URL', type: 'text', full: true, placeholder: 'https://images.pexels.com/...' },
+  { key: 'color', label: 'Color (gradient hex)', type: 'text', placeholder: '#1e3a8a' },
   { key: 'summary', label: 'Summary', type: 'textarea', full: true },
   { key: 'description', label: 'Description', type: 'textarea', full: true },
   { key: 'features', label: 'Features (JSON)', type: 'json', full: true },

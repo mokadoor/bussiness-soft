@@ -7,9 +7,9 @@ import { Container } from '@/components/layout/container';
 import { SectionHeader } from '@/components/layout/section-header';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/ui/motion';
-import { testimonials } from '@/lib/data';
+import type { DbTestimonial } from '@/lib/supabase/queries';
 
-export function HomeTestimonials() {
+export function HomeTestimonials({ testimonials }: { testimonials: DbTestimonial[] }) {
   const [index, setIndex] = React.useState(0);
   const [direction, setDirection] = React.useState(0);
   const count = testimonials.length;
@@ -20,12 +20,15 @@ export function HomeTestimonials() {
   };
 
   React.useEffect(() => {
+    if (count <= 1) return;
     const id = setInterval(() => {
       setDirection(1);
       setIndex((prev) => (prev + 1) % count);
     }, 6000);
     return () => clearInterval(id);
   }, [count]);
+
+  if (count === 0) return null;
 
   const active = testimonials[index];
 
@@ -47,7 +50,7 @@ export function HomeTestimonials() {
               <div className="relative mt-4 min-h-[10rem]">
                 <AnimatePresence mode="wait" custom={direction}>
                   <motion.div
-                    key={index}
+                    key={active.id}
                     custom={direction}
                     initial={{ opacity: 0, x: direction > 0 ? 40 : -40 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -78,41 +81,43 @@ export function HomeTestimonials() {
               </div>
             </div>
 
-            <div className="mt-6 flex items-center justify-center gap-3">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => go(-1)}
-                aria-label="Previous testimonial"
-                className="rounded-full"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <div className="flex items-center gap-2">
-                {testimonials.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setDirection(i > index ? 1 : -1);
-                      setIndex(i);
-                    }}
-                    aria-label={`Go to testimonial ${i + 1}`}
-                    className={`h-2 rounded-full transition-all ${
-                      i === index ? 'w-6 bg-primary' : 'w-2 bg-border hover:bg-muted-foreground/40'
-                    }`}
-                  />
-                ))}
+            {count > 1 && (
+              <div className="mt-6 flex items-center justify-center gap-3">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => go(-1)}
+                  aria-label="Previous testimonial"
+                  className="rounded-full"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <div className="flex items-center gap-2">
+                  {testimonials.map((t, i) => (
+                    <button
+                      key={t.id}
+                      onClick={() => {
+                        setDirection(i > index ? 1 : -1);
+                        setIndex(i);
+                      }}
+                      aria-label={`Go to testimonial ${i + 1}`}
+                      className={`h-2 rounded-full transition-all ${
+                        i === index ? 'w-6 bg-primary' : 'w-2 bg-border hover:bg-muted-foreground/40'
+                      }`}
+                    />
+                  ))}
+                </div>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => go(1)}
+                  aria-label="Next testimonial"
+                  className="rounded-full"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
               </div>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => go(1)}
-                aria-label="Next testimonial"
-                className="rounded-full"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </div>
+            )}
           </div>
         </FadeIn>
       </Container>

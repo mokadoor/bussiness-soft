@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import { PageHero } from '@/components/layout/page-hero';
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { IndustriesInteractive } from '@/components/sections/industries-interactive';
+import { fetchIndustries } from '@/lib/supabase/queries';
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Industries — Solutions for Your Sector',
@@ -10,7 +13,9 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://businessoftware.com.tn/industries' },
 };
 
-export default function IndustriesPage() {
+export default async function IndustriesPage() {
+  const industries = await fetchIndustries();
+
   return (
     <>
       <PageHero
@@ -20,7 +25,7 @@ export default function IndustriesPage() {
         breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Industries' }]}
       />
 
-      <IndustriesInteractive />
+      <IndustriesInteractive industries={industries} />
 
       <CtaBanner />
     </>

@@ -5,12 +5,11 @@ import { CheckCircle2, ArrowUp } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { FadeIn } from '@/components/ui/motion';
 import { getIcon } from '@/lib/icons';
-import { services } from '@/lib/data';
+import type { DbService } from '@/lib/supabase/queries';
 import { cn } from '@/lib/utils';
 
-export function ServicesInteractive() {
+export function ServicesInteractive({ services }: { services: DbService[] }) {
   const [activeSlug, setActiveSlug] = React.useState(services[0]?.slug ?? '');
-  const observerRef = React.useRef<IntersectionObserver | null>(null);
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
@@ -23,7 +22,6 @@ export function ServicesInteractive() {
       },
       { rootMargin: '-30% 0px -60% 0px' }
     );
-    observerRef.current = observer;
 
     services.forEach((s) => {
       const el = document.getElementById(s.slug);
@@ -31,7 +29,7 @@ export function ServicesInteractive() {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [services]);
 
   const scrollTo = (slug: string) => {
     const el = document.getElementById(slug);
@@ -40,6 +38,8 @@ export function ServicesInteractive() {
     }
   };
 
+  if (services.length === 0) return null;
+
   return (
     <>
       {/* Sticky filter bar */}
@@ -47,11 +47,14 @@ export function ServicesInteractive() {
         <Container>
           <div className="flex items-center gap-2 overflow-x-auto py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {services.map((service) => {
-              const Icon = getIcon(service.icon);
+              const Icon = getIcon(service.icon ?? 'Compass');
               const isActive = activeSlug === service.slug;
+              const shortLabel = service.title.length > 22
+                ? service.title.split(' ').slice(0, 2).join(' ')
+                : service.title;
               return (
                 <button
-                  key={service.slug}
+                  key={service.id}
                   onClick={() => scrollTo(service.slug)}
                   className={cn(
                     'inline-flex shrink-0 items-center gap-2 rounded-full px-3.5 py-1.5 text-sm font-medium transition-all duration-200',
@@ -61,7 +64,7 @@ export function ServicesInteractive() {
                   )}
                 >
                   <Icon className="h-3.5 w-3.5" />
-                  {service.shortTitle}
+                  {shortLabel}
                 </button>
               );
             })}
@@ -71,11 +74,11 @@ export function ServicesInteractive() {
 
       {/* Detailed sections */}
       {services.map((service, idx) => {
-        const Icon = getIcon(service.icon);
+        const Icon = getIcon(service.icon ?? 'Compass');
         const reversed = idx % 2 === 1;
         return (
           <section
-            key={service.slug}
+            key={service.id}
             id={service.slug}
             className={cn(
               'scroll-mt-32 py-20 transition-colors duration-300 lg:py-24',
@@ -98,9 +101,11 @@ export function ServicesInteractive() {
                     <h2 className="mt-6 text-balance text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
                       {service.title}
                     </h2>
-                    <p className="mt-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
-                      {service.description}
-                    </p>
+                    {service.description && (
+                      <p className="mt-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
+                        {service.description}
+                      </p>
+                    )}
                     <button
                       onClick={() => scrollTo(services[0].slug)}
                       className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-all hover:gap-2.5"
@@ -114,9 +119,9 @@ export function ServicesInteractive() {
                       What&apos;s included
                     </h3>
                     <ul className="mt-5 space-y-3">
-                      {service.features.map((feature) => (
+                      {service.features.map((feature, i) => (
                         <li
-                          key={feature}
+                          key={i}
                           className="flex items-start gap-3 transition-transform duration-200 hover:translate-x-1"
                         >
                           <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-accent" />

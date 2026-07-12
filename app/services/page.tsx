@@ -5,7 +5,9 @@ import { StaggerGroup, StaggerItem, FadeIn } from '@/components/ui/motion';
 import { ServicesInteractive } from '@/components/sections/services-interactive';
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { getIcon } from '@/lib/icons';
-import { services } from '@/lib/data';
+import { fetchServices } from '@/lib/supabase/queries';
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Services — ERP Consulting, Development & Digital Transformation',
@@ -14,7 +16,9 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://businessoftware.com.tn/services' },
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services = await fetchServices();
+
   return (
     <>
       <PageHero
@@ -37,9 +41,9 @@ export default function ServicesPage() {
           </FadeIn>
           <StaggerGroup className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => {
-              const Icon = getIcon(service.icon);
+              const Icon = getIcon(service.icon ?? 'Compass');
               return (
-                <StaggerItem key={service.slug}>
+                <StaggerItem key={service.id}>
                   <a
                     href={`#${service.slug}`}
                     className="group flex h-full flex-col rounded-xl border border-border/80 bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-card-hover"
@@ -48,9 +52,11 @@ export default function ServicesPage() {
                       <Icon className="h-5 w-5" />
                     </div>
                     <h3 className="mt-4 text-base font-semibold tracking-tight">{service.title}</h3>
-                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-                      {service.summary}
-                    </p>
+                    {service.summary && (
+                      <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                        {service.summary}
+                      </p>
+                    )}
                   </a>
                 </StaggerItem>
               );
@@ -59,7 +65,7 @@ export default function ServicesPage() {
         </Container>
       </section>
 
-      <ServicesInteractive />
+      <ServicesInteractive services={services} />
 
       <CtaBanner />
     </>

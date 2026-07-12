@@ -34,7 +34,7 @@ const fields: FieldDef[] = [
   { key: 'industry', label: 'Industry', type: 'text', placeholder: 'Manufacturing' },
   { key: 'products', label: 'Products (JSON array)', type: 'json', full: true },
   { key: 'description', label: 'Description', type: 'textarea', full: true },
-  { key: 'logo_url', label: 'Logo URL', type: 'text', full: true },
+  { key: 'image', label: 'Image URL', type: 'text', full: true, placeholder: 'https://images.pexels.com/...' },
   { key: 'sort_order', label: 'Sort Order', type: 'number' },
   { key: 'is_published', label: 'Published', type: 'switch' },
 ];

@@ -5,7 +5,9 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { CtaBanner } from '@/components/sections/cta-banner';
-import { clients } from '@/lib/data';
+import { fetchClients } from '@/lib/supabase/queries';
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'References — Our Clients & Case Studies',
@@ -14,7 +16,9 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://businessoftware.com.tn/references' },
 };
 
-export default function ReferencesPage() {
+export default async function ReferencesPage() {
+  const clients = await fetchClients();
+
   return (
     <>
       <PageHero
@@ -31,18 +35,20 @@ export default function ReferencesPage() {
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
               {clients.map((client) => (
                 <div
-                  key={client.name}
+                  key={client.id}
                   className="group relative flex h-24 items-center justify-center overflow-hidden rounded-xl border border-border/70 bg-card px-4 text-center shadow-sm transition-all hover:border-primary/30 hover:shadow-card"
                 >
                   <span className="relative z-10 text-sm font-bold tracking-tight text-muted-foreground transition-colors group-hover:text-foreground">
                     {client.name}
                   </span>
-                  <img
-                    src={client.image}
-                    alt=""
-                    aria-hidden="true"
-                    className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-10"
-                  />
+                  {client.image && (
+                    <img
+                      src={client.image}
+                      alt=""
+                      aria-hidden="true"
+                      className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-10"
+                    />
+                  )}
                 </div>
               ))}
             </div>
@@ -55,31 +61,36 @@ export default function ReferencesPage() {
         <Container>
           <StaggerGroup className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {clients.map((client) => (
-              <StaggerItem key={client.name}>
+              <StaggerItem key={client.id}>
                 <Card className="group h-full overflow-hidden p-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover">
                   {/* Image header */}
-                  <div className="relative h-44 overflow-hidden">
-                    <img
-                      src={client.image}
-                      alt={client.name}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
-                    {/* Company initials badge over image */}
-                    <div className="absolute bottom-3 left-4 flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent text-sm font-bold text-white shadow-lg">
-                      {client.name.split(' ').map((w) => w[0]).slice(0, 2).join('')}
+                  {client.image && (
+                    <div className="relative h-44 overflow-hidden">
+                      <img
+                        src={client.image}
+                        alt={client.name}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
+                      <div className="absolute bottom-3 left-4 flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent text-sm font-bold text-white shadow-lg">
+                        {client.name.split(' ').map((w) => w[0]).slice(0, 2).join('')}
+                      </div>
+                      {client.industry && (
+                        <Badge className="absolute right-3 top-3 bg-background/90 text-foreground backdrop-blur">
+                          {client.industry}
+                        </Badge>
+                      )}
                     </div>
-                    <Badge className="absolute right-3 top-3 bg-background/90 text-foreground backdrop-blur">
-                      {client.industry}
-                    </Badge>
-                  </div>
+                  )}
 
                   {/* Content */}
                   <div className="p-6">
                     <h3 className="text-lg font-semibold tracking-tight">{client.name}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      {client.description}
-                    </p>
+                    {client.description && (
+                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                        {client.description}
+                      </p>
+                    )}
                     <div className="mt-5 border-t border-border pt-4">
                       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Products used

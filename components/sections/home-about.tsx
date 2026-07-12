@@ -3,7 +3,8 @@ import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/ui/motion';
-import { company, stats } from '@/lib/data';
+import { company } from '@/lib/data';
+import type { DbStat } from '@/lib/supabase/queries';
 
 const points = [
   'Tunisian ERP editor since 2006',
@@ -12,7 +13,7 @@ const points = [
   'Compliant with Tunisian fiscal regulations',
 ];
 
-export function HomeAbout() {
+export function HomeAbout({ stats }: { stats: DbStat[] }) {
   return (
     <section className="bg-secondary/20 py-20 lg:py-28">
       <Container>
@@ -52,7 +53,7 @@ export function HomeAbout() {
             <div className="grid grid-cols-2 gap-4 sm:gap-5">
               {stats.slice(0, 4).map((stat) => (
                 <div
-                  key={stat.label}
+                  key={stat.id}
                   className="rounded-2xl border border-border bg-background p-6 shadow-card"
                 >
                   <p className="text-3xl font-bold tracking-tight text-primary sm:text-4xl">

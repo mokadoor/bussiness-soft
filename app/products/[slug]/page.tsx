@@ -11,31 +11,34 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { getIcon } from '@/lib/icons';
-import { products } from '@/lib/data';
+import { fetchProducts, fetchProductBySlug } from '@/lib/supabase/queries';
 
-export function generateStaticParams() {
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const products = await fetchProducts();
   return products.map((p) => ({ slug: p.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const product = products.find((p) => p.slug === params.slug);
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const product = await fetchProductBySlug(params.slug);
   if (!product) return {};
   return {
-    title: `${product.name} — ${product.tagline}`,
-    description: product.summary,
+    title: `${product.name} — ${product.tagline ?? ''}`,
+    description: product.summary ?? '',
     alternates: { canonical: `https://businessoftware.com.tn/products/${product.slug}` },
     openGraph: {
-      title: `${product.name} — ${product.tagline}`,
-      description: product.summary,
+      title: `${product.name} — ${product.tagline ?? ''}`,
+      description: product.summary ?? '',
     },
   };
 }
 
-export default function ProductDetailPage({ params }: { params: { slug: string } }) {
-  const product = products.find((p) => p.slug === params.slug);
+export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
+  const product = await fetchProductBySlug(params.slug);
   if (!product) notFound();
 
-  const Icon = getIcon(product.icon);
+  const Icon = getIcon(product.icon ?? 'Boxes');
 
   const productLd = {
     '@context': 'https://schema.org',
@@ -43,7 +46,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     name: product.name,
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web, Windows, iOS, Android',
-    description: product.summary,
+    description: product.summary ?? '',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'TND' },
   };
 
@@ -69,9 +72,9 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
       />
 
       <PageHero
-        eyebrow={product.category}
+        eyebrow={product.category ?? 'Product'}
         title={product.name}
-        description={product.tagline}
+        description={product.tagline ?? ''}
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Products', href: '/products' },
@@ -100,23 +103,25 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
             <FadeIn>
               <div
-                className={`flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${product.color} text-white shadow-lg`}
+                className={`flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${product.color ?? 'from-[#0F4C81] to-[#00A8E8]'} text-white shadow-lg`}
               >
                 <Icon className="h-8 w-8" />
               </div>
               <h2 className="mt-6 text-balance text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
                 Overview
               </h2>
-              <p className="mt-6 text-base leading-relaxed text-muted-foreground sm:text-lg">
-                {product.description}
-              </p>
+              {product.description && (
+                <p className="mt-6 text-base leading-relaxed text-muted-foreground sm:text-lg">
+                  {product.description}
+                </p>
+              )}
             </FadeIn>
             <FadeIn delay={0.15}>
               <Card className="p-7 shadow-card">
                 <h3 className="text-lg font-semibold tracking-tight">Key benefits</h3>
                 <ul className="mt-5 space-y-3">
-                  {product.benefits.map((benefit) => (
-                    <li key={benefit} className="flex items-start gap-3">
+                  {product.benefits.map((benefit, i) => (
+                    <li key={i} className="flex items-start gap-3">
                       <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
                       <span className="text-sm text-foreground/90">{benefit}</span>
                     </li>
@@ -139,10 +144,10 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             />
           </FadeIn>
           <StaggerGroup className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {product.features.map((feature) => {
+            {product.features.map((feature, i) => {
               const FeatureIcon = getIcon(feature.icon);
               return (
-                <StaggerItem key={feature.title}>
+                <StaggerItem key={i}>
                   <Card className="h-full p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover">
                     <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-primary">
                       <FeatureIcon className="h-5 w-5" />
@@ -170,10 +175,10 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             />
           </FadeIn>
           <StaggerGroup className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {product.modules.map((module) => {
+            {product.modules.map((module, i) => {
               const ModuleIcon = getIcon(module.icon);
               return (
-                <StaggerItem key={module.name}>
+                <StaggerItem key={i}>
                   <div className="flex items-start gap-4 rounded-xl border border-border/80 bg-background p-5 transition-all duration-300 hover:border-primary/30 hover:shadow-card">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
                       <ModuleIcon className="h-5 w-5" />
@@ -230,7 +235,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
           <FadeIn>
             <SectionHeader
               eyebrow="FAQs"
-              title={`Frequently asked questions`}
+              title="Frequently asked questions"
               description="Everything you need to know about Nexus ERP."
             />
           </FadeIn>

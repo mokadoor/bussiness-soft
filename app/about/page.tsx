@@ -7,7 +7,10 @@ import { Card } from '@/components/ui/card';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { getIcon } from '@/lib/icons';
-import { company, values, timeline, team, offices } from '@/lib/data';
+import { company, values, timeline, offices } from '@/lib/data';
+import { fetchTeam } from '@/lib/supabase/queries';
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'About Us — Our Story, Mission & Team',
@@ -16,7 +19,8 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://businessoftware.com.tn/about' },
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const team = await fetchTeam();
   return (
     <>
       <PageHero
@@ -181,7 +185,7 @@ export default function AboutPage() {
               <StaggerItem key={member.name}>
                 <Card className="group h-full p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover">
                   <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-xl font-bold text-white shadow-md">
-                    {member.initials}
+                    {member.initials ?? member.name.split(' ').map((w) => w[0]).slice(0, 2).join('')}
                   </div>
                   <h3 className="mt-5 text-lg font-semibold tracking-tight">{member.name}</h3>
                   <p className="mt-1 text-sm font-medium text-accent">{member.role}</p>
