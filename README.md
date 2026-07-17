@@ -18,11 +18,14 @@ Guide d'installation étape par étape depuis GitHub (pour un utilisateur tunisi
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (ou `NEXT_PUBLIC_SUPABASE_ANON_KEY` si tu utilises cette variable)
    - `SUPABASE_SERVICE_ROLE_KEY`
-9. Si tu veux utiliser la base de données Supabase, applique les migrations disponibles dans le dossier `supabase/migrations`.
+9. Pour inisialiser la base de données Supabase, applique les migrations disponibles dans le dossier `supabase/migrations`.
 10. Enregistrer le fichier `.env`.
 11. Installer les dépendances si nécessaire (par exemple avec npm) :
     `npm install`
 12. Lancer l'application :
     `npm run dev` ou la commande indiquée dans le projet.
+13. Dashboard admin:
+   Default Email:`admin@bussiness-sfotware.com.tn`
+   Default Password:`admin123`
 
 Maintenant l'application devrait fonctionner avec tes variables d'environnement locales.

@@ -6,15 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard,
   Boxes,
-  Wrench,
-  Factory,
-  Building2,
-  MessageSquareQuote,
-  Users,
-  HelpCircle,
-  BarChart3,
   Mail,
-  Newspaper,
   LogOut,
   Menu,
   X,
@@ -24,17 +16,10 @@ import { useAuth } from '@/components/providers/auth-provider';
 import { Logo } from '@/components/layout/logo';
 import { cn } from '@/lib/utils';
 
+// Sidebar navigation – only three items now
 const navItems = [
   { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-  { label: 'Products', href: '/admin/products', icon: Boxes },
-  { label: 'Services', href: '/admin/services', icon: Wrench },
-  { label: 'Industries', href: '/admin/industries', icon: Factory },
-  { label: 'Clients', href: '/admin/clients', icon: Building2 },
-  { label: 'Testimonials', href: '/admin/testimonials', icon: MessageSquareQuote },
-  { label: 'Team', href: '/admin/team', icon: Users },
-  { label: 'FAQs', href: '/admin/faqs', icon: HelpCircle },
-  { label: 'Statistics', href: '/admin/statistics', icon: BarChart3 },
-  { label: 'News', href: '/admin/news', icon: Newspaper },
+  { label: 'Content', href: '/admin/content', icon: Boxes },
   { label: 'Messages', href: '/admin/messages', icon: Mail },
 ];
 
@@ -54,7 +39,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-secondary/20">
-      {/* Sidebar (desktop) */}
+      {/* Desktop sidebar */}
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-border bg-background lg:flex lg:flex-col">
         <div className="flex h-16 items-center border-b border-border px-5">
           <Link href="/admin">

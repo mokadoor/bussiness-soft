@@ -6,21 +6,8 @@ Creates the complete content management schema for the Business Software TN
 corporate website and admin dashboard. All tables support CRUD from an
 authenticated admin dashboard while the public website reads published content.
 
-## New Tables
-1. `products` — Nexus software products (ERP, CRM, Bois, Smart Point)
-2. `services` — Consulting and development services
-3. `industries` — Industry sectors served
-4. `clients` — Client references / case studies
-5. `testimonials` — Client testimonials with ratings
-6. `team_members` — Leadership / team profiles
-7. `faqs` — Frequently asked questions
-8. `statistics` — Homepage animated statistics counters
-9. `contact_messages` — Submissions from the contact form
-10. `news` — News / blog / case-study articles
-
 ## Security (RLS)
-- Content tables (products, services, industries, clients, testimonials,
-  team_members, faqs, statistics, news): public SELECT (anon + authenticated),
+- Content tables: public SELECT (anon + authenticated),
   authenticated-only INSERT/UPDATE/DELETE for admin management.
 - contact_messages: public INSERT (anyone can submit the form),
   authenticated-only SELECT/UPDATE/DELETE (admin reads and manages messages).
@@ -258,3 +245,117 @@ CREATE POLICY "admin_update_messages" ON contact_messages
 DROP POLICY IF EXISTS "admin_delete_messages" ON contact_messages;
 CREATE POLICY "admin_delete_messages" ON contact_messages
   FOR DELETE TO authenticated USING (true);
+
+
+-- ================================================================
+-- Second migration: Add image and color columns to products and clients
+-- ================================================================
+
+/*
+# Add image and color columns to products and clients
+
+## Summary
+Adds `image` (text) and `color` (text) columns to the `products` table for background
+image URLs and gradient color definitions. Adds `image` (text) column to the `clients`
+table for client reference photos.
+*/
+
+ALTER TABLE products ADD COLUMN IF NOT EXISTS image text;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS color text;
+ALTER TABLE clients ADD COLUMN IF NOT EXISTS image text;
+
+-- Populate image and color for existing products from the seed data
+UPDATE products SET image = 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800', color = 'from-[#0F4C81] to-[#00A8E8]' WHERE slug = 'nexus-erp';
+UPDATE products SET image = 'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800', color = 'from-[#00A8E8] to-[#0F4C81]' WHERE slug = 'nexus-crm';
+UPDATE products SET image = 'https://images.pexels.com/photos/803975/pexels-photo-803975.jpeg?auto=compress&cs=tinysrgb&w=800', color = 'from-[#1d5e3a] to-[#0F4C81]' WHERE slug = 'nexus-bois';
+UPDATE products SET image = 'https://images.pexels.com/photos/4212931/pexels-photo-4212931.jpeg?auto=compress&cs=tinysrgb&w=800', color = 'from-[#00A8E8] to-[#1d5e3a]' WHERE slug = 'nexus-smart-point';
+
+-- Populate image for existing clients
+UPDATE clients SET image = 'https://images.pexels.com/photos/3823624/pexels-photo-3823624.jpeg?auto=compress&cs=tinysrgb&w=600' WHERE name = 'Tunisie Plast Industries';
+UPDATE clients SET image = 'https://images.pexels.com/photos/6169023/pexels-photo-6169023.jpeg?auto=compress&cs=tinysrgb&w=600' WHERE name = 'Groupe Atlas Distribution';
+UPDATE clients SET image = 'https://images.pexels.com/photos/803975/pexels-photo-803975.jpeg?auto=compress&cs=tinysrgb&w=600' WHERE name = 'Meubles & Bois du Nord';
+UPDATE clients SET image = 'https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg?auto=compress&cs=tinysrgb&w=600' WHERE name = 'Market Plus Stores';
+UPDATE clients SET image = 'https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg?auto=compress&cs=tinysrgb&w=600' WHERE name = 'MediClinic Tunis';
+UPDATE clients SET image = 'https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=600' WHERE name = 'Constructa TN';
+UPDATE clients SET image = 'https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg?auto=compress&cs=tinysrgb&w=600' WHERE name = 'Ecole Future Plus';
+UPDATE clients SET image = 'https://images.pexels.com/photos/221060/pexels-photo-221060.jpeg?auto=compress&cs=tinysrgb&w=600' WHERE name = 'LogiTrans Tunisie';
+
+
+-- ======================== DEFAULT ADMIN ACCOUNT ==============================
+-- Creates admin@bussiness-software.com.tn / admin123! if it doesn't already exist.
+
+DO $$
+DECLARE
+  admin_user_id uuid;
+BEGIN
+  -- Only proceed if the admin email does not exist in auth.users
+  IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = 'admin@bussiness-software.com.tn') THEN
+    admin_user_id := gen_random_uuid();
+
+    -- Insert into auth.users
+    INSERT INTO auth.users (
+      id,
+      instance_id,
+      email,
+      encrypted_password,
+      email_confirmed_at,
+      confirmation_sent_at,
+      created_at,
+      updated_at,
+      last_sign_in_at,
+      raw_app_meta_data,
+      raw_user_meta_data,
+      is_super_admin,
+      role,
+      aud,
+      confirmation_token,
+      email_change,
+      email_change_token_new,
+      recovery_token
+    ) VALUES (
+      admin_user_id,
+      '00000000-0000-0000-0000-000000000000',
+      'admin@bussiness-software.com.tn',
+      crypt('admin123!', gen_salt('bf')),  -- bcrypt hashed password
+      now(),
+      now(),
+      now(),
+      now(),
+      now(),
+      '{"provider":"email","providers":["email"]}',
+      '{}',
+      false,
+      'authenticated',
+      'authenticated',
+      '',
+      '',
+      '',
+      ''
+    );
+
+    -- Insert into auth.identities (required for email/password login)
+    INSERT INTO auth.identities (
+      id,
+      user_id,
+      identity_data,
+      provider,
+      provider_id,
+      last_sign_in_at,
+      created_at,
+      updated_at
+    ) VALUES (
+      admin_user_id,
+      admin_user_id,
+      jsonb_build_object('sub', admin_user_id, 'email', 'admin@bussiness-software.com.tn'),
+      'email',
+      'admin@bussiness-software.com.tn',
+      now(),
+      now(),
+      now()
+    );
+
+    RAISE NOTICE 'Default admin account created: admin@bussiness-software.com.tn / admin123!';
+  ELSE
+    RAISE NOTICE 'Admin account already exists, skipping creation.';
+  END IF;
+END $$;

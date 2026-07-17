@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase/client';
 import {
   Boxes,
   Wrench,
@@ -24,16 +25,15 @@ import { Skeleton } from '@/components/ui/skeleton';
 type CountResult = { count: number } | null;
 
 const sections = [
-  { label: 'Products', href: '/admin/products', icon: Boxes, table: 'products' },
-  { label: 'Services', href: '/admin/services', icon: Wrench, table: 'services' },
-  { label: 'Industries', href: '/admin/industries', icon: Factory, table: 'industries' },
-  { label: 'Clients', href: '/admin/clients', icon: Building2, table: 'clients' },
-  { label: 'Testimonials', href: '/admin/testimonials', icon: MessageSquareQuote, table: 'testimonials' },
-  { label: 'Team', href: '/admin/team', icon: Users, table: 'team_members' },
-  { label: 'FAQs', href: '/admin/faqs', icon: HelpCircle, table: 'faqs' },
-  { label: 'Statistics', href: '/admin/statistics', icon: BarChart3, table: 'statistics' },
-  { label: 'News', href: '/admin/news', icon: Newspaper, table: 'news' },
-  { label: 'Messages', href: '/admin/messages', icon: Mail, table: 'contact_messages' },
+  { label: 'Products', href: '/admin/content?type=products', icon: Boxes, table: 'products' },
+  { label: 'Services', href: '/admin/content?type=services', icon: Wrench, table: 'services' },
+  { label: 'Industries', href: '/admin/content?type=industries', icon: Factory, table: 'industries' },
+  { label: 'Clients', href: '/admin/content?type=clients', icon: Building2, table: 'clients' },
+  { label: 'Testimonials', href: '/admin/content?type=testimonials', icon: MessageSquareQuote, table: 'testimonials' },
+  { label: 'Team', href: '/admin/content?type=team_members', icon: Users, table: 'team_members' },
+  { label: 'FAQs', href: '/admin/content?type=faqs', icon: HelpCircle, table: 'faqs' },
+  { label: 'Statistics', href: '/admin/content?type=statistics', icon: BarChart3, table: 'statistics' },
+  { label: 'News', href: '/admin/content?type=news', icon: Newspaper, table: 'news' },
 ];
 
 type RecentMessage = {
@@ -58,29 +58,40 @@ function statusBadge(status: string) {
 }
 
 export default function AdminDashboard() {
-  const [counts] = React.useState<Record<string, number>>({
-    products: 8,
-    services: 9,
-    industries: 6,
-    clients: 12,
-    testimonials: 6,
-    team_members: 8,
-    faqs: 10,
-    statistics: 6,
-    news: 4,
-    contact_messages: 2,
-  });
-  const [messages] = React.useState<RecentMessage[]>([
-    {
-      id: 'demo-1',
-      name: 'Demo Client',
-      email: 'demo@example.com',
-      subject: 'Website inquiry',
-      status: 'new',
-      created_at: new Date().toISOString(),
-    },
-  ]);
-  const [loading] = React.useState(false);
+  const [counts, setCounts] = React.useState<Record<string, number>>({});
+  const [messages, setMessages] = React.useState<RecentMessage[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+
+      // Fetch counts for all tables in parallel
+      const countPromises = sections.map(async (s) => {
+        const { count, error } = await supabase
+          .from(s.table)
+          .select('*', { count: 'exact', head: true });
+        return { table: s.table, count: error ? 0 : (count ?? 0) };
+      });
+
+      const countResults = await Promise.all(countPromises);
+      const countsMap: Record<string, number> = {};
+      countResults.forEach((r) => { countsMap[r.table] = r.count; });
+      setCounts(countsMap);
+
+      // Fetch the 5 most recent messages
+      const { data: msgData } = await supabase
+        .from('contact_messages')
+        .select('id, name, email, subject, status, created_at')
+        .order('created_at', { ascending: false })
+        .limit(5);
+
+      setMessages((msgData as RecentMessage[]) ?? []);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
 
   const newMessages = messages.filter((m) => m.status === 'new').length;
 
