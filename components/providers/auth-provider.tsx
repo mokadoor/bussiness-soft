@@ -20,19 +20,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setUser(data.session?.user ?? null);
+    let isMounted = true;
+
+    const finishHydration = (nextSession: Session | null) => {
+      if (!isMounted) return;
+      setSession(nextSession);
+      setUser(nextSession?.user ?? null);
       setLoading(false);
+    };
+
+    supabase.auth.getSession().then((response: { data: { session: Session | null } }) => {
+      finishHydration(response.data.session);
+    }).catch(() => {
+      finishHydration(null);
     });
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, sess) => {
-      setSession(sess);
-      setUser(sess?.user ?? null);
-      setLoading(false);
+    const { data: listener } = supabase.auth.onAuthStateChange((_: string, sess: Session | null) => {
+      finishHydration(sess);
     });
 
-    return () => listener.subscription.unsubscribe();
+    return () => {
+      isMounted = false;
+      listener.subscription.unsubscribe();
+    };
   }, []);
 
   const signIn = async (email: string, password: string) => {

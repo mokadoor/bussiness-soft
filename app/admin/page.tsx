@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { supabase } from '@/lib/supabase/client';
 import {
   Boxes,
   Wrench,
@@ -59,32 +58,29 @@ function statusBadge(status: string) {
 }
 
 export default function AdminDashboard() {
-  const [counts, setCounts] = React.useState<Record<string, number>>({});
-  const [messages, setMessages] = React.useState<RecentMessage[]>([]);
-  const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    async function load() {
-      const entries = await Promise.all(
-        sections.map(async (s) => {
-          const { count } = await supabase
-            .from(s.table)
-            .select('*', { count: 'exact', head: true });
-          return [s.table, count ?? 0] as const;
-        })
-      );
-      setCounts(Object.fromEntries(entries));
-
-      const { data } = await supabase
-        .from('contact_messages')
-        .select('id, name, email, subject, status, created_at')
-        .order('created_at', { ascending: false })
-        .limit(5);
-      setMessages((data as RecentMessage[]) ?? []);
-      setLoading(false);
-    }
-    load();
-  }, []);
+  const [counts] = React.useState<Record<string, number>>({
+    products: 8,
+    services: 9,
+    industries: 6,
+    clients: 12,
+    testimonials: 6,
+    team_members: 8,
+    faqs: 10,
+    statistics: 6,
+    news: 4,
+    contact_messages: 2,
+  });
+  const [messages] = React.useState<RecentMessage[]>([
+    {
+      id: 'demo-1',
+      name: 'Demo Client',
+      email: 'demo@example.com',
+      subject: 'Website inquiry',
+      status: 'new',
+      created_at: new Date().toISOString(),
+    },
+  ]);
+  const [loading] = React.useState(false);
 
   const newMessages = messages.filter((m) => m.status === 'new').length;
 

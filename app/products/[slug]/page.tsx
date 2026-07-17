@@ -11,17 +11,16 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { getIcon } from '@/lib/icons';
-import { fetchProducts, fetchProductBySlug } from '@/lib/supabase/queries';
+import { products as localProducts } from '@/lib/data';
 
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-  const products = await fetchProducts();
-  return products.map((p) => ({ slug: p.slug }));
+  return localProducts.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const product = await fetchProductBySlug(params.slug);
+  const product = localProducts.find((item) => item.slug === params.slug);
   if (!product) return {};
   return {
     title: `${product.name} — ${product.tagline ?? ''}`,
@@ -35,7 +34,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
-  const product = await fetchProductBySlug(params.slug);
+  const product = localProducts.find((item) => item.slug === params.slug);
   if (!product) notFound();
 
   const Icon = getIcon(product.icon ?? 'Boxes');
