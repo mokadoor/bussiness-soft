@@ -1,10 +1,7 @@
-Here is a rewritten version of your script with the requested additions and clarifications.
-
----
 
 5-Minute Website Introduction for a Video Meeting
 
-Hello everyone, my name is [Your Name], and I am an intern at Business Software. Today I will explain what our website is, how it was built, how changes can be made, and why we reimagined the original website.
+Hello everyone, explaining what our website is, how it was built, how changes can be made, and why we reimagined the original website.
 
 ---
 
