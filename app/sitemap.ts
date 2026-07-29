@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { fetchProducts } from '@/lib/supabase/queries';
+import { fetchProducts } from '@/lib/sqlserver/queries';
 
 const siteUrl = 'https://businessoftware.com.tn';
 

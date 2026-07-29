@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "migrate:supabase-to-sqlserver": "npx ts-node ./scripts/migrate_supabase_to_sqlserver.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -70,6 +71,8 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.2.2",
     "vaul": "^0.9.9",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "mssql": "^10.3.0",
+    "ts-node": "^10.9.1"
   }
 }

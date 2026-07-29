@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { PageHero } from '@/components/layout/page-hero';
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { IndustriesInteractive } from '@/components/sections/industries-interactive';
-import { fetchIndustries } from '@/lib/supabase/queries';
+import { fetchIndustries } from '@/lib/sqlserver/queries';
 
 export const revalidate = 60;
 

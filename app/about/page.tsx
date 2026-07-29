@@ -8,7 +8,7 @@ import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { getIcon } from '@/lib/icons';
 import { company, values, timeline, offices } from '@/lib/data';
-import { fetchTeam } from '@/lib/supabase/queries';
+import { fetchTeam } from '@/lib/sqlserver/queries';
 
 export const revalidate = 60;
 

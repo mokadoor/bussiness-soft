@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { toast } from 'sonner';
-import { supabase } from '@/lib/supabase/client';
 import {
   Plus,
   Pencil,
@@ -91,15 +90,15 @@ export function AdminTable({
 
   const load = React.useCallback(async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from(table)
-      .select('*')
-      .order('sort_order', { ascending: true })
-      .order('created_at', { ascending: false });
-    if (error) {
-      toast.error('Failed to load', { description: error.message });
-    } else {
-      setRows((data as Row[]) ?? []);
+    try {
+      const response = await fetch(`/api/admin/${table}`);
+      if (!response.ok) {
+        throw new Error('Failed to load');
+      }
+      const data = (await response.json()) as Row[];
+      setRows(data ?? []);
+    } catch (error: any) {
+      toast.error('Failed to load', { description: error?.message ?? 'Unknown error' });
     }
     setLoading(false);
   }, [table]);
@@ -149,13 +148,19 @@ export function AdminTable({
 
   const handleDelete = async () => {
     if (!deleteId) return;
-    const { error } = await supabase.from(table).delete().eq('id', deleteId);
-    if (error) {
-      toast.error('Delete failed', { description: error.message });
-    } else {
+    try {
+      const response = await fetch(`/api/admin/${table}?id=${encodeURIComponent(deleteId)}`, {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+      if (!response.ok || data.error) {
+        throw new Error(data.error ?? 'Delete failed');
+      }
       toast.success(`${singular} deleted`);
       setDeleteId(null);
       load();
+    } catch (error: any) {
+      toast.error('Delete failed', { description: error?.message ?? 'Unknown error' });
     }
   };
 
@@ -489,16 +494,26 @@ function EditDialog({
     delete payload.created_at;
     delete payload.updated_at;
 
-    const { error } = initial
-      ? await supabase.from(table).update(payload).eq('id', initial.id)
-      : await supabase.from(table).insert(payload);
-
-    setSaving(false);
-    if (error) {
-      toast.error(`Failed to save`, { description: error.message });
-    } else {
+    try {
+      const method = initial ? 'PUT' : 'POST';
+      const url = initial
+        ? `/api/admin/${table}?id=${encodeURIComponent(initial.id)}`
+        : `/api/admin/${table}`;
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+      if (!response.ok || data.error) {
+        throw new Error(data.error ?? 'Failed to save');
+      }
       toast.success(initial ? `${singular} updated` : `${singular} created`);
       onSaved();
+    } catch (error: any) {
+      toast.error('Failed to save', { description: error?.message ?? 'Unknown error' });
+    } finally {
+      setSaving(false);
     }
   };
 

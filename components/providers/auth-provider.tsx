@@ -1,12 +1,10 @@
 'use client';
 
 import * as React from 'react';
-import { Session, User } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase/client';
 
 type AuthContextValue = {
-  user: User | null;
-  session: Session | null;
+  user: { email: string } | null;
+  session: null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
@@ -15,43 +13,59 @@ type AuthContextValue = {
 const AuthContext = React.createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = React.useState<User | null>(null);
-  const [session, setSession] = React.useState<Session | null>(null);
+  const [user, setUser] = React.useState<{ email: string } | null>(null);
+  const [session, setSession] = React.useState<null>(null);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     let isMounted = true;
 
-    const finishHydration = (nextSession: Session | null) => {
-      if (!isMounted) return;
-      setSession(nextSession);
-      setUser(nextSession?.user ?? null);
-      setLoading(false);
-    };
+    async function checkAuth() {
+      try {
+        const resp = await fetch('/api/admin/check', { method: 'GET' });
+        if (!isMounted) return;
+        if (resp.ok) {
+          setUser({ email: 'admin' });
+        } else {
+          setUser(null);
+        }
+      } catch {
+        if (!isMounted) return;
+        setUser(null);
+      } finally {
+        if (!isMounted) return;
+        setLoading(false);
+      }
+    }
 
-    supabase.auth.getSession().then((response: { data: { session: Session | null } }) => {
-      finishHydration(response.data.session);
-    }).catch(() => {
-      finishHydration(null);
-    });
-
-    const { data: listener } = supabase.auth.onAuthStateChange((_: string, sess: Session | null) => {
-      finishHydration(sess);
-    });
+    checkAuth();
 
     return () => {
       isMounted = false;
-      listener.subscription.unsubscribe();
     };
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    return { error: error?.message ?? null };
+    try {
+      const resp = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await resp.json();
+      if (!resp.ok) {
+        return { error: data.error ?? 'Login failed' };
+      }
+      setUser({ email });
+      return { error: null };
+    } catch (error) {
+      return { error: 'Login failed' };
+    }
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    await fetch('/api/admin/logout', { method: 'POST' });
+    setUser(null);
   };
 
   return (
