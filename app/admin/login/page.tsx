@@ -55,13 +55,16 @@ export default function AdminLoginPage() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@businessoftware.com.tn"
+                  placeholder="admin@businesssoftware.com.tn"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-9"
                   required
                 />
               </div>
+            </div>
+            <div className="text-xs text-muted-foreground">
+              Default login: <span className="font-medium">admin@businesssoftware.com.tn / admin123</span>
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
@@ -93,6 +96,10 @@ export default function AdminLoginPage() {
                 'Sign In'
               )}
             </Button>
+            <p className="text-xs text-muted-foreground">
+              Use the admin account configured in environment variables, or default to
+              <span className="font-medium"> admin@businesssoftware.com.tn / admin123</span> if no admin credentials are set.
+            </p>
           </form>
         </div>
         <div className="mt-6 text-center">

@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { supabase } from '@/lib/supabase/client';
 import {
   Boxes,
   Wrench,
@@ -66,27 +65,35 @@ export default function AdminDashboard() {
     const fetchData = async () => {
       setLoading(true);
 
-      // Fetch counts for all tables in parallel
       const countPromises = sections.map(async (s) => {
-        const { count, error } = await supabase
-          .from(s.table)
-          .select('*', { count: 'exact', head: true });
-        return { table: s.table, count: error ? 0 : (count ?? 0) };
+        try {
+          const response = await fetch(`/api/admin/${s.table}`);
+          const data = await response.json();
+          return { table: s.table, count: Array.isArray(data) ? data.length : 0 };
+        } catch {
+          return { table: s.table, count: 0 };
+        }
       });
 
       const countResults = await Promise.all(countPromises);
       const countsMap: Record<string, number> = {};
-      countResults.forEach((r) => { countsMap[r.table] = r.count; });
+      countResults.forEach((r) => {
+        countsMap[r.table] = r.count;
+      });
       setCounts(countsMap);
 
-      // Fetch the 5 most recent messages
-      const { data: msgData } = await supabase
-        .from('contact_messages')
-        .select('id, name, email, subject, status, created_at')
-        .order('created_at', { ascending: false })
-        .limit(5);
+      try {
+        const response = await fetch('/api/admin/messages');
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          setMessages((data as RecentMessage[]).slice(0, 5));
+        } else {
+          setMessages([]);
+        }
+      } catch {
+        setMessages([]);
+      }
 
-      setMessages((msgData as RecentMessage[]) ?? []);
       setLoading(false);
     };
 

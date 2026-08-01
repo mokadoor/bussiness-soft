@@ -4,7 +4,7 @@ import { Container } from '@/components/layout/container';
 import { SectionHeader } from '@/components/layout/section-header';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { getIcon } from '@/lib/icons';
-import type { DbIndustry } from '@/lib/supabase/queries';
+import type { DbIndustry } from '@/lib/sqlserver/queries';
 
 export function HomeIndustries({ industries }: { industries: DbIndustry[] }) {
   return (

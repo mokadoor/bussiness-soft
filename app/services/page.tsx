@@ -5,7 +5,7 @@ import { StaggerGroup, StaggerItem, FadeIn } from '@/components/ui/motion';
 import { ServicesInteractive } from '@/components/sections/services-interactive';
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { getIcon } from '@/lib/icons';
-import { fetchServices } from '@/lib/supabase/queries';
+import { fetchServices } from '@/lib/sqlserver/queries';
 
 export const revalidate = 60;
 

@@ -2,7 +2,7 @@ import { Container } from '@/components/layout/container';
 import { SectionHeader } from '@/components/layout/section-header';
 import { AnimatedCounter } from '@/components/ui/animated-counter';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
-import type { DbStat } from '@/lib/supabase/queries';
+import type { DbStat } from '@/lib/sqlserver/queries';
 
 export function HomeStatistics({ stats }: { stats: DbStat[] }) {
   return (

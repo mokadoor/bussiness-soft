@@ -6,7 +6,7 @@ export const company = {
   tagline: 'ERP Solutions & Digital Transformation',
   description:
     'A Tunisian software company specialized in ERP solutions, custom software development, digital transformation, and IT consulting.',
-  email: 'contact@businessoftware.com.tn',
+  email: 'contact@businesssoftware.com.tn',
   phone: '+216 71 902 456',
   phoneSecondary: '+216 71 902 457',
   website: 'https://businessoftware.com.tn',
@@ -908,14 +908,14 @@ export const offices = [
     name: 'Head Office — Tunis',
     address: 'Les Berges du Lac II, Rue du Lac Windermere, 1053 Tunis, Tunisia',
     phone: '+216 71 902 456',
-    email: 'contact@businessoftware.com.tn',
+    email: 'contact@businesssoftware.com.tn',
     hours: 'Mon – Fri: 8:30 – 18:00',
   },
   {
     name: 'Sfax Office',
     address: 'Route de Gabès, Imm. Ekhtebar, 3027 Sfax, Tunisia',
     phone: '+216 74 401 122',
-    email: 'sfax@businessoftware.com.tn',
+    email: 'sfax@businesssoftware.com.tn',
     hours: 'Mon – Fri: 8:30 – 18:00',
   },
 ];
@@ -944,5 +944,32 @@ export const news = [
       'A practical guide for Tunisian enterprises beginning their digital transformation journey, from our consulting team.',
     date: '2024-03-10',
     category: 'Insights',
+  },
+];
+
+export type Faq = {
+  question: string;
+  answer: string;
+  category?: string;
+};
+
+export const faqs: Faq[] = [
+  {
+    question: 'What is Nexus ERP?',
+    answer:
+      'Nexus ERP is our integrated enterprise resource planning software designed for Tunisian businesses, covering finance, inventory, production, and sales.',
+    category: 'General',
+  },
+  {
+    question: 'Can I customize the system for my industry?',
+    answer:
+      'Yes. We offer customizations and industry-specific modules so Nexus ERP fits your business process while keeping your core data integrated.',
+    category: 'Customization',
+  },
+  {
+    question: 'Do you provide local support?',
+    answer:
+      'Yes. We provide local Tunisian support and training, with dedicated teams for ERP deployment, maintenance, and user adoption.',
+    category: 'Support',
   },
 ];

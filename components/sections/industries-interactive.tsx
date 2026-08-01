@@ -6,7 +6,7 @@ import { CheckCircle2, ChevronDown, ArrowRight } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { getIcon } from '@/lib/icons';
-import type { DbIndustry } from '@/lib/supabase/queries';
+import type { DbIndustry } from '@/lib/sqlserver/queries';
 import { cn } from '@/lib/utils';
 
 export function IndustriesInteractive({ industries }: { industries: DbIndustry[] }) {

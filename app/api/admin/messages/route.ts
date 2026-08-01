@@ -1,9 +1,16 @@
 import { NextResponse } from 'next/server';
 import poolPromise from '@/lib/sqlserver/client';
 
+function getSqlPool() {
+  if (!poolPromise) {
+    throw new Error('Missing SQLSERVER_CONNECTION environment variable for SQL Server.');
+  }
+  return poolPromise;
+}
+
 export async function GET() {
   try {
-    const pool = await poolPromise;
+    const pool = await getSqlPool();
     const result = await pool
       .request()
       .query('SELECT * FROM contact_messages ORDER BY created_at DESC');
@@ -20,7 +27,7 @@ export async function PUT(req: Request) {
     if (!id || !status) {
       return NextResponse.json({ error: 'Missing id or status' }, { status: 400 });
     }
-    const pool = await poolPromise;
+    const pool = await getSqlPool();
     await pool
       .request()
       .input('id', id)
@@ -39,7 +46,7 @@ export async function DELETE(req: Request) {
     if (!id) {
       return NextResponse.json({ error: 'Missing id' }, { status: 400 });
     }
-    const pool = await poolPromise;
+    const pool = await getSqlPool();
     await pool.request().input('id', id).query('DELETE FROM contact_messages WHERE id = @id');
     return NextResponse.json({ success: true });
   } catch (error) {

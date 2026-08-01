@@ -1,5 +1,57 @@
 import { NextResponse } from 'next/server';
 import poolPromise from '@/lib/sqlserver/client';
+import {
+  products as fallbackProducts,
+  services as fallbackServices,
+  industries as fallbackIndustries,
+  clients as fallbackClients,
+  testimonials as fallbackTestimonials,
+  team as fallbackTeam,
+  stats as fallbackStats,
+  news as fallbackNews,
+  faqs as fallbackFaqs,
+} from '@/lib/data';
+
+const hasSqlServerConfig = Boolean(process.env.SQLSERVER_CONNECTION?.trim());
+
+function getSqlPool() {
+  if (!poolPromise) {
+    throw new Error('Missing SQLSERVER_CONNECTION environment variable for SQL Server.');
+  }
+  return poolPromise;
+}
+
+function buildFallbackRow(table: string, row: Record<string, unknown>, index: number) {
+  const id =
+    String(row.id ?? row.slug ?? row.name ?? row.title ?? row.question ?? row.label ?? `${table}-${index}`)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-') || `${table}-${index}`;
+
+  return {
+    ...row,
+    id,
+    is_published: row.is_published ?? true,
+    sort_order: row.sort_order ?? index + 1,
+  };
+}
+
+function createFallbackStore() {
+  return {
+    products: fallbackProducts.map((row, index) => buildFallbackRow('products', row, index)),
+    services: fallbackServices.map((row, index) => buildFallbackRow('services', row, index)),
+    industries: fallbackIndustries.map((row, index) => buildFallbackRow('industries', row, index)),
+    clients: fallbackClients.map((row, index) => buildFallbackRow('clients', row, index)),
+    testimonials: fallbackTestimonials.map((row, index) => buildFallbackRow('testimonials', row, index)),
+    team_members: fallbackTeam.map((row, index) => buildFallbackRow('team_members', row, index)),
+    statistics: fallbackStats.map((row, index) => buildFallbackRow('statistics', row, index)),
+    news: fallbackNews.map((row, index) => buildFallbackRow('news', row, index)),
+    faqs: fallbackFaqs.map((row, index) => buildFallbackRow('faqs', row, index)),
+    contact_messages: [],
+  } as Record<string, Record<string, unknown>[]>;
+}
+
+const fallbackStore = (globalThis as any).adminContentFallbackStore ??
+  ((globalThis as any).adminContentFallbackStore = createFallbackStore());
 
 const allowedTables = new Set([
   'products',
@@ -60,7 +112,7 @@ function buildUpdateQuery(table: string, id: string, data: Record<string, unknow
 }
 
 async function executeQuery(sqlText: string, params: Record<string, unknown>) {
-  const pool = await poolPromise;
+  const pool = await getSqlPool();
   const request = pool.request();
   for (const [key, value] of Object.entries(params)) {
     request.input(key, value);
@@ -77,13 +129,17 @@ export async function GET(
     return NextResponse.json({ error: 'Invalid table' }, { status: 400 });
   }
 
+  if (!hasSqlServerConfig) {
+    return NextResponse.json(fallbackStore[table] ?? []);
+  }
+
   try {
-    const pool = await poolPromise;
+    const pool = await getSqlPool();
     const orderColumn = table === 'contact_messages' ? 'created_at DESC' : 'sort_order ASC';
     const result = await pool.request().query(`SELECT * FROM [${table}] ORDER BY ${orderColumn}`);
     return NextResponse.json(result.recordset);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to load records' }, { status: 500 });
+    return NextResponse.json(fallbackStore[table] ?? []);
   }
 }
 

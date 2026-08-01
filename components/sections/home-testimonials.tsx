@@ -7,7 +7,7 @@ import { Container } from '@/components/layout/container';
 import { SectionHeader } from '@/components/layout/section-header';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/ui/motion';
-import type { DbTestimonial } from '@/lib/supabase/queries';
+import type { DbTestimonial } from '@/lib/sqlserver/queries';
 
 export function HomeTestimonials({ testimonials }: { testimonials: DbTestimonial[] }) {
   const [index, setIndex] = React.useState(0);

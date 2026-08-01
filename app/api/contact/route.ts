@@ -1,5 +1,12 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import poolPromise from '@/lib/sqlserver/client';
+
+function getSqlPool() {
+  if (!poolPromise) {
+    throw new Error('Missing SQLSERVER_CONNECTION environment variable for SQL Server.');
+  }
+  return poolPromise;
+}
 
 export async function POST(req: Request) {
   try {
@@ -13,31 +20,19 @@ export async function POST(req: Request) {
       );
     }
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ?? '';
-    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
-      ?? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim()
-      ?? '';
+    const pool = await getSqlPool();
+    const request = pool.request();
+    request.input('name', name);
+    request.input('email', email);
+    request.input('phone', phone);
+    request.input('company', company ?? null);
+    request.input('subject', subject);
+    request.input('message', message);
+    request.input('status', 'new');
 
-    if (!supabaseUrl || !anonKey) {
-      return NextResponse.json({ success: true, note: 'Contact request received in demo mode' });
-    }
-
-    const supabase = createClient(supabaseUrl, anonKey);
-
-    const { error } = await supabase.from('contact_messages').insert({
-      name,
-      email,
-      phone,
-      company: company ?? null,
-      subject,
-      message,
-      status: 'new',
-    });
-
-    if (error) {
-      console.error('Contact insert error:', error);
-      return NextResponse.json({ error: 'Failed to save message' }, { status: 500 });
-    }
+    await request.query(
+      'INSERT INTO contact_messages (name, email, phone, company, subject, message, status) VALUES (@name, @email, @phone, @company, @subject, @message, @status)'
+    );
 
     return NextResponse.json({ success: true });
   } catch (err) {

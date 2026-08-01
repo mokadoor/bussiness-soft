@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { getIcon } from '@/lib/icons';
-import { fetchProducts } from '@/lib/supabase/queries';
+import { fetchProducts } from '@/lib/sqlserver/queries';
 
 export const revalidate = 60;
 

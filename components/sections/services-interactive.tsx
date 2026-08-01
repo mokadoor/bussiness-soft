@@ -5,7 +5,7 @@ import { CheckCircle2, ArrowUp } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { FadeIn } from '@/components/ui/motion';
 import { getIcon } from '@/lib/icons';
-import type { DbService } from '@/lib/supabase/queries';
+import type { DbService } from '@/lib/sqlserver/queries';
 import { cn } from '@/lib/utils';
 
 export function ServicesInteractive({ services }: { services: DbService[] }) {

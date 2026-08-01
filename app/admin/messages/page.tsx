@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { toast } from 'sonner';
-import { supabase } from '@/lib/supabase/client';
 import { Mail, Trash2, Search, X, CheckCircle2, Circle, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -51,11 +50,14 @@ export default function AdminMessagesPage() {
 
   const load = React.useCallback(async () => {
     setLoading(true);
-    const { data } = await supabase
-      .from('contact_messages')
-      .select('*')
-      .order('created_at', { ascending: false });
-    setMessages((data as Message[]) ?? []);
+    try {
+      const response = await fetch('/api/admin/messages');
+      const data = await response.json();
+      setMessages((Array.isArray(data) ? data : []) as Message[]);
+    } catch (error) {
+      toast.error('Failed to load messages');
+      setMessages([]);
+    }
     setLoading(false);
   }, []);
 
@@ -64,29 +66,40 @@ export default function AdminMessagesPage() {
   }, [load]);
 
   const updateStatus = async (id: string, status: string) => {
-    const { error } = await supabase
-      .from('contact_messages')
-      .update({ status })
-      .eq('id', id);
-    if (error) {
-      toast.error('Failed to update status');
-    } else {
+    try {
+      const response = await fetch('/api/admin/messages', {
+        method: 'PUT',
+        body: JSON.stringify({ id, status }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await response.json();
+      if (!response.ok || data.error) {
+        throw new Error(data.error ?? 'Update failed');
+      }
       toast.success(`Marked as ${status}`);
       load();
       setSelected((prev) => (prev?.id === id ? { ...prev, status } : prev));
+    } catch {
+      toast.error('Failed to update status');
     }
   };
 
   const handleDelete = async () => {
     if (!deleteId) return;
-    const { error } = await supabase.from('contact_messages').delete().eq('id', deleteId);
-    if (error) {
-      toast.error('Delete failed');
-    } else {
+    try {
+      const response = await fetch(`/api/admin/messages?id=${encodeURIComponent(deleteId)}`, {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+      if (!response.ok || data.error) {
+        throw new Error(data.error ?? 'Delete failed');
+      }
       toast.success('Message deleted');
       setDeleteId(null);
       setSelected(null);
       load();
+    } catch {
+      toast.error('Delete failed');
     }
   };
 

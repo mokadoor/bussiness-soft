@@ -1,7 +1,7 @@
 import { Container } from '@/components/layout/container';
 import { SectionHeader } from '@/components/layout/section-header';
 import { FadeIn } from '@/components/ui/motion';
-import type { DbClient } from '@/lib/supabase/queries';
+import type { DbClient } from '@/lib/sqlserver/queries';
 
 export function HomeClientLogos({ clients }: { clients: DbClient[] }) {
   const row = [...clients, ...clients];

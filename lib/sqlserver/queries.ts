@@ -49,8 +49,15 @@ function stringValue(value: unknown): string | null {
   return String(value);
 }
 
+function getSqlPool() {
+  if (!poolPromise) {
+    throw new Error('Missing SQLSERVER_CONNECTION environment variable for SQL Server.');
+  }
+  return poolPromise;
+}
+
 async function sqlQuery<T = any>(queryText: string, params: Record<string, unknown> = {}): Promise<T[]> {
-  const pool = await poolPromise;
+  const pool = await getSqlPool();
   const request = pool.request();
 
   for (const [key, value] of Object.entries(params)) {
@@ -302,6 +309,7 @@ function normalizeNews(row: Record<string, unknown>): DbNews {
 export async function fetchProducts(): Promise<DbProduct[]> {
   const fallback = fallbackProducts.map((item, index) => ({
     ...item,
+    id: item.slug,
     is_published: true,
     sort_order: index + 1,
   }));
@@ -318,6 +326,7 @@ export async function fetchProductBySlug(slug: string): Promise<DbProduct | null
   const fallback = fallbackProducts
     .map((item, index) => ({
       ...item,
+      id: item.slug,
       is_published: true,
       sort_order: index + 1,
     }))
@@ -342,6 +351,7 @@ export async function fetchProductBySlug(slug: string): Promise<DbProduct | null
 export async function fetchServices(): Promise<DbService[]> {
   const fallback = fallbackServices.map((item, index) => ({
     ...item,
+    id: item.slug,
     is_published: true,
     sort_order: index + 1,
   }));
@@ -357,6 +367,7 @@ export async function fetchServices(): Promise<DbService[]> {
 export async function fetchIndustries(): Promise<DbIndustry[]> {
   const fallback = fallbackIndustries.map((item, index) => ({
     ...item,
+    id: item.slug,
     is_published: true,
     sort_order: index + 1,
   }));
@@ -372,6 +383,7 @@ export async function fetchIndustries(): Promise<DbIndustry[]> {
 export async function fetchClients(): Promise<DbClient[]> {
   const fallback = fallbackClients.map((item, index) => ({
     ...item,
+    id: item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
     is_published: true,
     sort_order: index + 1,
   }));
@@ -387,6 +399,7 @@ export async function fetchClients(): Promise<DbClient[]> {
 export async function fetchTestimonials(): Promise<DbTestimonial[]> {
   const fallback = fallbackTestimonials.map((item, index) => ({
     ...item,
+    id: `${item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${index}`,
     is_published: true,
     sort_order: index + 1,
   }));

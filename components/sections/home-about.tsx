@@ -4,7 +4,7 @@ import { Container } from '@/components/layout/container';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/ui/motion';
 import { company } from '@/lib/data';
-import type { DbStat } from '@/lib/supabase/queries';
+import type { DbStat } from '@/lib/sqlserver/queries';
 
 const points = [
   'Tunisian ERP editor since 2006',

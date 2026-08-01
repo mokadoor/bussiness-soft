@@ -4,7 +4,7 @@ import { Container } from '@/components/layout/container';
 import { SectionHeader } from '@/components/layout/section-header';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { getIcon } from '@/lib/icons';
-import type { DbService } from '@/lib/supabase/queries';
+import type { DbService } from '@/lib/sqlserver/queries';
 
 export function HomeServices({ services }: { services: DbService[] }) {
   return (

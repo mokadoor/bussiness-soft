@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { getIcon } from '@/lib/icons';
-import type { DbProduct } from '@/lib/supabase/queries';
+import type { DbProduct } from '@/lib/sqlserver/queries';
 
 export function HomeFeaturedProducts({ products }: { products: DbProduct[] }) {
   return (

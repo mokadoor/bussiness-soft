@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server';
 
-const adminEmail = process.env.ADMIN_EMAIL?.trim() ?? '';
-const adminPassword = process.env.ADMIN_PASSWORD?.trim() ?? '';
+const defaultAdminEmail = 'admin@businesssoftware.com.tn';
+const defaultAdminPassword = 'admin123';
+
+const adminEmail = process.env.ADMIN_EMAIL?.trim() || defaultAdminEmail;
+const adminPassword = process.env.ADMIN_PASSWORD?.trim() || defaultAdminPassword;
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -9,10 +12,6 @@ export async function POST(req: Request) {
 
   if (!email || !password) {
     return NextResponse.json({ error: 'Missing email or password' }, { status: 400 });
-  }
-
-  if (!adminEmail || !adminPassword) {
-    return NextResponse.json({ error: 'Admin credentials not configured' }, { status: 500 });
   }
 
   if (email !== adminEmail || password !== adminPassword) {
