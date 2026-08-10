@@ -1,12 +1,5 @@
 import { NextResponse } from 'next/server';
-import poolPromise from '@/lib/sqlserver/client';
-
-function getSqlPool() {
-  if (!poolPromise) {
-    throw new Error('Missing SQLSERVER_CONNECTION environment variable for SQL Server.');
-  }
-  return poolPromise;
-}
+import { getSqlPool } from '@/lib/sqlserver/client';
 
 export async function POST(req: Request) {
   try {

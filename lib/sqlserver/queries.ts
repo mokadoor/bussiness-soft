@@ -1,4 +1,4 @@
-import poolPromise from '@/lib/sqlserver/client';
+import { getSqlPool } from '@/lib/sqlserver/client';
 import {
   clients as fallbackClients,
   industries as fallbackIndustries,
@@ -49,12 +49,7 @@ function stringValue(value: unknown): string | null {
   return String(value);
 }
 
-function getSqlPool() {
-  if (!poolPromise) {
-    throw new Error('Missing SQLSERVER_CONNECTION environment variable for SQL Server.');
-  }
-  return poolPromise;
-}
+// Use shared `getSqlPool` from client module.
 
 async function sqlQuery<T = any>(queryText: string, params: Record<string, unknown> = {}): Promise<T[]> {
   const pool = await getSqlPool();

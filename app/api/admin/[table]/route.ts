@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import poolPromise from '@/lib/sqlserver/client';
+import { getSqlPool } from '@/lib/sqlserver/client';
 import {
   products as fallbackProducts,
   services as fallbackServices,
@@ -14,12 +14,7 @@ import {
 
 const hasSqlServerConfig = Boolean(process.env.SQLSERVER_CONNECTION?.trim());
 
-function getSqlPool() {
-  if (!poolPromise) {
-    throw new Error('Missing SQLSERVER_CONNECTION environment variable for SQL Server.');
-  }
-  return poolPromise;
-}
+// Use shared `getSqlPool` from the client module.
 
 function buildFallbackRow(table: string, row: Record<string, unknown>, index: number) {
   const id =
