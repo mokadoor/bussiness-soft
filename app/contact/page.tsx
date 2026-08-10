@@ -6,22 +6,28 @@ import { Card } from '@/components/ui/card';
 import { FadeIn } from '@/components/ui/motion';
 import { ContactForm } from '@/components/sections/contact-form';
 import { company, offices } from '@/lib/data';
+import { getServerDictionary } from '@/lib/translation.server';
 
-export const metadata: Metadata = {
-  title: 'Contact — Get in Touch with Business Software TN',
-  description:
-    'Contact Business Software TN for ERP demos, consulting, custom software development, and support. Offices in Tunis and Sfax, Tunisia.',
-  alternates: { canonical: 'https://businessoftware.com.tn/contact' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const dictionary = getServerDictionary();
+  return {
+    title: dictionary.pages.contact.metaTitle,
+    description: dictionary.pages.contact.metaDescription,
+    alternates: { canonical: 'https://businessoftware.com.tn/contact' },
+  };
+}
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const dictionary = getServerDictionary();
+  const contactPage = dictionary.pages.contact;
+
   return (
     <>
       <PageHero
-        eyebrow="Contact"
-        title="Let's talk about your project"
-        description="Whether you're exploring ERP for the first time or upgrading your current systems, our team is ready to help. We'll get back to you within one business day."
-        breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Contact' }]}
+        eyebrow={contactPage.eyebrow}
+        title={contactPage.title}
+        description={contactPage.description}
+        breadcrumbs={[{ label: dictionary.common.home, href: '/' }, { label: contactPage.breadcrumb }]}
       />
 
       <section className="py-20 lg:py-28">
@@ -29,9 +35,9 @@ export default function ContactPage() {
           <div className="grid gap-10 lg:grid-cols-5 lg:gap-12">
             {/* Form */}
             <FadeIn className="lg:col-span-3">
-              <h2 className="text-2xl font-bold tracking-tight">Send us a message</h2>
+              <h2 className="text-2xl font-bold tracking-tight">{contactPage.form.heading}</h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                Fill out the form below and we&apos;ll be in touch shortly.
+                {contactPage.form.subheading}
               </p>
               <div className="mt-6">
                 <ContactForm />
@@ -42,12 +48,12 @@ export default function ContactPage() {
             <FadeIn delay={0.1} className="lg:col-span-2">
               <div className="space-y-4">
                 <Card className="p-6">
-                  <h3 className="text-base font-semibold tracking-tight">Contact details</h3>
+                  <h3 className="text-base font-semibold tracking-tight">{contactPage.contactDetailsHeading}</h3>
                   <ul className="mt-4 space-y-4 text-sm">
                     <li className="flex items-start gap-3">
                       <Mail className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                       <div>
-                        <p className="font-medium">Email</p>
+                        <p className="font-medium">{contactPage.emailLabel}</p>
                         <a
                           href={`mailto:${company.email}`}
                           className="text-muted-foreground transition-colors hover:text-primary"
@@ -59,7 +65,7 @@ export default function ContactPage() {
                     <li className="flex items-start gap-3">
                       <Phone className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                       <div>
-                        <p className="font-medium">Phone</p>
+                        <p className="font-medium">{contactPage.phoneLabel}</p>
                         <a
                           href={`tel:${company.phone.replace(/\s/g, '')}`}
                           className="text-muted-foreground transition-colors hover:text-primary"
@@ -72,14 +78,14 @@ export default function ContactPage() {
                     <li className="flex items-start gap-3">
                       <Globe className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                       <div>
-                        <p className="font-medium">Website</p>
+                        <p className="font-medium">{contactPage.websiteLabel}</p>
                         <span className="text-muted-foreground">{company.website.replace('https://', '')}</span>
                       </div>
                     </li>
                     <li className="flex items-start gap-3">
                       <Clock className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                       <div>
-                        <p className="font-medium">Business hours</p>
+                        <p className="font-medium">{contactPage.hoursLabel}</p>
                         <p className="text-muted-foreground">{company.hours}</p>
                       </div>
                     </li>

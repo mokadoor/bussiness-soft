@@ -17,20 +17,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useTranslation } from '@/lib/translation';
 
-const schema = z.object({
-  name: z.string().min(2, 'Please enter your full name'),
-  email: z.string().email('Please enter a valid email address'),
-  phone: z.string().min(8, 'Please enter a valid phone number'),
-  company: z.string().optional(),
-  subject: z.string().min(2, 'Please select a subject'),
-  message: z.string().min(10, 'Please tell us a bit more (at least 10 characters)'),
-  consent: z.boolean().refine((v) => v, 'You must agree to be contacted'),
-});
-
-type FormValues = z.infer<typeof schema>;
-
-const subjects = [
+const DEFAULT_SUBJECTS = [
   'Request a demo',
   'ERP Consulting',
   'Custom Software Development',
@@ -40,8 +29,40 @@ const subjects = [
   'Other',
 ];
 
+type FormValues = {
+  name: string;
+  email: string;
+  phone: string;
+  company?: string;
+  subject: string;
+  message: string;
+  consent: boolean;
+};
+
 export function ContactForm() {
+  const dictionary = useTranslation();
+  const contactForm = dictionary.pages.contact.form;
   const [submitted, setSubmitted] = React.useState(false);
+
+  // Schema is scoped to this component instance via useMemo instead of being
+  // reassigned on a module-level `let` (which caused cross-render/cross-user
+  // mutation of shared state). It also falls back to a default message if a
+  // given dictionary.form.errors key isn't translated yet, so a missing key
+  // no longer crashes the page.
+  const schema = React.useMemo(() => {
+    const errors = contactForm.errors ?? {};
+    return z.object({
+      name: z.string().min(2, errors.name ?? 'Please enter your full name'),
+      email: z.string().email(errors.email ?? 'Please enter a valid email address'),
+      phone: z.string().min(8, errors.phone ?? 'Please enter a valid phone number'),
+      company: z.string().optional(),
+      subject: z.string().min(2, errors.subject ?? 'Please select a subject'),
+      message: z
+        .string()
+        .min(10, errors.message ?? 'Please tell us a bit more (at least 10 characters)'),
+      consent: z.boolean().refine((v) => v, errors.consent ?? 'You must agree to be contacted'),
+    });
+  }, [contactForm.errors]);
 
   const {
     register,
@@ -76,12 +97,12 @@ export function ContactForm() {
       if (!res.ok) throw new Error('Request failed');
       setSubmitted(true);
       reset();
-      toast.success('Message sent!', {
-        description: "We'll get back to you within one business day.",
+      toast.success(contactForm.thankYou, {
+        description: contactForm.sent,
       });
     } catch {
-      toast.error('Something went wrong', {
-        description: 'Please try again or email us directly.',
+      toast.error(contactForm.sending, {
+        description: contactForm.sendMessage,
       });
     }
   };
@@ -92,16 +113,16 @@ export function ContactForm() {
         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10">
           <CheckCircle2 className="h-8 w-8 text-emerald-500" />
         </div>
-        <h3 className="mt-5 text-xl font-semibold tracking-tight">Thank you!</h3>
+        <h3 className="mt-5 text-xl font-semibold tracking-tight">{contactForm.thankYou}</h3>
         <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-          Your message has been received. Our team will get back to you within one business day.
+          {contactForm.sent}
         </p>
         <Button
           variant="outline"
           className="mt-6"
           onClick={() => setSubmitted(false)}
         >
-          Send another message
+          {contactForm.sendAnother}
         </Button>
       </div>
     );
@@ -116,44 +137,44 @@ export function ContactForm() {
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="name">
-            Full name <span className="text-destructive">*</span>
+            {contactForm.fullName} <span className="text-destructive">*</span>
           </Label>
-          <Input id="name" placeholder="John Doe" {...register('name')} />
+          <Input id="name" placeholder={contactForm.placeholder.name} {...register('name')} />
           {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
         </div>
         <div className="space-y-2">
           <Label htmlFor="email">
-            Email <span className="text-destructive">*</span>
+            {contactForm.email} <span className="text-destructive">*</span>
           </Label>
-          <Input id="email" type="email" placeholder="john@company.com" {...register('email')} />
+          <Input id="email" type="email" placeholder={contactForm.placeholder.email} {...register('email')} />
           {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
         </div>
         <div className="space-y-2">
           <Label htmlFor="phone">
-            Phone <span className="text-destructive">*</span>
+            {contactForm.phone} <span className="text-destructive">*</span>
           </Label>
-          <Input id="phone" placeholder="+216 71 000 000" {...register('phone')} />
+          <Input id="phone" placeholder={contactForm.placeholder.phone} {...register('phone')} />
           {errors.phone && <p className="text-xs text-destructive">{errors.phone.message}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="company">Company</Label>
-          <Input id="company" placeholder="Your company" {...register('company')} />
+          <Label htmlFor="company">{contactForm.company}</Label>
+          <Input id="company" placeholder={contactForm.placeholder.company} {...register('company')} />
         </div>
       </div>
 
       <div className="mt-5 space-y-2">
         <Label htmlFor="subject">
-          Subject <span className="text-destructive">*</span>
+          {contactForm.subject} <span className="text-destructive">*</span>
         </Label>
         <Select
           value={subjectValue}
           onValueChange={(v) => setValue('subject', v, { shouldValidate: true })}
         >
           <SelectTrigger id="subject" className="w-full">
-            <SelectValue placeholder="Select a subject" />
+            <SelectValue placeholder={contactForm.placeholder.subject} />
           </SelectTrigger>
           <SelectContent>
-            {subjects.map((s) => (
+            {(contactForm.subjects ?? DEFAULT_SUBJECTS).map((s) => (
               <SelectItem key={s} value={s}>
                 {s}
               </SelectItem>
@@ -165,12 +186,12 @@ export function ContactForm() {
 
       <div className="mt-5 space-y-2">
         <Label htmlFor="message">
-          Message <span className="text-destructive">*</span>
+          {contactForm.message} <span className="text-destructive">*</span>
         </Label>
         <Textarea
           id="message"
           rows={5}
-          placeholder="Tell us about your project or question..."
+          placeholder={contactForm.placeholder.message}
           {...register('message')}
         />
         {errors.message && <p className="text-xs text-destructive">{errors.message.message}</p>}
@@ -185,7 +206,7 @@ export function ContactForm() {
           className="mt-1 h-4 w-4 rounded border-input accent-primary"
         />
         <Label htmlFor="consent" className="text-sm font-normal text-muted-foreground">
-          I agree to be contacted by Business Software TN regarding my inquiry.
+          {contactForm.consent}
         </Label>
       </div>
       {errors.consent && <p className="mt-1 text-xs text-destructive">{errors.consent.message}</p>}
@@ -199,12 +220,12 @@ export function ContactForm() {
         {isSubmitting ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Sending...
+            {contactForm.sending}
           </>
         ) : (
           <>
             <Send className="mr-2 h-4 w-4" />
-            Send Message
+            {contactForm.sendMessage}
           </>
         )}
       </Button>

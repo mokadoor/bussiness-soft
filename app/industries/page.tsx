@@ -3,6 +3,7 @@ import { PageHero } from '@/components/layout/page-hero';
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { IndustriesInteractive } from '@/components/sections/industries-interactive';
 import { fetchIndustries } from '@/lib/sqlserver/queries';
+import { getServerDictionary } from '@/lib/translation.server';
 
 export const revalidate = 60;
 

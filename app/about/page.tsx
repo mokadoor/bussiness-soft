@@ -9,6 +9,7 @@ import { CtaBanner } from '@/components/sections/cta-banner';
 import { getIcon } from '@/lib/icons';
 import { company, values, timeline, offices } from '@/lib/data';
 import { fetchTeam } from '@/lib/sqlserver/queries';
+import { getServerDictionary } from '@/lib/translation.server';
 
 export const revalidate = 60;
 

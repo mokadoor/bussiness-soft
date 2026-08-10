@@ -5,8 +5,12 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Play, TrendingUp, Users, DollarSign, Package, BarChart3 } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from '@/lib/translation';
 
 export function HomeHero() {
+  const dictionary = useTranslation();
+  const home = dictionary.home.hero;
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-secondary/40 via-background to-background">
       <div className="absolute inset-0 bg-grid opacity-[0.35] mask-fade-b" aria-hidden="true" />
@@ -33,7 +37,7 @@ export function HomeHero() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
               </span>
-              Tunisian ERP since 2006
+              {home.eyebrow}
             </motion.span>
 
             <motion.h1
@@ -42,7 +46,7 @@ export function HomeHero() {
               transition={{ duration: 0.7, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
               className="text-balance text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl"
             >
-              Run your entire business on{' '}
+              {home.title}{' '}
               <span className="gradient-text">Nexus ERP</span>
             </motion.h1>
 
@@ -52,8 +56,7 @@ export function HomeHero() {
               transition={{ duration: 0.7, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
               className="max-w-xl text-balance text-lg leading-relaxed text-muted-foreground"
             >
-              The powerful, user-friendly Tunisian ERP that optimizes finance, sales, inventory,
-              production, and HR — all in one integrated platform built for local compliance.
+              {home.description}
             </motion.p>
 
             <motion.div
@@ -64,7 +67,7 @@ export function HomeHero() {
             >
               <Button asChild size="lg" className="h-12 bg-primary px-7 text-base hover:bg-primary/90">
                 <Link href="/contact">
-                  Request Demo
+                  {home.requestDemo}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
@@ -76,7 +79,7 @@ export function HomeHero() {
               >
                 <Link href="/products">
                   <Play className="mr-2 h-4 w-4" />
-                  Explore Products
+                  {home.exploreProducts}
                 </Link>
               </Button>
             </motion.div>
@@ -89,15 +92,15 @@ export function HomeHero() {
             >
               <span className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                18+ years of expertise
+                {home.stats.expertise}
               </span>
               <span className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                150+ active clients
+                {home.stats.clients}
               </span>
               <span className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                Tunisian compliance built in
+                {home.stats.compliance}
               </span>
             </motion.div>
           </div>

@@ -1,24 +1,17 @@
+'use client';
+
 import Link from 'next/link';
 import { Linkedin, Facebook, Twitter, Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react';
 import { Container } from './container';
 import { Logo } from './logo';
-import { company, nav } from '@/lib/data';
+import { useTranslation } from '@/lib/translation';
+import { company } from '@/lib/data';
 
-const productLinks = [
-  { label: 'Nexus ERP', href: '/products/nexus-erp' },
-  { label: 'Nexus CRM', href: '/products/nexus-crm' },
-  { label: 'Nexus Bois', href: '/products/nexus-bois' },
-  { label: 'Nexus Smart Point', href: '/products/nexus-smart-point' },
-];
-
-const serviceLinks = [
-  { label: 'ERP Consulting', href: '/services#erp-consulting' },
-  { label: 'Digital Transformation', href: '/services#digital-transformation' },
-  { label: 'Custom Software', href: '/services#custom-software-development' },
-  { label: 'ERP Implementation', href: '/services#erp-implementation' },
-];
 
 export function Footer() {
+  const dictionary = useTranslation();
+  const footer = dictionary.footer;
+
   return (
     <footer className="border-t border-border bg-secondary/30">
       <Container className="py-14 lg:py-20">
@@ -61,9 +54,9 @@ export function Footer() {
 
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-5">
             <div>
-              <h3 className="text-sm font-semibold text-foreground">Company</h3>
+              <h3 className="text-sm font-semibold text-foreground">{footer.companyTitle}</h3>
               <ul className="mt-4 space-y-3">
-                {nav.map((item) => (
+                {dictionary.nav.map((item) => (
                   <li key={item.href}>
                     <Link
                       href={item.href}
@@ -76,9 +69,9 @@ export function Footer() {
               </ul>
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-foreground">Products</h3>
+              <h3 className="text-sm font-semibold text-foreground">{footer.productsTitle}</h3>
               <ul className="mt-4 space-y-3">
-                {productLinks.map((item) => (
+                {footer.productLinks.map((item) => (
                   <li key={item.href}>
                     <Link
                       href={item.href}
@@ -91,9 +84,9 @@ export function Footer() {
               </ul>
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-foreground">Services</h3>
+              <h3 className="text-sm font-semibold text-foreground">{footer.servicesTitle}</h3>
               <ul className="mt-4 space-y-3">
-                {serviceLinks.map((item) => (
+                {footer.serviceLinks.map((item) => (
                   <li key={item.href}>
                     <Link
                       href={item.href}
@@ -108,7 +101,7 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-3">
-            <h3 className="text-sm font-semibold text-foreground">Contact</h3>
+            <h3 className="text-sm font-semibold text-foreground">{footer.contactTitle}</h3>
             <ul className="mt-4 space-y-4">
               <li className="flex items-start gap-3 text-sm text-muted-foreground">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
@@ -139,7 +132,7 @@ export function Footer() {
               href="/admin"
               className="mt-6 inline-flex items-center gap-1 text-xs font-medium text-muted-foreground transition-colors hover:text-primary"
             >
-              Admin Dashboard
+              {footer.adminDashboard}
               <ArrowUpRight className="h-3 w-3" />
             </Link>
           </div>
@@ -147,11 +140,9 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 text-center sm:flex-row sm:text-left">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} {company.name}. All rights reserved.
+            {footer.copy.replace('{year}', String(new Date().getFullYear()))}
           </p>
-          <p className="text-xs text-muted-foreground">
-            Founded in {company.foundedYear} · Tunis, Tunisia
-          </p>
+          <p className="text-xs text-muted-foreground">{footer.founded}</p>
         </div>
       </Container>
     </footer>

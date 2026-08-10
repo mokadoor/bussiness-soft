@@ -9,7 +9,9 @@ import { cn } from '@/lib/utils';
 import { Container } from './container';
 import { Logo } from './logo';
 import { Button } from '@/components/ui/button';
-import { nav } from '@/lib/data';
+import { getPathnameWithoutLocale } from '@/lib/locale';
+import { useTranslation } from '@/lib/translation';
+import { useLocaleContext } from '@/components/providers/locale-provider';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -38,8 +40,17 @@ export function Navbar() {
     };
   }, [mobileOpen]);
 
-  const isActive = (href: string) =>
-    href === '/' ? pathname === '/' : pathname.startsWith(href);
+  const normalizedPathname = getPathnameWithoutLocale(pathname ?? '/');
+
+  const isActive = (href: string) => {
+    const targetPath = getPathnameWithoutLocale(href);
+    return targetPath === '/'
+      ? normalizedPathname === '/'
+      : normalizedPathname.startsWith(targetPath);
+  };
+
+  const dictionary = useTranslation();
+  const { locale, switchLocale } = useLocaleContext();
 
   return (
     <header
@@ -57,7 +68,7 @@ export function Navbar() {
           </Link>
 
           <div className="hidden items-center gap-1 lg:flex">
-            {nav.map((item) => (
+            {dictionary.nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -69,6 +80,22 @@ export function Navbar() {
                 {item.label}
               </Link>
             ))}
+          </div>
+
+          <div className="hidden items-center gap-2 lg:flex">
+            <label htmlFor="locale-select" className="sr-only">
+              Language
+            </label>
+            <select
+              id="locale-select"
+              value={locale}
+              onChange={(event) => switchLocale(event.target.value as any)}
+              className="rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition hover:border-primary"
+            >
+              <option value="en">{dictionary.common.english}</option>
+              <option value="fr">{dictionary.common.french}</option>
+              <option value="ar">{dictionary.common.arabic}</option>
+            </select>
           </div>
 
           <div className="flex items-center gap-2">
@@ -90,7 +117,7 @@ export function Navbar() {
               className="hidden bg-primary text-primary-foreground hover:bg-primary/90 sm:inline-flex"
             >
               <Link href="/contact">
-                Request Demo
+                {dictionary.common.requestDemo}
                 <ArrowRight className="ml-1.5 h-4 w-4" />
               </Link>
             </Button>
@@ -116,7 +143,7 @@ export function Navbar() {
         )}
       >
         <Container className="flex flex-col gap-1 py-4">
-          {nav.map((item) => (
+          {dictionary.nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -132,7 +159,7 @@ export function Navbar() {
           ))}
           <Button asChild className="mt-2 bg-primary">
             <Link href="/contact">
-              Request Demo
+              {dictionary.common.requestDemo}
               <ArrowRight className="ml-1.5 h-4 w-4" />
             </Link>
           </Button>

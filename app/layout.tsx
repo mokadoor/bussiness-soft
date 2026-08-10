@@ -1,7 +1,10 @@
 import './globals.css';
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/providers/theme-provider';
+import { LocaleProvider } from '@/components/providers/locale-provider';
+import { getLocaleFromPathname } from '@/lib/locale';
 import { Toaster } from '@/components/ui/sonner';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
@@ -99,8 +102,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const locale = getLocaleFromPathname(headers().get('x-matched-path') ?? '/');
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} suppressHydrationWarning>
       <body
         className={`${inter.variable} font-sans antialiased`}
         suppressHydrationWarning
@@ -111,13 +115,15 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <div className="relative flex min-h-screen flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-          <ScrollToTop />
-          <Toaster richColors position="bottom-right" />
+          <LocaleProvider>
+            <div className="relative flex min-h-screen flex-col">
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+            <ScrollToTop />
+            <Toaster richColors position="bottom-right" />
+          </LocaleProvider>
         </ThemeProvider>
       </body>
     </html>
