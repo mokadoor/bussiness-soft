@@ -24,15 +24,13 @@ export function middleware(request: NextRequest) {
     return response;
   }
 
-  // Case 2: no locale prefix (default English pages).
-  // Make sure the cookie exists so getLocaleFromServer() has a fallback.
-  if (!request.cookies.get(LOCALE_COOKIE)) {
-    const response = NextResponse.next();
-    response.cookies.set(LOCALE_COOKIE, 'en', { path: '/' });
-    return response;
-  }
-
-  return NextResponse.next();
+  // Case 2: no locale prefix -> this is always an English page.
+  // Always sync the cookie to 'en' here (don't just set it once),
+  // otherwise a stale 'fr'/'ar' cookie from a previous visit would
+  // keep leaking into these English pages via getLocaleFromServer().
+  const response = NextResponse.next();
+  response.cookies.set(LOCALE_COOKIE, 'en', { path: '/' });
+  return response;
 }
 
 export const config = {
