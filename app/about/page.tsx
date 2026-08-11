@@ -21,14 +21,15 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
+  const dict = await getServerDictionary();
   const team = await fetchTeam();
   return (
     <>
       <PageHero
-        eyebrow="About Us"
-        title="Building business software for Tunisia since 2006"
-        description="A Tunisian software editor specialized in information technology and enterprise consulting — accompanying companies at every stage, from design to deployment of powerful, innovative IT systems."
-        breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'About' }]}
+        eyebrow={dict.pages.about.eyebrow}
+        title={dict.pages.about.title}
+        description={dict.pages.about.description}
+        breadcrumbs={[{ label: dict.common.home, href: '/' }, { label: dict.pages.about.breadcrumb }]}
       />
 
       {/* Company story + mission/vision */}
