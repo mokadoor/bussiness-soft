@@ -8,6 +8,7 @@ import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { getIcon } from '@/lib/icons';
 import { fetchProducts } from '@/lib/sqlserver/queries';
+import { getServerDictionary } from '@/lib/translation.server';
 
 export const revalidate = 60;
 
@@ -19,15 +20,16 @@ export const metadata: Metadata = {
 };
 
 export default async function ProductsPage() {
+  const dict = await getServerDictionary();
   const products = await fetchProducts();
 
   return (
     <>
       <PageHero
-        eyebrow="Our Products"
-        title="The Nexus software suite"
-        description="A family of integrated products covering ERP, CRM, industry-specific operations, and point of sale — all built, maintained, and supported in Tunisia."
-        breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Products' }]}
+        eyebrow={dict.pages.products.eyebrow}
+        title={dict.pages.products.title}
+        description={dict.pages.products.description}
+        breadcrumbs={[{ label: dict.common.home, href: '/' }, { label: dict.pages.products.breadcrumb }]}
       />
 
       <section className="py-20 lg:py-28">
@@ -88,12 +90,12 @@ export default async function ProductsPage() {
                           ))}
                           {product.modules.length > 4 && (
                             <span className="rounded-md bg-secondary px-2.5 py-1 text-xs text-muted-foreground">
-                              +{product.modules.length - 4} more
+                              +{product.modules.length - 4} {dict.pages.products.moreLabel}
                             </span>
                           )}
                         </div>
                         <span className="mt-auto pt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">
-                          Explore {product.name}
+                          {dict.pages.products.exploreLabel} {product.name}
                           <ArrowRight className="h-4 w-4" />
                         </span>
                       </div>

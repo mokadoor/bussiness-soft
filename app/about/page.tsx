@@ -23,6 +23,11 @@ export const metadata: Metadata = {
 export default async function AboutPage() {
   const dict = await getServerDictionary();
   const team = await fetchTeam();
+
+  const story1 = dict.pages.about.story.paragraph1
+    .replace('{foundedYear}', String(company.foundedYear))
+    .replace('{companyName}', company.name);
+
   return (
     <>
       <PageHero
@@ -39,30 +44,15 @@ export default async function AboutPage() {
             <FadeIn>
               <span className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/60 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                Our Story
+                {dict.pages.about.story.eyebrow}
               </span>
               <h2 className="mt-5 text-balance text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
-                From a local startup to a trusted ERP editor
+                {dict.pages.about.story.title}
               </h2>
               <div className="mt-6 space-y-4 text-base leading-relaxed text-muted-foreground">
-                <p>
-                  Founded in {company.foundedYear}, {company.name} is a Tunisian software editor
-                  specialized in information technology and enterprise consulting. Our mission is to
-                  accompany companies at every stage — from design to the deployment of powerful and
-                  innovative IT systems.
-                </p>
-                <p>
-                  Our primary objective is to help our clients increase their productivity,
-                  profitability, and responsiveness in an increasingly competitive market. Over
-                  nearly two decades, we&apos;ve built and refined the Nexus suite — ERP, CRM,
-                  industry-specific editions, and point of sale — trusted by over 150 active clients
-                  across 8 industries.
-                </p>
-                <p>
-                  What sets us apart is our Tunisian roots. We build software that understands local
-                  regulations, business culture, and the real challenges Tunisian enterprises face —
-                  backed by a local support team that&apos;s there when you need them.
-                </p>
+                <p>{story1}</p>
+                <p>{dict.pages.about.story.paragraph2}</p>
+                <p>{dict.pages.about.story.paragraph3}</p>
               </div>
             </FadeIn>
 
@@ -73,11 +63,9 @@ export default async function AboutPage() {
                     <Target className="h-6 w-6" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold tracking-tight">Our Mission</h3>
+                    <h3 className="text-xl font-semibold tracking-tight">{dict.pages.about.mission.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      To accompany enterprises at every stage — from design to the deployment of
-                      powerful, innovative IT systems — and help them increase productivity,
-                      profitability, and responsiveness.
+                      {dict.pages.about.mission.description}
                     </p>
                   </div>
                 </div>
@@ -88,11 +76,9 @@ export default async function AboutPage() {
                     <Eye className="h-6 w-6" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold tracking-tight">Our Vision</h3>
+                    <h3 className="text-xl font-semibold tracking-tight">{dict.pages.about.vision.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      To be the leading Tunisian software editor, empowering every enterprise —
-                      large or small — with accessible, reliable, and compliant technology that
-                      drives sustainable growth.
+                      {dict.pages.about.vision.description}
                     </p>
                   </div>
                 </div>
@@ -107,9 +93,9 @@ export default async function AboutPage() {
         <Container>
           <FadeIn>
             <SectionHeader
-              eyebrow="Our Values"
-              title="What we stand for"
-              description="The principles that guide how we build software and work with our clients."
+              eyebrow={dict.pages.about.valuesSection.eyebrow}
+              title={dict.pages.about.valuesSection.title}
+              description={dict.pages.about.valuesSection.description}
             />
           </FadeIn>
           <StaggerGroup className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -138,9 +124,9 @@ export default async function AboutPage() {
         <Container>
           <FadeIn>
             <SectionHeader
-              eyebrow="Our Journey"
-              title="Milestones along the way"
-              description="Key moments in our growth from a local startup to a trusted Tunisian software editor."
+              eyebrow={dict.pages.about.timelineSection.eyebrow}
+              title={dict.pages.about.timelineSection.title}
+              description={dict.pages.about.timelineSection.description}
             />
           </FadeIn>
           <div className="relative mx-auto mt-14 max-w-3xl">
@@ -177,9 +163,9 @@ export default async function AboutPage() {
         <Container>
           <FadeIn>
             <SectionHeader
-              eyebrow="Leadership"
-              title="Meet the team behind Business Software"
-              description="Experienced leaders guiding our mission to build software Tunisian enterprises can rely on."
+              eyebrow={dict.pages.about.leadershipSection.eyebrow}
+              title={dict.pages.about.leadershipSection.title}
+              description={dict.pages.about.leadershipSection.description}
             />
           </FadeIn>
           <StaggerGroup className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -204,9 +190,9 @@ export default async function AboutPage() {
         <Container>
           <FadeIn>
             <SectionHeader
-              eyebrow="Our Offices"
-              title="Where to find us"
-              description="Based in Tunis with a regional office in Sfax — serving clients across the country."
+              eyebrow={dict.pages.about.officesSection.eyebrow}
+              title={dict.pages.about.officesSection.title}
+              description={dict.pages.about.officesSection.description}
             />
           </FadeIn>
           <StaggerGroup className="mt-14 grid gap-6 md:grid-cols-2">
