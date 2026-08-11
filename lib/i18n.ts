@@ -76,6 +76,46 @@ const dictionaries = {
         description:
           'A Tunisian software editor specialized in information technology and enterprise consulting — accompanying companies at every stage, from design to deployment of powerful, innovative IT systems.',
         breadcrumb: 'About',
+        story: {
+          eyebrow: 'Our Story',
+          title: 'From a local startup to a trusted ERP editor',
+          paragraph1:
+            'Founded in {foundedYear}, {companyName} is a Tunisian software editor specialized in information technology and enterprise consulting. Our mission is to accompany companies at every stage — from design to the deployment of powerful and innovative IT systems.',
+          paragraph2:
+            "Our primary objective is to help our clients increase their productivity, profitability, and responsiveness in an increasingly competitive market. Over nearly two decades, we've built and refined the Nexus suite — ERP, CRM, industry-specific editions, and point of sale — trusted by over 150 active clients across 8 industries.",
+          paragraph3:
+            "What sets us apart is our Tunisian roots. We build software that understands local regulations, business culture, and the real challenges Tunisian enterprises face — backed by a local support team that's there when you need them.",
+        },
+        mission: {
+          title: 'Our Mission',
+          description:
+            'To accompany enterprises at every stage — from design to the deployment of powerful, innovative IT systems — and help them increase productivity, profitability, and responsiveness.',
+        },
+        vision: {
+          title: 'Our Vision',
+          description:
+            'To be the leading Tunisian software editor, empowering every enterprise — large or small — with accessible, reliable, and compliant technology that drives sustainable growth.',
+        },
+        valuesSection: {
+          eyebrow: 'Our Values',
+          title: 'What we stand for',
+          description: 'The principles that guide how we build software and work with our clients.',
+        },
+        timelineSection: {
+          eyebrow: 'Our Journey',
+          title: 'Milestones along the way',
+          description: 'Key moments in our growth from a local startup to a trusted Tunisian software editor.',
+        },
+        leadershipSection: {
+          eyebrow: 'Leadership',
+          title: 'Meet the team behind Business Software',
+          description: 'Experienced leaders guiding our mission to build software Tunisian enterprises can rely on.',
+        },
+        officesSection: {
+          eyebrow: 'Our Offices',
+          title: 'Where to find us',
+          description: 'Based in Tunis with a regional office in Sfax — serving clients across the country.',
+        },
       },
       contact: {
         metaTitle: 'Contact — Get in Touch with Business Software TN',
@@ -247,6 +287,46 @@ const dictionaries = {
         description:
           'Un éditeur tunisien spécialisé en technologies de l’information et conseil d’entreprise — accompagnant les entreprises de la conception au déploiement de systèmes informatiques puissants et innovants.',
         breadcrumb: 'À propos',
+        story: {
+          eyebrow: 'Notre histoire',
+          title: "D'une jeune entreprise locale à un éditeur ERP de confiance",
+          paragraph1:
+            "Fondée en {foundedYear}, {companyName} est un éditeur de logiciels tunisien spécialisé dans les technologies de l'information et le conseil aux entreprises. Notre mission est d'accompagner les entreprises à chaque étape — de la conception au déploiement de systèmes informatiques puissants et innovants.",
+          paragraph2:
+            "Notre objectif principal est d'aider nos clients à accroître leur productivité, leur rentabilité et leur réactivité dans un marché de plus en plus concurrentiel. Depuis près de deux décennies, nous avons construit et perfectionné la suite Nexus — ERP, CRM, éditions sectorielles et point de vente — adoptée par plus de 150 clients actifs dans 8 secteurs.",
+          paragraph3:
+            "Ce qui nous distingue, ce sont nos racines tunisiennes. Nous concevons des logiciels qui comprennent la réglementation locale, la culture d'entreprise et les défis réels des entreprises tunisiennes — soutenus par une équipe de support locale toujours présente.",
+        },
+        mission: {
+          title: 'Notre mission',
+          description:
+            "Accompagner les entreprises à chaque étape — de la conception au déploiement de systèmes informatiques puissants et innovants — et les aider à accroître leur productivité, leur rentabilité et leur réactivité.",
+        },
+        vision: {
+          title: 'Notre vision',
+          description:
+            "Devenir le premier éditeur de logiciels tunisien, en donnant à chaque entreprise — grande ou petite — accès à une technologie fiable, accessible et conforme, moteur d'une croissance durable.",
+        },
+        valuesSection: {
+          eyebrow: 'Nos valeurs',
+          title: 'Ce qui nous anime',
+          description: "Les principes qui guident la façon dont nous concevons nos logiciels et travaillons avec nos clients.",
+        },
+        timelineSection: {
+          eyebrow: 'Notre parcours',
+          title: 'Les étapes clés de notre croissance',
+          description: "Les moments marquants de notre évolution, d'une jeune entreprise locale à un éditeur de logiciels tunisien de confiance.",
+        },
+        leadershipSection: {
+          eyebrow: 'Direction',
+          title: "L'équipe derrière Business Software",
+          description: "Des dirigeants expérimentés qui guident notre mission : construire des logiciels sur lesquels les entreprises tunisiennes peuvent compter.",
+        },
+        officesSection: {
+          eyebrow: 'Nos bureaux',
+          title: 'Où nous trouver',
+          description: "Basés à Tunis avec un bureau régional à Sfax — au service de nos clients dans tout le pays.",
+        },
       },
       contact: {
         metaTitle: 'Contact — Prenez contact avec Business Software TN',
@@ -417,6 +497,46 @@ const dictionaries = {
         description:
           'شركة برمجيات تونسية متخصصة في تكنولوجيا المعلومات والاستشارات المؤسسية — نرافق الشركات من التصميم حتى نشر أنظمة تقنية قوية ومبتكرة.',
         breadcrumb: 'من نحن',
+        story: {
+          eyebrow: 'قصتنا',
+          title: 'من شركة ناشئة محلية إلى محرر ERP موثوق',
+          paragraph1:
+            'تأسست في {foundedYear}، {companyName} هي شركة برمجيات تونسية متخصصة في تكنولوجيا المعلومات والاستشارات المؤسسية. مهمتنا هي مرافقة الشركات في كل مرحلة — من التصميم إلى نشر أنظمة تقنية قوية ومبتكرة.',
+          paragraph2:
+            'هدفنا الأساسي هو مساعدة عملائنا على زيادة إنتاجيتهم وربحيتهم واستجابتهم في سوق تنافسية بشكل متزايد. على مدى ما يقارب عقدين، قمنا ببناء وتطوير مجموعة Nexus — ERP وCRM وإصدارات قطاعية ونقاط بيع — التي يثق بها أكثر من 150 عميلاً نشطاً في 8 قطاعات.',
+          paragraph3:
+            'ما يميزنا هو جذورنا التونسية. نبني برمجيات تفهم اللوائح المحلية وثقافة الأعمال والتحديات الحقيقية التي تواجهها الشركات التونسية — مدعومة بفريق دعم محلي متواجد دائماً عند الحاجة.',
+        },
+        mission: {
+          title: 'مهمتنا',
+          description:
+            'مرافقة الشركات في كل مرحلة — من التصميم إلى نشر أنظمة تقنية قوية ومبتكرة — ومساعدتها على زيادة الإنتاجية والربحية والاستجابة.',
+        },
+        vision: {
+          title: 'رؤيتنا',
+          description:
+            'أن نكون الشركة التونسية الرائدة في مجال البرمجيات، من خلال تمكين كل شركة — كبيرة أو صغيرة — بتقنية موثوقة وميسرة ومتوافقة تدفع نحو نمو مستدام.',
+        },
+        valuesSection: {
+          eyebrow: 'قيمنا',
+          title: 'ما نؤمن به',
+          description: 'المبادئ التي توجه كيفية بناء برمجياتنا وتعاملنا مع عملائنا.',
+        },
+        timelineSection: {
+          eyebrow: 'مسيرتنا',
+          title: 'محطات بارزة على الطريق',
+          description: 'أهم اللحظات في نمونا من شركة ناشئة محلية إلى محرر برمجيات تونسي موثوق.',
+        },
+        leadershipSection: {
+          eyebrow: 'القيادة',
+          title: 'تعرف على الفريق وراء Business Software',
+          description: 'قادة ذوو خبرة يوجهون مهمتنا لبناء برمجيات يمكن للشركات التونسية الاعتماد عليها.',
+        },
+        officesSection: {
+          eyebrow: 'مكاتبنا',
+          title: 'أين تجدنا',
+          description: 'مقرنا في تونس مع مكتب إقليمي في صفاقس — نخدم عملاءنا في جميع أنحاء البلاد.',
+        },
       },
       contact: {
         metaTitle: 'اتصل بنا — تواصل مع Business Software TN',
