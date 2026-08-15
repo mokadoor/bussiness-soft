@@ -12,7 +12,7 @@ export const fadeUpVariants: Variants = {
 export const staggerContainer: Variants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.04 },
+    transition: { staggerChildren: 0.05, delayChildren: 0.02 },
   },
 };
 
@@ -20,7 +20,7 @@ export function FadeIn({
   children,
   className,
   delay = 0,
-  y = 24,
+  y = 16,
   once = true,
 }: {
   children: React.ReactNode;
@@ -30,14 +30,14 @@ export function FadeIn({
   once?: boolean;
 }) {
   const ref = React.useRef(null);
-  const inView = useInView(ref, { once, margin: '-80px' });
+  const inView = useInView(ref, { once, margin: '-60px' });
   return (
     <motion.div
       ref={ref}
       className={className}
       initial={{ opacity: 0, y }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y }}
-      transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.45, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>
@@ -79,7 +79,7 @@ export function StaggerItem({
     <motion.div
       className={className}
       variants={fadeUpVariants}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>

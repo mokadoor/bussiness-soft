@@ -6,29 +6,35 @@ import { Badge } from '@/components/ui/badge';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { fetchClients } from '@/lib/sqlserver/queries';
+import { getServerDictionary } from '@/lib/translation.server';
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: 'References — Our Clients & Case Studies',
-  description:
-    'Discover the Tunisian companies that trust Business Software — from manufacturing and distribution to retail, healthcare, and construction. Client references and case studies.',
-  alternates: { canonical: 'https://businessoftware.com.tn/references' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const dictionary = getServerDictionary();
+  return {
+    title: dictionary.pages.references.metaTitle,
+    description: dictionary.pages.references.metaDescription,
+    alternates: { canonical: 'https://businessoftware.com.tn/references' },
+  };
+}
 
 export default async function ReferencesPage() {
+  const dictionary = getServerDictionary();
   const clients = await fetchClients();
 
   return (
     <>
       <PageHero
-        eyebrow="References"
-        title="Trusted by leading Tunisian companies"
-        description="Over 150 active clients across 8 industries run their operations on our software. Here are some of the organizations we're proud to work with."
-        breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'References' }]}
+        eyebrow={dictionary.pages.references.eyebrow}
+        title={dictionary.pages.references.title}
+        description={dictionary.pages.references.description}
+        breadcrumbs={[
+          { label: dictionary.common.home, href: '/' },
+          { label: dictionary.pages.references.breadcrumb },
+        ]}
       />
 
-      {/* Logo grid */}
       <section className="border-b border-border py-14 lg:py-16">
         <Container>
           <FadeIn>
@@ -56,14 +62,12 @@ export default async function ReferencesPage() {
         </Container>
       </section>
 
-      {/* Detailed reference cards with images */}
       <section className="py-20 lg:py-28">
         <Container>
           <StaggerGroup className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {clients.map((client) => (
               <StaggerItem key={client.id}>
                 <Card className="group h-full overflow-hidden p-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover">
-                  {/* Image header */}
                   {client.image && (
                     <div className="relative h-44 overflow-hidden">
                       <img
@@ -83,7 +87,6 @@ export default async function ReferencesPage() {
                     </div>
                   )}
 
-                  {/* Content */}
                   <div className="p-6">
                     <h3 className="text-lg font-semibold tracking-tight">{client.name}</h3>
                     {client.description && (

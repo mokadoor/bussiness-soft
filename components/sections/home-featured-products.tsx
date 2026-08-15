@@ -1,22 +1,27 @@
+'use client';
+
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { SectionHeader } from '@/components/layout/section-header';
-import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { getIcon } from '@/lib/icons';
+import { useTranslation } from '@/lib/translation';
 import type { DbProduct } from '@/lib/sqlserver/queries';
 
 export function HomeFeaturedProducts({ products }: { products: DbProduct[] }) {
+  const dictionary = useTranslation();
+  const section = dictionary.home.featuredProducts;
+
   return (
     <section className="py-20 lg:py-28">
       <Container>
         <FadeIn>
           <SectionHeader
-            eyebrow="Our Products"
-            title="The Nexus software suite"
-            description="A family of integrated products covering ERP, CRM, industry-specific operations, and point of sale — all built and maintained in Tunisia."
+            eyebrow={section.eyebrow}
+            title={section.title}
+            description={section.description}
           />
         </FadeIn>
 
@@ -66,7 +71,7 @@ export function HomeFeaturedProducts({ products }: { products: DbProduct[] }) {
                         </p>
                       )}
                       <span className="mt-auto pt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">
-                        Explore product
+                        {section.cta}
                         <ArrowRight className="h-4 w-4" />
                       </span>
                     </div>
@@ -80,7 +85,7 @@ export function HomeFeaturedProducts({ products }: { products: DbProduct[] }) {
         <FadeIn className="mt-10 text-center">
           <Button asChild variant="outline" size="lg">
             <Link href="/products">
-              View all products
+              {section.viewAll}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>

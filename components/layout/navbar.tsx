@@ -57,12 +57,12 @@ export function Navbar() {
       className={cn(
         'sticky top-0 z-50 w-full transition-all duration-300',
         scrolled
-          ? 'border-b border-border/80 bg-background/80 backdrop-blur-lg supports-[backdrop-filter]:bg-background/70'
+          ? 'border-b border-border/80 bg-background/75 shadow-sm backdrop-blur-xl supports-[backdrop-filter]:bg-background/70'
           : 'border-b border-transparent bg-background/0'
       )}
     >
       <Container>
-        <nav className="flex h-16 items-center justify-between gap-4 lg:h-18">
+        <nav className="flex h-16 items-center justify-between gap-4 lg:h-20">
           <Link href="/" aria-label="Business Software TN — Home" className="shrink-0">
             <Logo />
           </Link>
@@ -74,7 +74,7 @@ export function Navbar() {
                 href={item.href}
                 className={cn(
                   'nav-link rounded-md px-3 py-2',
-                  isActive(item.href) && 'text-foreground'
+                  isActive(item.href) && 'text-foreground after:w-full'
                 )}
               >
                 {item.label}
@@ -157,6 +157,21 @@ export function Navbar() {
               {item.label}
             </Link>
           ))}
+          <div className="mt-3 rounded-lg border border-border bg-secondary/40 p-2">
+            <label htmlFor="mobile-locale-select" className="mb-2 block text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Language
+            </label>
+            <select
+              id="mobile-locale-select"
+              value={locale}
+              onChange={(event) => switchLocale(event.target.value as any)}
+              className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition hover:border-primary"
+            >
+              <option value="en">{dictionary.common.english}</option>
+              <option value="fr">{dictionary.common.french}</option>
+              <option value="ar">{dictionary.common.arabic}</option>
+            </select>
+          </div>
           <Button asChild className="mt-2 bg-primary">
             <Link href="/contact">
               {dictionary.common.requestDemo}

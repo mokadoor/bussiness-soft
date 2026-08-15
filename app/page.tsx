@@ -3,6 +3,7 @@ import { HomeHighlights } from '@/components/sections/home-highlights';
 import { HomeAbout } from '@/components/sections/home-about';
 import { HomeFeaturedProducts } from '@/components/sections/home-featured-products';
 import { HomeServices } from '@/components/sections/home-services';
+import { HomeProcess } from '@/components/sections/home-process';
 import { HomeWhyChooseUs } from '@/components/sections/home-why-choose-us';
 import { HomeStatistics } from '@/components/sections/home-statistics';
 import { HomeIndustries } from '@/components/sections/home-industries';
@@ -129,6 +130,7 @@ export default async function HomePage() {
       <HomeAbout stats={stats} />
       <HomeFeaturedProducts products={productsForHome} />
       <HomeServices services={servicesForHome} />
+      <HomeProcess />
       <HomeWhyChooseUs />
       <HomeStatistics stats={stats} />
       <HomeIndustries industries={industriesForHome} />

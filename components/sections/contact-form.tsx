@@ -44,25 +44,20 @@ export function ContactForm() {
   const contactForm = dictionary.pages.contact.form;
   const [submitted, setSubmitted] = React.useState(false);
 
-  // Schema is scoped to this component instance via useMemo instead of being
-  // reassigned on a module-level `let` (which caused cross-render/cross-user
-  // mutation of shared state). It also falls back to a default message if a
-  // given dictionary.form.errors key isn't translated yet, so a missing key
-  // no longer crashes the page.
+  // Schema is scoped to this component instance via useMemo to avoid shared
+  // state between renders. The validation messages intentionally fall back to
+  // English defaults so missing locale keys do not crash the page.
   const schema = React.useMemo(() => {
-    const errors = contactForm.errors ?? {};
     return z.object({
-      name: z.string().min(2, errors.name ?? 'Please enter your full name'),
-      email: z.string().email(errors.email ?? 'Please enter a valid email address'),
-      phone: z.string().min(8, errors.phone ?? 'Please enter a valid phone number'),
+      name: z.string().min(2, 'Please enter your full name'),
+      email: z.string().email('Please enter a valid email address'),
+      phone: z.string().min(8, 'Please enter a valid phone number'),
       company: z.string().optional(),
-      subject: z.string().min(2, errors.subject ?? 'Please select a subject'),
-      message: z
-        .string()
-        .min(10, errors.message ?? 'Please tell us a bit more (at least 10 characters)'),
-      consent: z.boolean().refine((v) => v, errors.consent ?? 'You must agree to be contacted'),
+      subject: z.string().min(2, 'Please select a subject'),
+      message: z.string().min(10, 'Please tell us a bit more (at least 10 characters)'),
+      consent: z.boolean().refine((v) => v, 'You must agree to be contacted'),
     });
-  }, [contactForm.errors]);
+  }, []);
 
   const {
     register,
@@ -174,7 +169,7 @@ export function ContactForm() {
             <SelectValue placeholder={contactForm.placeholder.subject} />
           </SelectTrigger>
           <SelectContent>
-            {(contactForm.subjects ?? DEFAULT_SUBJECTS).map((s) => (
+            {(dictionary.contactForm?.subjects ?? DEFAULT_SUBJECTS).map((s) => (
               <SelectItem key={s} value={s}>
                 {s}
               </SelectItem>

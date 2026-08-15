@@ -7,23 +7,29 @@ import { getServerDictionary } from '@/lib/translation.server';
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: 'Industries — Solutions for Your Sector',
-  description:
-    'Industry-tailored ERP and software solutions for manufacturing, retail, distribution, construction, wood industry, healthcare, education, and professional services in Tunisia.',
-  alternates: { canonical: 'https://businessoftware.com.tn/industries' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const dictionary = getServerDictionary();
+  return {
+    title: dictionary.pages.industries.metaTitle,
+    description: dictionary.pages.industries.metaDescription,
+    alternates: { canonical: 'https://businessoftware.com.tn/industries' },
+  };
+}
 
 export default async function IndustriesPage() {
+  const dictionary = getServerDictionary();
   const industries = await fetchIndustries();
 
   return (
     <>
       <PageHero
-        eyebrow="Industries"
-        title="Solutions tailored to your sector"
-        description="Every industry has unique processes and challenges. Our solutions are adapted to how you actually work — not the other way around. Filter by solution or expand a card to learn more."
-        breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Industries' }]}
+        eyebrow={dictionary.pages.industries.eyebrow}
+        title={dictionary.pages.industries.title}
+        description={dictionary.pages.industries.description}
+        breadcrumbs={[
+          { label: dictionary.common.home, href: '/' },
+          { label: dictionary.pages.industries.breadcrumb },
+        ]}
       />
 
       <IndustriesInteractive industries={industries} />

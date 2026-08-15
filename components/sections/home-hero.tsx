@@ -28,10 +28,10 @@ export function HomeHero() {
           {/* Left: copy */}
           <div className="flex flex-col items-start gap-6">
             <motion.span
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3.5 py-1.5 text-xs font-semibold text-primary shadow-sm backdrop-blur"
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3.5 py-1.5 text-xs font-semibold text-primary shadow-sm"
             >
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
@@ -41,9 +41,9 @@ export function HomeHero() {
             </motion.span>
 
             <motion.h1
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
               className="text-balance text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl"
             >
               {home.title}{' '}
@@ -51,18 +51,18 @@ export function HomeHero() {
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="max-w-xl text-balance text-lg leading-relaxed text-muted-foreground"
             >
               {home.description}
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, delay: 0.14, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col gap-3 sm:flex-row"
             >
               <Button asChild size="lg" className="h-12 bg-primary px-7 text-base hover:bg-primary/90">
@@ -87,7 +87,7 @@ export function HomeHero() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              transition={{ duration: 0.45, delay: 0.22 }}
               className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground"
             >
               <span className="flex items-center gap-2">
@@ -102,6 +102,39 @@ export function HomeHero() {
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                 {home.stats.compliance}
               </span>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-2 w-full max-w-xl rounded-2xl border border-border/80 bg-background p-4 shadow-card"
+            >
+              <div className="mb-3 flex items-center justify-between gap-3 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                <span>Trusted by growing businesses</span>
+                <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  Live support
+                </span>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {[
+                  { label: '150+ clients', icon: Users },
+                  { label: '8 industries', icon: BarChart3 },
+                  { label: '24/7 assistance', icon: TrendingUp },
+                ].map(({ label, icon: Icon }) => (
+                  <div
+                    key={label}
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/60 px-3 py-2 text-sm font-medium text-foreground"
+                  >
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      <Icon className="h-3.5 w-3.5" />
+                    </div>
+                    {label}
+                  </div>
+                ))}
+              </div>
             </motion.div>
           </div>
 
@@ -128,9 +161,9 @@ function DashboardIllustration() {
 
       {/* main dashboard card */}
       <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-        className="rounded-2xl border border-border/80 bg-background/95 p-5 shadow-2xl backdrop-blur"
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+        className="rounded-2xl border border-border/80 bg-background p-5 shadow-xl"
       >
         {/* window chrome */}
         <div className="mb-4 flex items-center justify-between">
@@ -185,9 +218,9 @@ function DashboardIllustration() {
 
       {/* floating mini cards */}
       <motion.div
-        animate={{ y: [0, 8, 0] }}
+        animate={{ y: [0, 5, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-        className="absolute -left-8 top-24 rounded-xl border border-border bg-background/95 p-3 shadow-xl backdrop-blur"
+        className="absolute -left-8 top-24 rounded-xl border border-border bg-background p-3 shadow-lg"
       >
         <div className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10">
@@ -201,9 +234,9 @@ function DashboardIllustration() {
       </motion.div>
 
       <motion.div
-        animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-        className="absolute -right-6 bottom-16 rounded-xl border border-border bg-background/95 p-3 shadow-xl backdrop-blur"
+        animate={{ y: [0, -5, 0] }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+        className="absolute -right-6 bottom-16 rounded-xl border border-border bg-background p-3 shadow-lg"
       >
         <div className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent/10">

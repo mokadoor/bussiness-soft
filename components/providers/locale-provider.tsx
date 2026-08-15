@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Locale } from '@/lib/i18n';
+import { Locale, locales } from '@/lib/i18n';
 import { getLocaleFromPathname, getLocalizedPathname } from '@/lib/locale';
 
 interface LocaleContextValue {
@@ -10,22 +10,64 @@ interface LocaleContextValue {
   switchLocale: (locale: Locale) => void;
 }
 
-const LocaleContext = React.createContext<LocaleContextValue | undefined>(undefined);
+export const LocaleContext = React.createContext<LocaleContextValue | undefined>(undefined);
+
+function getCookieLocale(): Locale | null {
+  if (typeof document === 'undefined') return null;
+  const match = document.cookie.match(/(?:^|;\s*)NEXT_LOCALE=([^;]+)/);
+  const value = match?.[1];
+  return value && locales.includes(value as Locale) ? (value as Locale) : null;
+}
 
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '/';
   const router = useRouter();
-  const locale = getLocaleFromPathname(pathname);
+  const [locale, setLocale] = React.useState<Locale>(() => {
+    return getLocaleFromPathname(pathname) ?? getCookieLocale() ?? 'en';
+  });
 
   React.useEffect(() => {
-    document.documentElement.lang = locale;
-    document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
-  }, [locale]);
+    const nextLocale = getLocaleFromPathname(pathname) ?? getCookieLocale() ?? 'en';
+    setLocale((current) => (current === nextLocale ? current : nextLocale));
+    document.documentElement.lang = nextLocale;
+    document.documentElement.dir = nextLocale === 'ar' ? 'rtl' : 'ltr';
+  }, [pathname]);
+
+  React.useEffect(() => {
+    const handleInternalLinkClick = (event: MouseEvent) => {
+      const target = event.target as Element | null;
+      const anchor = target?.closest('a[href]') as HTMLAnchorElement | null;
+      if (!anchor) return;
+
+      const href = anchor.getAttribute('href') ?? '';
+      if (!href.startsWith('/') || href.startsWith('//') || href.startsWith('/_') || href.startsWith('/api')) {
+        return;
+      }
+
+      const localizedHref = getLocalizedPathname(href, locale);
+      if (href === localizedHref) return;
+
+      event.preventDefault();
+      router.replace(localizedHref, { scroll: false });
+    };
+
+    document.addEventListener('click', handleInternalLinkClick);
+    return () => document.removeEventListener('click', handleInternalLinkClick);
+  }, [locale, router]);
 
   const switchLocale = React.useCallback(
     (nextLocale: Locale) => {
-      const nextPathname = getLocalizedPathname(pathname, nextLocale);
-      router.push(nextPathname);
+      const targetPath = getLocalizedPathname(pathname, nextLocale);
+      document.cookie = `NEXT_LOCALE=${nextLocale}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
+      setLocale(nextLocale);
+      document.documentElement.lang = nextLocale;
+      document.documentElement.dir = nextLocale === 'ar' ? 'rtl' : 'ltr';
+
+      if (pathname !== targetPath) {
+        router.replace(targetPath, { scroll: false });
+      } else {
+        router.refresh();
+      }
     },
     [pathname, router]
   );

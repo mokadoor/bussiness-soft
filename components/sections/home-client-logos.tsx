@@ -1,18 +1,23 @@
+'use client';
+
 import { Container } from '@/components/layout/container';
 import { SectionHeader } from '@/components/layout/section-header';
 import { FadeIn } from '@/components/ui/motion';
+import { useTranslation } from '@/lib/translation';
 import type { DbClient } from '@/lib/sqlserver/queries';
 
 export function HomeClientLogos({ clients }: { clients: DbClient[] }) {
+  const dictionary = useTranslation();
+  const section = dictionary.home.clients;
   const row = [...clients, ...clients];
   return (
     <section className="border-y border-border bg-secondary/20 py-16 lg:py-20">
       <Container>
         <FadeIn>
           <SectionHeader
-            eyebrow="Our Clients"
-            title="Trusted by leading Tunisian companies"
-            description="From manufacturing and distribution to retail and healthcare, organizations across Tunisia run on our software."
+            eyebrow={section.eyebrow}
+            title={section.title}
+            description={section.description}
           />
         </FadeIn>
       </Container>

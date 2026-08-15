@@ -6,26 +6,33 @@ import { ServicesInteractive } from '@/components/sections/services-interactive'
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { getIcon } from '@/lib/icons';
 import { fetchServices } from '@/lib/sqlserver/queries';
+import { getServerDictionary } from '@/lib/translation.server';
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: 'Services — ERP Consulting, Development & Digital Transformation',
-  description:
-    'Full-lifecycle software services: ERP consulting, digital transformation, custom software development, web and mobile development, ERP implementation, data migration, support, and maintenance.',
-  alternates: { canonical: 'https://businessoftware.com.tn/services' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const dictionary = getServerDictionary();
+  return {
+    title: dictionary.pages.services.metaTitle,
+    description: dictionary.pages.services.metaDescription,
+    alternates: { canonical: 'https://businessoftware.com.tn/services' },
+  };
+}
 
 export default async function ServicesPage() {
+  const dictionary = getServerDictionary();
   const services = await fetchServices();
 
   return (
     <>
       <PageHero
-        eyebrow="Our Services"
-        title="Full-lifecycle software services"
-        description="A complete range of responsive, personalized services to meet all your business needs — from initial consulting and development to ongoing support and maintenance."
-        breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Services' }]}
+        eyebrow={dictionary.pages.services.eyebrow}
+        title={dictionary.pages.services.title}
+        description={dictionary.pages.services.description}
+        breadcrumbs={[
+          { label: dictionary.common.home, href: '/' },
+          { label: dictionary.pages.services.breadcrumb },
+        ]}
       />
 
       {/* Overview grid */}
@@ -33,10 +40,10 @@ export default async function ServicesPage() {
         <Container>
           <FadeIn className="mb-12 text-center">
             <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-              Browse all services
+              {dictionary.pages.services.title}
             </p>
             <p className="mt-2 text-balance text-lg text-muted-foreground">
-              Click any card below or use the filter bar to jump to a specific service.
+              {dictionary.pages.services.description}
             </p>
           </FadeIn>
           <StaggerGroup className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

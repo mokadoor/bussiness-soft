@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { CtaBanner } from '@/components/sections/cta-banner';
 import { getIcon } from '@/lib/icons';
-import { company, values, timeline, offices } from '@/lib/data';
+import { company } from '@/lib/data';
 import { fetchTeam } from '@/lib/sqlserver/queries';
 import { getServerDictionary } from '@/lib/translation.server';
 
@@ -99,7 +99,7 @@ export default async function AboutPage() {
             />
           </FadeIn>
           <StaggerGroup className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {values.map((value) => {
+            {dict.pages.about.values.map((value) => {
               const Icon = getIcon(value.icon);
               return (
                 <StaggerItem key={value.title}>
@@ -131,7 +131,7 @@ export default async function AboutPage() {
           </FadeIn>
           <div className="relative mx-auto mt-14 max-w-3xl">
             <div className="absolute left-4 top-2 bottom-2 w-px bg-border lg:left-1/2 lg:-translate-x-1/2" />
-            {timeline.map((item, i) => (
+            {dict.pages.about.timeline.map((item, i) => (
               <FadeIn key={item.year} delay={i * 0.05}>
                 <div
                   className={`relative mb-10 flex gap-6 lg:gap-0 ${
@@ -169,7 +169,7 @@ export default async function AboutPage() {
             />
           </FadeIn>
           <StaggerGroup className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {team.map((member) => (
+            {dict.pages.about.team.map((member) => (
               <StaggerItem key={member.name}>
                 <Card className="group h-full p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover">
                   <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-xl font-bold text-white shadow-md">
@@ -196,7 +196,7 @@ export default async function AboutPage() {
             />
           </FadeIn>
           <StaggerGroup className="mt-14 grid gap-6 md:grid-cols-2">
-            {offices.map((office) => (
+            {dict.pages.about.offices.map((office) => (
               <StaggerItem key={office.name}>
                 <Card className="h-full p-7">
                   <h3 className="text-lg font-semibold tracking-tight">{office.name}</h3>

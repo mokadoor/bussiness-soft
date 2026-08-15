@@ -1,43 +1,24 @@
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+'use client';
+
 import { Container } from '@/components/layout/container';
 import { SectionHeader } from '@/components/layout/section-header';
 import { Card } from '@/components/ui/card';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { getIcon } from '@/lib/icons';
-
-const highlights = [
-  {
-    icon: 'ShieldCheck',
-    title: 'Tunisian Compliance',
-    description: 'Built for local fiscal, VAT, and CNSS regulations out of the box.',
-  },
-  {
-    icon: 'Boxes',
-    title: 'Modular Architecture',
-    description: 'Deploy the modules you need today and expand as your business grows.',
-  },
-  {
-    icon: 'Users',
-    title: 'Dedicated Support',
-    description: 'Responsive, local support team available when you need assistance.',
-  },
-  {
-    icon: 'BarChart3',
-    title: 'Real-Time Insights',
-    description: 'Dashboards and KPIs that give you visibility across every function.',
-  },
-];
+import { useTranslation } from '@/lib/translation';
 
 export function HomeHighlights() {
+  const dictionary = useTranslation();
+  const highlights = dictionary.home.highlights.items;
+
   return (
     <section className="border-y border-border bg-background py-20 lg:py-28">
       <Container>
         <FadeIn>
           <SectionHeader
-            eyebrow="Why Business Software"
-            title="Built for Tunisian enterprises, ready for growth"
-            description="Nearly two decades of building and maintaining business software that companies across Tunisia rely on every day."
+            eyebrow={dictionary.home.highlights.eyebrow}
+            title={dictionary.home.highlights.title}
+            description={dictionary.home.highlights.description}
           />
         </FadeIn>
 

@@ -1,10 +1,16 @@
+'use client';
+
 import { Container } from '@/components/layout/container';
 import { SectionHeader } from '@/components/layout/section-header';
 import { AnimatedCounter } from '@/components/ui/animated-counter';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
+import { useTranslation } from '@/lib/translation';
 import type { DbStat } from '@/lib/sqlserver/queries';
 
 export function HomeStatistics({ stats }: { stats: DbStat[] }) {
+  const dictionary = useTranslation();
+  const section = dictionary.home.statistics;
+
   return (
     <section className="relative overflow-hidden bg-primary py-20 lg:py-24">
       <div className="absolute inset-0 bg-grid opacity-10" aria-hidden="true" />
@@ -15,13 +21,9 @@ export function HomeStatistics({ stats }: { stats: DbStat[] }) {
       <Container className="relative">
         <FadeIn>
           <SectionHeader
-            eyebrow="By the Numbers"
-            title={<span className="text-white">Trusted across Tunisia</span>}
-            description={
-              <span className="text-white/70">
-                Nearly two decades of building software that Tunisian enterprises depend on.
-              </span>
-            }
+            eyebrow={section.eyebrow}
+            title={<span className="text-white">{section.title}</span>}
+            description={<span className="text-white/70">{section.description}</span>}
           />
         </FadeIn>
 

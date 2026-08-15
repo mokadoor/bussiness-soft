@@ -7,11 +7,14 @@ import { Container } from '@/components/layout/container';
 import { SectionHeader } from '@/components/layout/section-header';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/ui/motion';
+import { useTranslation } from '@/lib/translation';
 import type { DbTestimonial } from '@/lib/sqlserver/queries';
 
 export function HomeTestimonials({ testimonials }: { testimonials: DbTestimonial[] }) {
   const [index, setIndex] = React.useState(0);
   const [direction, setDirection] = React.useState(0);
+  const dictionary = useTranslation();
+  const testimonialSection = dictionary.home.testimonials;
   const count = testimonials.length;
 
   const go = (dir: number) => {
@@ -37,9 +40,9 @@ export function HomeTestimonials({ testimonials }: { testimonials: DbTestimonial
       <Container>
         <FadeIn>
           <SectionHeader
-            eyebrow="Testimonials"
-            title="What our clients say"
-            description="Real results from real Tunisian companies running on Nexus."
+            eyebrow={testimonialSection.eyebrow}
+            title={testimonialSection.title}
+            description={testimonialSection.description}
           />
         </FadeIn>
 

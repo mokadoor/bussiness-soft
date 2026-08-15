@@ -4,23 +4,30 @@ import { locales, type Locale } from './i18n';
 
 export function getLocaleFromServer(): Locale {
   const cookieLocale = cookies().get('NEXT_LOCALE')?.value;
+  const headerLocale = headers().get('x-next-locale');
+
+  const requestPath = headers().get('referer') ?? '';
+  let pathLocale: Locale | null = null;
+
+  if (requestPath) {
+    try {
+      const pathname = requestPath.startsWith('http') ? new URL(requestPath).pathname : requestPath;
+      pathLocale = getLocaleFromPathname(pathname);
+    } catch {
+      // ignore invalid path value
+    }
+  }
+
+  if (pathLocale && pathLocale !== 'en') {
+    return pathLocale;
+  }
+
+  if (headerLocale && locales.includes(headerLocale as Locale)) {
+    return headerLocale as Locale;
+  }
+
   if (cookieLocale && locales.includes(cookieLocale as Locale)) {
     return cookieLocale as Locale;
-  }
-
-  const matchedPath = headers().get('x-matched-path');
-  if (typeof matchedPath === 'string' && matchedPath.length > 0) {
-    return getLocaleFromPathname(matchedPath);
-  }
-
-  const referer = headers().get('referer');
-  if (referer) {
-    try {
-      const url = new URL(referer);
-      return getLocaleFromPathname(url.pathname);
-    } catch {
-      // ignore invalid referer header
-    }
   }
 
   return 'en';

@@ -9,6 +9,16 @@ const dictionaries = {
       english: 'English',
       french: 'Français',
       arabic: 'العربية',
+      learnMore: 'Learn more',
+      viewAllProducts: 'View all products',
+      bookConsultation: 'Book a consultation',
+      language: 'Language',
+      contactOurTeam: 'Contact Our Team',
+      allProducts: 'All Products',
+      backToHome: 'Back to Home',
+      browseProducts: 'Browse Products',
+      pageNotFound: 'Page not found',
+      pageNotFoundDescription: "The page you&apos;re looking for doesn&apos;t exist or has been moved.",
     },
     nav: [
       { label: 'Home', href: '/' },
@@ -32,6 +42,144 @@ const dictionaries = {
           clients: '150+ active clients',
           compliance: 'Tunisian compliance built in',
         },
+      },
+      about: {
+        eyebrow: 'About Us',
+        title: 'Your partner in business software, since {year}',
+        description:
+          'Founded in {year}, {companyName} is a Tunisian software editor specialized in information technology and enterprise consulting. Our mission is to accompany companies at every stage — from design to the deployment of powerful, innovative IT systems. Our goal: help our clients increase productivity, profitability, and responsiveness.',
+        cta: 'Learn more about us',
+        points: [
+          'Tunisian ERP editor since 2006',
+          '150+ active clients across 8 industries',
+          'Local support and dedicated consulting',
+          'Compliant with Tunisian fiscal regulations',
+        ],
+      },
+      highlights: {
+        eyebrow: 'Why Business Software',
+        title: 'Built for Tunisian enterprises, ready for growth',
+        description:
+          'Nearly two decades of building and maintaining business software that companies across Tunisia rely on every day.',
+        items: [
+          {
+            title: 'Tunisian Compliance',
+            description: 'Built for local fiscal, VAT, and CNSS regulations out of the box.',
+            icon: 'ShieldCheck',
+          },
+          {
+            title: 'Modular Architecture',
+            description: 'Deploy the modules you need today and expand as your business grows.',
+            icon: 'Boxes',
+          },
+          {
+            title: 'Dedicated Support',
+            description: 'Responsive, local support team available when you need assistance.',
+            icon: 'Users',
+          },
+          {
+            title: 'Real-Time Insights',
+            description: 'Dashboards and KPIs that give you visibility across every function.',
+            icon: 'BarChart3',
+          },
+        ],
+      },
+      featuredProducts: {
+        eyebrow: 'Our Products',
+        title: 'The Nexus software suite',
+        description:
+          'A family of integrated products covering ERP, CRM, industry-specific operations, and point of sale — all built and maintained in Tunisia.',
+        cta: 'Explore product',
+        viewAll: 'View all products',
+      },
+      services: {
+        eyebrow: 'Our Services',
+        title: 'Full-lifecycle software services',
+        description:
+          'A complete range of responsive, personalized services to meet all your business needs — from consulting and development to support and maintenance.',
+        cta: 'Learn more',
+      },
+      industries: {
+        eyebrow: 'Industries We Serve',
+        title: 'Solutions tailored to your sector',
+        description:
+          'We understand that every industry has unique processes and challenges. Our solutions are adapted to how you actually work.',
+        cta: 'Learn more',
+      },
+      whyChooseUs: {
+        eyebrow: 'Why Choose Us',
+        title: 'A trusted Tunisian partner, not just a vendor',
+        description:
+          'Companies across Tunisia choose Business Software because we combine technical excellence with genuine partnership — staying with you long after go-live.',
+        cardTitle: 'Our promise to every client',
+        cardDescription:
+          'We commit to delivering software that is reliable, compliant, and genuinely useful — backed by responsive support and continuous improvement.',
+        promises: [
+          'On-time, on-budget delivery',
+          'Tunisian regulatory compliance',
+          'Dedicated local support team',
+          'Continuous product evolution',
+        ],
+        reasons: [
+          {
+            title: 'A satisfied client is our absolute priority',
+            description:
+              'We measure our success by your results. Every engagement starts with understanding your business and ends with a solution your team can rely on.',
+          },
+          {
+            title: 'Deep Tunisian market expertise',
+            description:
+              'Born and built in Tunisia, we understand local regulations, business culture, and the real challenges Tunisian enterprises face every day.',
+          },
+          {
+            title: 'Responsive and personalized service',
+            description:
+              'We offer a complete range of reactive, personalized services. Your dedicated team knows your business and is there when you need them.',
+          },
+          {
+            title: 'From design to long-term support',
+            description:
+              'We accompany you at every stage — from initial analysis and design to deployment, training, and ongoing support and maintenance.',
+          },
+        ],
+      },
+      process: {
+        eyebrow: 'How we work',
+        title: 'A simple roadmap from strategy to scale',
+        description:
+          'We combine local expertise, ERP know-how, and hands-on support to help your teams adopt the right system with confidence.',
+        cta: 'Book a consultation',
+        steps: [
+          {
+            title: 'Discover',
+            description: 'We map your process, pain points, and growth goals to define the right ERP fit.',
+          },
+          {
+            title: 'Implement',
+            description: 'We configure the platform, connect your data, and guide your teams through a smooth rollout.',
+          },
+          {
+            title: 'Scale',
+            description: 'We stay close with support, reporting, and continuous optimization as your business grows.',
+          },
+        ],
+      },
+      statistics: {
+        eyebrow: 'By the Numbers',
+        title: 'Trusted across Tunisia',
+        description:
+          'Nearly two decades of building software that Tunisian enterprises depend on.',
+      },
+      clients: {
+        eyebrow: 'Our Clients',
+        title: 'Trusted by leading Tunisian companies',
+        description:
+          'From manufacturing and distribution to retail and healthcare, organizations across Tunisia run on our software.',
+      },
+      testimonials: {
+        eyebrow: 'Testimonials',
+        title: 'What our clients say',
+        description: 'Real results from real Tunisian companies running on Nexus.',
       },
       contactPreview: {
         eyebrow: 'Get in Touch',
@@ -96,21 +244,144 @@ const dictionaries = {
           description:
             'To be the leading Tunisian software editor, empowering every enterprise — large or small — with accessible, reliable, and compliant technology that drives sustainable growth.',
         },
+        values: [
+          {
+            title: 'Client Commitment',
+            description: 'A satisfied client is our absolute priority. We measure our success by your results.',
+            icon: 'HeartHandshake',
+          },
+          {
+            title: 'Expertise',
+            description: 'Nearly two decades of building business software for Tunisian and international enterprises.',
+            icon: 'Award',
+          },
+          {
+            title: 'Innovation',
+            description: 'We continuously invest in new technologies to keep our clients ahead of the curve.',
+            icon: 'Lightbulb',
+          },
+          {
+            title: 'Reliability',
+            description: 'Robust, tested software and responsive support you can depend on, day in and day out.',
+            icon: 'ShieldCheck',
+          },
+          {
+            title: 'Partnership',
+            description: 'We accompany you at every stage — from design to deployment and long after go-live.',
+            icon: 'Users',
+          },
+          {
+            title: 'Tunisian Roots',
+            description: 'Built in Tunisia with deep understanding of local regulations and business culture.',
+            icon: 'MapPin',
+          },
+        ],
         valuesSection: {
           eyebrow: 'Our Values',
           title: 'What we stand for',
           description: 'The principles that guide how we build software and work with our clients.',
         },
+        timeline: [
+          {
+            year: '2006',
+            title: 'Foundation',
+            description: 'Business Software is founded in Tunis with a mission to build business software for Tunisian enterprises.',
+          },
+          {
+            year: '2009',
+            title: 'First Nexus ERP Release',
+            description: 'We launch the first version of Nexus ERP, quickly adopted by manufacturers and distributors.',
+          },
+          {
+            year: '2013',
+            title: 'Nexus CRM & Mobile',
+            description: 'We expand the platform with Nexus CRM and native mobile apps for field sales teams.',
+          },
+          {
+            year: '2016',
+            title: 'Nexus Bois',
+            description: 'We release Nexus Bois, a specialized ERP for the wood and furniture industry with cutting optimization.',
+          },
+          {
+            year: '2019',
+            title: 'Nexus Smart Point',
+            description: 'We launch an offline-first POS for retail and hospitality, integrated with Nexus ERP.',
+          },
+          {
+            year: '2022',
+            title: 'Cloud & Digital Transformation',
+            description: 'We introduce cloud deployment and a dedicated digital transformation consulting practice.',
+          },
+          {
+            year: '2024',
+            title: '150+ Active Clients',
+            description: 'Today we serve over 150 active clients across 8 industries with a team of 45+ experts.',
+          },
+        ],
         timelineSection: {
           eyebrow: 'Our Journey',
           title: 'Milestones along the way',
           description: 'Key moments in our growth from a local startup to a trusted Tunisian software editor.',
         },
+        team: [
+          {
+            name: 'Riadh Khelil',
+            role: 'Founder & CEO',
+            bio: 'A software entrepreneur with over 20 years building enterprise systems for Tunisian and international companies.',
+            initials: 'RK',
+          },
+          {
+            name: 'Nadia Ferchichi',
+            role: 'CTO',
+            bio: 'Leads our engineering teams and platform architecture with a passion for robust, scalable software.',
+            initials: 'NF',
+          },
+          {
+            name: 'Slim Bouazizi',
+            role: 'Head of Delivery',
+            bio: 'Oversees ERP implementations and ensures every project is delivered on time and to specification.',
+            initials: 'SB',
+          },
+          {
+            name: 'Amel Sassi',
+            role: 'Head of Consulting',
+            bio: 'Guides clients through digital transformation with deep expertise in process optimization.',
+            initials: 'AS',
+          },
+          {
+            name: 'Wassim Jelassi',
+            role: 'Head of Support',
+            bio: 'Leads our support organization, ensuring clients get fast, effective help whenever they need it.',
+            initials: 'WJ',
+          },
+          {
+            name: 'Dorra Hamdi',
+            role: 'Head of Sales',
+            bio: 'Works with prospective clients to find the right solutions for their business challenges.',
+            initials: 'DH',
+          },
+        ],
         leadershipSection: {
           eyebrow: 'Leadership',
           title: 'Meet the team behind Business Software',
           description: 'Experienced leaders guiding our mission to build software Tunisian enterprises can rely on.',
         },
+        offices: [
+          {
+            name: 'Head Office — Tunis',
+            address: 'Les Berges du Lac II, Rue du Lac Windermere, 1053 Tunis, Tunisia',
+            phone: '+216 71 902 456',
+            email: 'contact@businesssoftware.com.tn',
+            hours: 'Mon – Fri: 8:30 – 18:00',
+          },
+          {
+            name: 'Sfax Office',
+            address: 'Route de Gabès, Imm. Ekhtebar, 3027 Sfax, Tunisia',
+            phone: '+216 74 401 122',
+            email: 'sfax@businesssoftware.com.tn',
+            hours: 'Mon – Fri: 8:30 – 18:00',
+          },
+        ],
         officesSection: {
           eyebrow: 'Our Offices',
           title: 'Where to find us',
@@ -220,6 +491,16 @@ const dictionaries = {
       english: 'English',
       french: 'Français',
       arabic: 'العربية',
+      learnMore: 'En savoir plus',
+      viewAllProducts: 'Voir tous les produits',
+      bookConsultation: 'Réserver une consultation',
+      language: 'Langue',
+      contactOurTeam: 'Contactez notre équipe',
+      allProducts: 'Tous les produits',
+      backToHome: 'Retour à l’accueil',
+      browseProducts: 'Parcourir les produits',
+      pageNotFound: 'Page introuvable',
+      pageNotFoundDescription: 'La page que vous recherchez n’existe pas ou a été déplacée.',
     },
     nav: [
       { label: 'Accueil', href: '/' },
@@ -243,6 +524,144 @@ const dictionaries = {
           clients: '150+ clients actifs',
           compliance: 'Conformité tunisienne intégrée',
         },
+      },
+      about: {
+        eyebrow: 'À propos',
+        title: 'Votre partenaire en logiciels métiers depuis {year}',
+        description:
+          'Fondée en {year}, {companyName} est un éditeur de logiciels tunisien spécialisé dans les technologies de l’information et le conseil aux entreprises. Notre mission est d’accompagner les entreprises à chaque étape — de la conception au déploiement de systèmes informatiques puissants et innovants. Notre objectif : aider nos clients à accroître leur productivité, leur rentabilité et leur réactivité.',
+        cta: 'En savoir plus sur nous',
+        points: [
+          'Éditeur ERP tunisien depuis 2006',
+          'Plus de 150 clients actifs dans 8 secteurs',
+          'Support local et accompagnement dédié',
+          'Conforme aux réglementations fiscales tunisiennes',
+        ],
+      },
+      highlights: {
+        eyebrow: 'Pourquoi Business Software',
+        title: 'Conçu pour les entreprises tunisiennes, prêt à grandir',
+        description:
+          'Près de deux décennies à concevoir et maintenir des logiciels d’entreprise sur lesquels les entreprises tunisiennes comptent chaque jour.',
+        items: [
+          {
+            title: 'Conformité tunisienne',
+            description: 'Conçu pour les réglementations fiscales, TVA et CNSS locales dès le départ.',
+            icon: 'ShieldCheck',
+          },
+          {
+            title: 'Architecture modulaire',
+            description: 'Déployez les modules dont vous avez besoin aujourd’hui et étendez-les au fil de votre croissance.',
+            icon: 'Boxes',
+          },
+          {
+            title: 'Support dédié',
+            description: 'Une équipe locale réactive et disponible quand vous en avez besoin.',
+            icon: 'Users',
+          },
+          {
+            title: 'Analyses en temps réel',
+            description: 'Tableaux de bord et KPI pour une visibilité complète sur chaque fonction.',
+            icon: 'BarChart3',
+          },
+        ],
+      },
+      featuredProducts: {
+        eyebrow: 'Nos produits',
+        title: 'La suite logicielle Nexus',
+        description:
+          'Une famille de produits intégrés couvrant ERP, CRM, opérations sectorielles et point de vente — tout est conçu et maintenu en Tunisie.',
+        cta: 'Découvrir le produit',
+        viewAll: 'Voir tous les produits',
+      },
+      services: {
+        eyebrow: 'Nos services',
+        title: 'Services logiciels de bout en bout',
+        description:
+          'Une offre complète et personnalisée pour répondre à tous vos besoins — du conseil et du développement au support et à la maintenance.',
+        cta: 'En savoir plus',
+      },
+      industries: {
+        eyebrow: 'Secteurs couverts',
+        title: 'Solutions sur mesure pour votre secteur',
+        description:
+          'Nous comprenons que chaque secteur a ses propres processus et défis. Nos solutions s’adaptent à votre façon de travailler.',
+        cta: 'En savoir plus',
+      },
+      whyChooseUs: {
+        eyebrow: 'Pourquoi nous choisir',
+        title: 'Un partenaire tunisien de confiance, pas seulement un fournisseur',
+        description:
+          'Les entreprises tunisiennes nous choisissent parce que nous associons excellence technique et partenariat sincère — et restons à vos côtés bien après la mise en production.',
+        cardTitle: 'Notre engagement envers chaque client',
+        cardDescription:
+          'Nous nous engageons à fournir des logiciels fiables, conformes et réellement utiles — avec un support réactif et une amélioration continue.',
+        promises: [
+          'Livraison dans les délais et le budget',
+          'Conformité réglementaire tunisienne',
+          'Équipe de support locale dédiée',
+          'Évolution continue du produit',
+        ],
+        reasons: [
+          {
+            title: 'La satisfaction du client est notre priorité absolue',
+            description:
+              'Notre succès se mesure à vos résultats. Chaque mission commence par la compréhension de votre activité et se termine par une solution fiable pour votre équipe.',
+          },
+          {
+            title: 'Une expertise profonde du marché tunisien',
+            description:
+              'Nés et développés en Tunisie, nous comprenons les réglementations locales, la culture d’entreprise et les défis réels des entreprises tunisiennes.',
+          },
+          {
+            title: 'Un service réactif et personnalisé',
+            description:
+              'Nous offrons une gamme complète de services réactifs et personnalisés. Votre équipe dédiée connaît votre activité et est présente quand vous en avez besoin.',
+          },
+          {
+            title: 'De la conception au support à long terme',
+            description:
+              'Nous vous accompagnons à chaque étape — de l’analyse initiale et de la conception au déploiement, à la formation et au support continu.',
+          },
+        ],
+      },
+      process: {
+        eyebrow: 'Notre méthode',
+        title: 'Une feuille de route simple, de la stratégie à la croissance',
+        description:
+          'Nous combinons expertise locale, savoir-faire ERP et support concret pour aider vos équipes à adopter le bon système en toute confiance.',
+        cta: 'Réserver une consultation',
+        steps: [
+          {
+            title: 'Découvrir',
+            description: 'Nous cartographions vos processus, vos points de friction et vos objectifs pour définir le bon ERP.',
+          },
+          {
+            title: 'Implémenter',
+            description: 'Nous configurons la plateforme, connectons vos données et guidons vos équipes lors du déploiement.',
+          },
+          {
+            title: 'Évoluer',
+            description: 'Nous restons proches avec le support, les tableaux de bord et l’optimisation continue.',
+          },
+        ],
+      },
+      statistics: {
+        eyebrow: 'Chiffres clés',
+        title: 'Une confiance partout en Tunisie',
+        description:
+          'Près de deux décennies à développer des logiciels auxquels les entreprises tunisiennes font confiance.',
+      },
+      clients: {
+        eyebrow: 'Nos clients',
+        title: 'Des entreprises tunisiennes de référence',
+        description:
+          'Des secteurs manufacturier, distribution, retail et santé aux organisations de tout le pays, nos logiciels sont utilisés partout en Tunisie.',
+      },
+      testimonials: {
+        eyebrow: 'Témoignages',
+        title: 'Ce que disent nos clients',
+        description: 'Des résultats concrets issus d’entreprises tunisiennes qui utilisent Nexus.',
       },
       contactPreview: {
         eyebrow: 'Contactez-nous',
@@ -307,21 +726,144 @@ const dictionaries = {
           description:
             "Devenir le premier éditeur de logiciels tunisien, en donnant à chaque entreprise — grande ou petite — accès à une technologie fiable, accessible et conforme, moteur d'une croissance durable.",
         },
+        values: [
+          {
+            title: 'Engagement client',
+            description: 'Un client satisfait est notre priorité absolue. Notre succès se mesure à vos résultats.',
+            icon: 'HeartHandshake',
+          },
+          {
+            title: 'Expertise',
+            description: 'Près de deux décennies à concevoir des logiciels pour les entreprises tunisiennes et internationales.',
+            icon: 'Award',
+          },
+          {
+            title: 'Innovation',
+            description: 'Nous investissons continuellement dans les nouvelles technologies pour garder nos clients en avance.',
+            icon: 'Lightbulb',
+          },
+          {
+            title: 'Fiabilité',
+            description: 'Des logiciels robustes, testés et un support réactif sur lequel vous pouvez compter chaque jour.',
+            icon: 'ShieldCheck',
+          },
+          {
+            title: 'Partenariat',
+            description: 'Nous vous accompagnons à chaque étape — de la conception au déploiement et bien après la mise en production.',
+            icon: 'Users',
+          },
+          {
+            title: 'Racines tunisiennes',
+            description: 'Conçu en Tunisie avec une compréhension profonde des réglementations et de la culture locale.',
+            icon: 'MapPin',
+          },
+        ],
         valuesSection: {
           eyebrow: 'Nos valeurs',
           title: 'Ce qui nous anime',
           description: "Les principes qui guident la façon dont nous concevons nos logiciels et travaillons avec nos clients.",
         },
+        timeline: [
+          {
+            year: '2006',
+            title: 'Fondation',
+            description: 'Business Software est fondée à Tunis avec pour mission de créer des logiciels pour les entreprises tunisiennes.',
+          },
+          {
+            year: '2009',
+            title: 'Première version de Nexus ERP',
+            description: 'Nous lançons la première version de Nexus ERP, rapidement adoptée par les fabricants et distributeurs.',
+          },
+          {
+            year: '2013',
+            title: 'Nexus CRM & mobile',
+            description: 'Nous élargissons la plateforme avec Nexus CRM et des applications mobiles natives pour les équipes commerciales terrain.',
+          },
+          {
+            year: '2016',
+            title: 'Nexus Bois',
+            description: 'Nous publions Nexus Bois, un ERP spécialisé pour l’industrie du bois et du mobilier avec optimisation des coupes.',
+          },
+          {
+            year: '2019',
+            title: 'Nexus Smart Point',
+            description: 'Nous lançons un système de caisse hors ligne pour le retail et l’hôtellerie, intégré à Nexus ERP.',
+          },
+          {
+            year: '2022',
+            title: 'Cloud & transformation digitale',
+            description: 'Nous introduisons le déploiement cloud et une pratique dédiée de conseil en transformation digitale.',
+          },
+          {
+            year: '2024',
+            title: '150+ clients actifs',
+            description: 'Aujourd’hui, nous servons plus de 150 clients actifs dans 8 secteurs avec une équipe de plus de 45 experts.',
+          },
+        ],
         timelineSection: {
           eyebrow: 'Notre parcours',
           title: 'Les étapes clés de notre croissance',
           description: "Les moments marquants de notre évolution, d'une jeune entreprise locale à un éditeur de logiciels tunisien de confiance.",
         },
+        team: [
+          {
+            name: 'Riadh Khelil',
+            role: 'Fondateur & PDG',
+            bio: 'Entrepreneur du logiciel avec plus de 20 ans d’expérience dans la création de systèmes d’entreprise pour des entreprises tunisiennes et internationales.',
+            initials: 'RK',
+          },
+          {
+            name: 'Nadia Ferchichi',
+            role: 'CTO',
+            bio: 'Dirige nos équipes d’ingénierie et l’architecture de la plateforme avec une passion pour des logiciels robustes et évolutifs.',
+            initials: 'NF',
+          },
+          {
+            name: 'Slim Bouazizi',
+            role: 'Responsable de la mise en œuvre',
+            bio: 'Supervise les déploiements ERP et veille à ce que chaque projet soit livré à temps et selon les spécifications.',
+            initials: 'SB',
+          },
+          {
+            name: 'Amel Sassi',
+            role: 'Responsable conseil',
+            bio: 'Accompagne les clients dans leur transformation digitale avec une expertise pointue en optimisation des processus.',
+            initials: 'AS',
+          },
+          {
+            name: 'Wassim Jelassi',
+            role: 'Responsable support',
+            bio: 'Dirige notre organisation de support pour offrir une aide rapide et efficace à chaque besoin.',
+            initials: 'WJ',
+          },
+          {
+            name: 'Dorra Hamdi',
+            role: 'Responsable commercial',
+            bio: 'Travaille avec les clients potentiels pour trouver les meilleures solutions à leurs défis métier.',
+            initials: 'DH',
+          },
+        ],
         leadershipSection: {
           eyebrow: 'Direction',
           title: "L'équipe derrière Business Software",
           description: "Des dirigeants expérimentés qui guident notre mission : construire des logiciels sur lesquels les entreprises tunisiennes peuvent compter.",
         },
+        offices: [
+          {
+            name: 'Siège social — Tunis',
+            address: 'Les Berges du Lac II, Rue du Lac Windermere, 1053 Tunis, Tunisie',
+            phone: '+216 71 902 456',
+            email: 'contact@businesssoftware.com.tn',
+            hours: 'Lun – Ven: 8:30 – 18:00',
+          },
+          {
+            name: 'Bureau de Sfax',
+            address: 'Route de Gabès, Imm. Ekhtebar, 3027 Sfax, Tunisie',
+            phone: '+216 74 401 122',
+            email: 'sfax@businesssoftware.com.tn',
+            hours: 'Lun – Ven: 8:30 – 18:00',
+          },
+        ],
         officesSection: {
           eyebrow: 'Nos bureaux',
           title: 'Où nous trouver',
@@ -430,6 +972,16 @@ const dictionaries = {
       english: 'English',
       french: 'Français',
       arabic: 'العربية',
+      learnMore: 'اعرف المزيد',
+      viewAllProducts: 'عرض جميع المنتجات',
+      bookConsultation: 'احجز استشارة',
+      language: 'اللغة',
+      contactOurTeam: 'تواصل مع فريقنا',
+      allProducts: 'جميع المنتجات',
+      backToHome: 'العودة إلى الرئيسية',
+      browseProducts: 'تصفح المنتجات',
+      pageNotFound: 'الصفحة غير موجودة',
+      pageNotFoundDescription: 'الصفحة التي تبحث عنها غير موجودة أو تم نقلها.',
     },
     nav: [
       { label: 'الرئيسية', href: '/' },
@@ -453,6 +1005,144 @@ const dictionaries = {
           clients: 'أكثر من 150 عميل نشط',
           compliance: 'امتثال تونسي مدمج',
         },
+      },
+      about: {
+        eyebrow: 'من نحن',
+        title: 'شريكك في البرمجيات المؤسسية منذ {year}',
+        description:
+          'تأسست في {year}، {companyName} هي شركة برمجيات تونسية متخصصة في تكنولوجيا المعلومات والاستشارات المؤسسية. مهمتنا هي مرافقة الشركات في كل مرحلة — من التصميم إلى نشر أنظمة تقنية قوية ومبتكرة. هدفنا: مساعدة عملائنا على زيادة الإنتاجية والربحية والاستجابة.',
+        cta: 'اعرف المزيد عنا',
+        points: [
+          'ناشر ERP تونسي منذ 2006',
+          'أكثر من 150 عميل نشط في 8 قطاعات',
+          'دعم محلي واستشارات مخصصة',
+          'متوافق مع اللوائح الضريبية التونسية',
+        ],
+      },
+      highlights: {
+        eyebrow: 'لماذا Business Software',
+        title: 'مصمم للشركات التونسية، مستعد للنمو',
+        description:
+          'قرابة عقدين من بناء وصيانة برامج الأعمال التي تعتمد عليها الشركات في تونس يومياً.',
+        items: [
+          {
+            title: 'الامتثال التونسي',
+            description: 'مصمم للأنظمة الضريبية والضريبية على القيمة المضافة والنظام الاجتماعي التونسي بشكل جاهز.',
+            icon: 'ShieldCheck',
+          },
+          {
+            title: 'هيكلية معيارية',
+            description: 'قم بنشر الوحدات التي تحتاجها اليوم وقم بتوسيعها مع نمو نشاطك.',
+            icon: 'Boxes',
+          },
+          {
+            title: 'دعم مخصص',
+            description: 'فريق دعم محلي سريع الاستجابة متاح عندما تحتاج إليه.',
+            icon: 'Users',
+          },
+          {
+            title: 'مؤشرات فورية',
+            description: 'لوحات القيادة ومؤشرات الأداء التي تمنحك رؤية كاملة عبر كل وظيفة.',
+            icon: 'BarChart3',
+          },
+        ],
+      },
+      featuredProducts: {
+        eyebrow: 'منتجاتنا',
+        title: 'مجموعة برمجيات Nexus',
+        description:
+          'عائلة من المنتجات المتكاملة التي تغطي ERP وCRM والعمليات الخاصة بالقطاع ونقاط البيع — كلها مصممة ومصانة في تونس.',
+        cta: 'استكشف المنتج',
+        viewAll: 'عرض جميع المنتجات',
+      },
+      services: {
+        eyebrow: 'خدماتنا',
+        title: 'خدمات برمجية كاملة',
+        description:
+          'مجموعة متكاملة ومخصصة لتلبية جميع احتياجاتك — من الاستشارات والتطوير إلى الدعم والصيانة.',
+        cta: 'اعرف المزيد',
+      },
+      industries: {
+        eyebrow: 'القطاعات التي نخدمها',
+        title: 'حلول مخصصة لقطاعك',
+        description:
+          'نحن ندرك أن لكل قطاع عمليات وتحديات فريدة. حلولنا مصممة لتناسب الطريقة الفعلية لعملك.',
+        cta: 'اعرف المزيد',
+      },
+      whyChooseUs: {
+        eyebrow: 'لماذا نحن',
+        title: 'شريك تونسي موثوق، وليس مجرد مورد',
+        description:
+          'تختار الشركات في تونس Business Software لأننا نجمع بين التميز التقني والشراكة الحقيقية — ونبقى معك طويلًا بعد التشغيل.',
+        cardTitle: 'وعدنا لكل عميل',
+        cardDescription:
+          'نلتزم بتقديم برمجيات موثوقة ومتوافقة وفعالة — مدعومة بالدعم السريع والتحسين المستمر.',
+        promises: [
+          'تسليم في الوقت المحدد وفي الميزانية',
+          'امتثال تنظيمي تونسي',
+          'فريق دعم محلي مخصص',
+          'تطوير مستمر للمنتج',
+        ],
+        reasons: [
+          {
+            title: 'رضا العميل هو أولويتنا المطلقة',
+            description:
+              'نقيس نجاحنا بنتائجك. تبدأ كل شراكة بفهم نشاطك وتنتهي بحل يمكنك فريقك الاعتماد عليه.',
+          },
+          {
+            title: 'خبرة عميقة في السوق التونسي',
+            description:
+              'نحن من مواليد تونس ونعرف اللوائح المحلية وثقافة الأعمال والتحديات الحقيقية التي تواجه الشركات التونسية يومياً.',
+          },
+          {
+            title: 'خدمة سريعة ومخصصة',
+            description:
+              'نوفر مجموعة كاملة من الخدمات السريعة والمخصصة. يعرف فريقك المخصص نشاطك ويكون متاحًا عند الحاجة.',
+          },
+          {
+            title: 'من التصميم إلى الدعم طويل الأمد',
+            description:
+              'نرافقك في كل مرحلة — من التحليل الأولي والتصميم إلى النشر والتدريب والدعم المستمر والصيانة.',
+          },
+        ],
+      },
+      process: {
+        eyebrow: 'كيف نعمل',
+        title: 'خريطة طريق بسيطة من الاستراتيجية إلى النمو',
+        description:
+          'نمزج بين الخبرة المحلية ومعرفة ERP والدعم العملي لمساعدة فرقك على اعتماد النظام المناسب بثقة.',
+        cta: 'احجز استشارة',
+        steps: [
+          {
+            title: 'اكتشاف',
+            description: 'نرسم عملياتك ونقاط الألم وأهداف النمو لتحديد ERP المناسب.',
+          },
+          {
+            title: 'تنفيذ',
+            description: 'نقوم بتهيئة المنصة وربط بياناتك وتوجيه فرقك خلال التشغيل السلس.',
+          },
+          {
+            title: 'التوسع',
+            description: 'نبقى قريبين مع الدعم والتقارير والتحسين المستمر مع نمو عملك.',
+          },
+        ],
+      },
+      statistics: {
+        eyebrow: 'بالأرقام',
+        title: 'موثوق في كل أنحاء تونس',
+        description:
+          'قرابة عقدين من بناء البرمجيات التي تعتمد عليها المؤسسات التونسية.',
+      },
+      clients: {
+        eyebrow: 'عملاؤنا',
+        title: 'موثوق من قبل شركات تونسية رائدة',
+        description:
+          'من التصنيع والتوزيع إلى التجزئة والرعاية الصحية، تعتمد المنظمات في تونس على برامجنا.',
+      },
+      testimonials: {
+        eyebrow: 'التعليقات',
+        title: 'ما يقوله عملاؤنا',
+        description: 'نتائج حقيقية من شركات تونسية حقيقية تستخدم Nexus.',
       },
       contactPreview: {
         eyebrow: 'تواصل معنا',
@@ -517,21 +1207,144 @@ const dictionaries = {
           description:
             'أن نكون الشركة التونسية الرائدة في مجال البرمجيات، من خلال تمكين كل شركة — كبيرة أو صغيرة — بتقنية موثوقة وميسرة ومتوافقة تدفع نحو نمو مستدام.',
         },
+        values: [
+          {
+            title: 'التزامنا بالعميل',
+            description: 'العميل الراضٍ هو أولويتنا القصوى. نُقِيم نجاحنا من خلال نتائجك.',
+            icon: 'HeartHandshake',
+          },
+          {
+            title: 'الخبرة',
+            description: 'ما يقرب من عقدين من بناء برامج الأعمال للشركات التونسية والدولية.',
+            icon: 'Award',
+          },
+          {
+            title: 'الابتكار',
+            description: 'نستثمر باستمرار في التقنيات الجديدة للحفاظ على تقدم عملائنا.',
+            icon: 'Lightbulb',
+          },
+          {
+            title: 'الموثوقية',
+            description: 'برمجيات قوية ومختبرة ودعم سريع يمكن الاعتماد عليه يوميًا.',
+            icon: 'ShieldCheck',
+          },
+          {
+            title: 'الشراكة',
+            description: 'نرافقك في كل مرحلة — من التصميم إلى النشر وحتى بعد التشغيل.',
+            icon: 'Users',
+          },
+          {
+            title: 'الجذور التونسية',
+            description: 'تم تطويرها في تونس بفهم عميق للوائح المحلية وثقافة الأعمال.',
+            icon: 'MapPin',
+          },
+        ],
         valuesSection: {
           eyebrow: 'قيمنا',
           title: 'ما نؤمن به',
           description: 'المبادئ التي توجه كيفية بناء برمجياتنا وتعاملنا مع عملائنا.',
         },
+        timeline: [
+          {
+            year: '2006',
+            title: 'التأسيس',
+            description: 'تأسست Business Software في تونس بهدف بناء برمجيات الأعمال للشركات التونسية.',
+          },
+          {
+            year: '2009',
+            title: 'الإصدار الأول من Nexus ERP',
+            description: 'أطلقنا أول إصدار من Nexus ERP، واستُخدم بسرعة من قبل الشركات المصنعة والموزعين.',
+          },
+          {
+            year: '2013',
+            title: 'Nexus CRM والجوال',
+            description: 'وسعنا المنصة مع Nexus CRM وتطبيقات جوال أصلية لفِرَق المبيعات الميدانية.',
+          },
+          {
+            year: '2016',
+            title: 'Nexus Bois',
+            description: 'أطلقنا Nexus Bois، وهو ERP متخصص في صناعة الخشب والأثاث مع تحسين عمليات القطع.',
+          },
+          {
+            year: '2019',
+            title: 'Nexus Smart Point',
+            description: 'أطلقنا نظام نقاط بيع أولي يعمل دون اتصال بالإنترنت، متكاملًا مع Nexus ERP.',
+          },
+          {
+            year: '2022',
+            title: 'السحابة والتحول الرقمي',
+            description: 'قدمنا النشر السحابي وممارسة استشارية مخصصة للتحول الرقمي.',
+          },
+          {
+            year: '2024',
+            title: 'أكثر من 150 عميلًا نشطًا',
+            description: 'نخدم اليوم أكثر من 150 عميلًا نشطًا عبر 8 قطاعات مع فريق يضم أكثر من 45 خبيرًا.',
+          },
+        ],
         timelineSection: {
           eyebrow: 'مسيرتنا',
           title: 'محطات بارزة على الطريق',
           description: 'أهم اللحظات في نمونا من شركة ناشئة محلية إلى محرر برمجيات تونسي موثوق.',
         },
+        team: [
+          {
+            name: 'رياض خليّل',
+            role: 'المؤسس والرئيس التنفيذي',
+            bio: 'رائد في مجال البرمجيات بخبرة تزيد عن 20 عامًا في بناء أنظمة المؤسسات للشركات التونسية والدولية.',
+            initials: 'RK',
+          },
+          {
+            name: 'نادية فرشيشي',
+            role: 'CTO',
+            bio: 'تؤدي إدارة فرق الهندسة وبنية المنصة مع شغف ببرمجيات موثوقة وقابلة للتطوير.',
+            initials: 'NF',
+          },
+          {
+            name: 'سليم بوعزيزي',
+            role: 'رئيس التنفيذ',
+            bio: 'يراقب عمليات تنفيذ ERP ويضمن تسليم كل مشروع في الوقت المناسب وبما يوافق المواصفات.',
+            initials: 'SB',
+          },
+          {
+            name: 'آمال الساسي',
+            role: 'رئيس الاستشارات',
+            bio: 'ترافق العملاء خلال تحولهم الرقمي بخبرة عميقة في تحسين العمليات.',
+            initials: 'AS',
+          },
+          {
+            name: 'واسيم جلاصي',
+            role: 'رئيس الدعم',
+            bio: 'يرأس منظمة الدعم لضمان حصول العملاء على مساعدة سريعة وفعالة في كل وقت.',
+            initials: 'WJ',
+          },
+          {
+            name: 'درة حمدي',
+            role: 'رئيس المبيعات',
+            bio: 'يعمل مع العملاء المحتملين للعثور على الحلول المناسبة لتحديات أعمالهم.',
+            initials: 'DH',
+          },
+        ],
         leadershipSection: {
           eyebrow: 'القيادة',
           title: 'تعرف على الفريق وراء Business Software',
           description: 'قادة ذوو خبرة يوجهون مهمتنا لبناء برمجيات يمكن للشركات التونسية الاعتماد عليها.',
         },
+        offices: [
+          {
+            name: 'المقر الرئيسي — تونس',
+            address: 'Les Berges du Lac II, Rue du Lac Windermere, 1053 Tunis, تونس',
+            phone: '+216 71 902 456',
+            email: 'contact@businesssoftware.com.tn',
+            hours: 'الاثنين – الجمعة: 8:30 – 18:00',
+          },
+          {
+            name: 'مكتب صفاقس',
+            address: 'Route de Gabès, Imm. Ekhtebar, 3027 Sfax, تونس',
+            phone: '+216 74 401 122',
+            email: 'sfax@businesssoftware.com.tn',
+            hours: 'الاثنين – الجمعة: 8:30 – 18:00',
+          },
+        ],
         officesSection: {
           eyebrow: 'مكاتبنا',
           title: 'أين تجدنا',

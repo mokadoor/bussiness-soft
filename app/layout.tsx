@@ -4,7 +4,7 @@ import { headers } from 'next/headers';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { LocaleProvider } from '@/components/providers/locale-provider';
-import { getLocaleFromPathname } from '@/lib/locale';
+import { getLocaleFromServer } from '@/lib/locale.server';
 import { Toaster } from '@/components/ui/sonner';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
@@ -88,21 +88,12 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a1628' },
-  ],
-  width: 'device-width',
-  initialScale: 1,
-};
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const locale = getLocaleFromPathname(headers().get('x-matched-path') ?? '/');
+  const locale = getLocaleFromServer();
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} suppressHydrationWarning>
       <body

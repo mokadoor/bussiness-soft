@@ -1,20 +1,26 @@
+'use client';
+
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { SectionHeader } from '@/components/layout/section-header';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { getIcon } from '@/lib/icons';
+import { useTranslation } from '@/lib/translation';
 import type { DbIndustry } from '@/lib/sqlserver/queries';
 
 export function HomeIndustries({ industries }: { industries: DbIndustry[] }) {
+  const dictionary = useTranslation();
+  const section = dictionary.home.industries;
+
   return (
     <section className="py-20 lg:py-28">
       <Container>
         <FadeIn>
           <SectionHeader
-            eyebrow="Industries We Serve"
-            title="Solutions tailored to your sector"
-            description="We understand that every industry has unique processes and challenges. Our solutions are adapted to how you actually work."
+            eyebrow={section.eyebrow}
+            title={section.title}
+            description={section.description}
           />
         </FadeIn>
 
@@ -37,7 +43,7 @@ export function HomeIndustries({ industries }: { industries: DbIndustry[] }) {
                     </p>
                   )}
                   <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent transition-all group-hover:gap-2.5">
-                    Learn more
+                    {section.cta}
                     <ArrowRight className="h-3.5 w-3.5" />
                   </span>
                 </Link>

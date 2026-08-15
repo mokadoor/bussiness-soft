@@ -3,8 +3,11 @@ import { ArrowRight, Phone } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/ui/motion';
+import { getServerDictionary } from '@/lib/translation.server';
 
 export function CtaBanner() {
+  const dictionary = getServerDictionary();
+
   return (
     <section className="relative overflow-hidden bg-primary py-20 lg:py-28">
       <div className="absolute inset-0 bg-grid opacity-10" aria-hidden="true" />
@@ -19,11 +22,10 @@ export function CtaBanner() {
       <Container className="relative">
         <FadeIn className="mx-auto max-w-3xl text-center">
           <h2 className="text-balance text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
-            Ready to transform your business with Nexus?
+            {dictionary.home.contactPreview.title}
           </h2>
           <p className="mt-5 text-balance text-lg leading-relaxed text-white/80">
-            Schedule a personalized demo with our experts and discover how our ERP solutions can
-            streamline your operations and drive growth.
+            {dictionary.home.contactPreview.description}
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button
@@ -32,7 +34,7 @@ export function CtaBanner() {
               className="bg-accent text-white hover:bg-accent/90"
             >
               <Link href="/contact">
-                Request a Demo
+                {dictionary.common.requestDemo}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
@@ -44,7 +46,7 @@ export function CtaBanner() {
             >
               <Link href="/contact">
                 <Phone className="mr-2 h-4 w-4" />
-                Contact Our Team
+                {dictionary.common.contactOurTeam}
               </Link>
             </Button>
           </div>

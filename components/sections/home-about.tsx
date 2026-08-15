@@ -1,19 +1,19 @@
+'use client';
+
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/ui/motion';
 import { company } from '@/lib/data';
+import { useTranslation } from '@/lib/translation';
 import type { DbStat } from '@/lib/sqlserver/queries';
 
-const points = [
-  'Tunisian ERP editor since 2006',
-  '150+ active clients across 8 industries',
-  'Local support and dedicated consulting',
-  'Compliant with Tunisian fiscal regulations',
-];
-
 export function HomeAbout({ stats }: { stats: DbStat[] }) {
+  const dictionary = useTranslation();
+  const section = dictionary.home.about;
+  const points = section.points;
+
   return (
     <section className="bg-secondary/20 py-20 lg:py-28">
       <Container>
@@ -21,17 +21,13 @@ export function HomeAbout({ stats }: { stats: DbStat[] }) {
           <FadeIn>
             <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              About Us
+              {section.eyebrow}
             </span>
             <h2 className="mt-5 text-balance text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl">
-              Your partner in business software, since {company.foundedYear}
+              {section.title.replace('{year}', String(company.foundedYear))}
             </h2>
             <p className="mt-6 text-balance text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Founded in {company.foundedYear}, {company.name} is a Tunisian software editor
-              specialized in information technology and enterprise consulting. Our mission is to
-              accompany companies at every stage — from design to the deployment of powerful,
-              innovative IT systems. Our goal: help our clients increase productivity,
-              profitability, and responsiveness.
+              {section.description.replace('{year}', String(company.foundedYear)).replace('{companyName}', company.name)}
             </p>
             <ul className="mt-8 grid gap-3 sm:grid-cols-2">
               {points.map((point) => (
@@ -43,7 +39,7 @@ export function HomeAbout({ stats }: { stats: DbStat[] }) {
             </ul>
             <Button asChild className="mt-8 bg-primary">
               <Link href="/about">
-                Learn more about us
+                {section.cta}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>

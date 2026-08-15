@@ -1,20 +1,26 @@
+'use client';
+
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { SectionHeader } from '@/components/layout/section-header';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/ui/motion';
 import { getIcon } from '@/lib/icons';
+import { useTranslation } from '@/lib/translation';
 import type { DbService } from '@/lib/sqlserver/queries';
 
 export function HomeServices({ services }: { services: DbService[] }) {
+  const dictionary = useTranslation();
+  const section = dictionary.home.services;
+
   return (
     <section className="bg-secondary/20 py-20 lg:py-28">
       <Container>
         <FadeIn>
           <SectionHeader
-            eyebrow="Our Services"
-            title="Full-lifecycle software services"
-            description="A complete range of responsive, personalized services to meet all your business needs — from consulting and development to support and maintenance."
+            eyebrow={section.eyebrow}
+            title={section.title}
+            description={section.description}
           />
         </FadeIn>
 
@@ -38,7 +44,7 @@ export function HomeServices({ services }: { services: DbService[] }) {
                     </p>
                   )}
                   <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-all group-hover:gap-2.5">
-                    Learn more
+                    {section.cta}
                     <ArrowRight className="h-4 w-4" />
                   </span>
                 </Link>
