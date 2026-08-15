@@ -13,42 +13,27 @@ export function middleware(request: NextRequest) {
   const isLocaleRoute = locales.includes(maybeLocale as Locale);
   const requestHeaders = new Headers(request.headers);
 
-  if (isLocaleRoute) {
-    const requestedLocale = maybeLocale as Locale;
-    const rest = segments.slice(1).join('/');
-    const targetPath = rest ? `/${rest}` : '/';
-    requestHeaders.set(LOCALE_HEADER, requestedLocale);
+  const activeLocale =
+    isLocaleRoute
+      ? (maybeLocale as Locale)
+      : cookieLocale && locales.includes(cookieLocale as Locale)
+        ? (cookieLocale as Locale)
+        : 'en';
 
-    const response = NextResponse.rewrite(new URL(targetPath + search, request.url), {
+  requestHeaders.set(LOCALE_HEADER, activeLocale);
+
+  if (isLocaleRoute) {
+    const normalizedPath = `/${segments.slice(1).join('/')}`;
+    const rewriteTarget = normalizedPath === '/' ? '/' : normalizedPath;
+    const response = NextResponse.rewrite(new URL(`${rewriteTarget}${search}`, request.url), {
       request: {
         headers: requestHeaders,
       },
     });
-    response.cookies.set(LOCALE_COOKIE, requestedLocale, { path: '/' });
+    response.cookies.set(LOCALE_COOKIE, activeLocale, { path: '/' });
     return response;
   }
 
-  const activeLocale =
-    cookieLocale && locales.includes(cookieLocale as Locale)
-      ? (cookieLocale as Locale)
-      : 'en';
-
-  if (activeLocale !== 'en') {
-    const localizedPath = pathname === '/' ? `/${activeLocale}${search}` : `/${activeLocale}${pathname}${search}`;
-    if (pathname !== `/${activeLocale}` && pathname !== '/') {
-      const response = NextResponse.redirect(new URL(localizedPath, request.url));
-      response.cookies.set(LOCALE_COOKIE, activeLocale, { path: '/' });
-      return response;
-    }
-
-    if (pathname === '/') {
-      const response = NextResponse.redirect(new URL(localizedPath, request.url));
-      response.cookies.set(LOCALE_COOKIE, activeLocale, { path: '/' });
-      return response;
-    }
-  }
-
-  requestHeaders.set(LOCALE_HEADER, activeLocale);
   const response = NextResponse.next({
     request: {
       headers: requestHeaders,
@@ -58,6 +43,7 @@ export function middleware(request: NextRequest) {
   if (cookieLocale !== activeLocale) {
     response.cookies.set(LOCALE_COOKIE, activeLocale, { path: '/' });
   }
+
   return response;
 }
 

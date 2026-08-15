@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Locale, locales } from '@/lib/i18n';
-import { getLocaleFromPathname, getLocalizedPathname } from '@/lib/locale';
+import { getClientLocaleFromWindow, getLocaleFromPathname, getLocalizedPathname } from '@/lib/locale';
 
 interface LocaleContextValue {
   locale: Locale;
@@ -23,11 +23,11 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '/';
   const router = useRouter();
   const [locale, setLocale] = React.useState<Locale>(() => {
-    return getLocaleFromPathname(pathname) ?? getCookieLocale() ?? 'en';
+    return getClientLocaleFromWindow() ?? getLocaleFromPathname(pathname) ?? getCookieLocale() ?? 'en';
   });
 
   React.useEffect(() => {
-    const nextLocale = getLocaleFromPathname(pathname) ?? getCookieLocale() ?? 'en';
+    const nextLocale = getClientLocaleFromWindow() ?? getLocaleFromPathname(pathname) ?? getCookieLocale() ?? 'en';
     setLocale((current) => (current === nextLocale ? current : nextLocale));
     document.documentElement.lang = nextLocale;
     document.documentElement.dir = nextLocale === 'ar' ? 'rtl' : 'ltr';
@@ -57,13 +57,14 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
 
   const switchLocale = React.useCallback(
     (nextLocale: Locale) => {
-      const targetPath = getLocalizedPathname(pathname, nextLocale);
+      const currentPath = typeof window !== 'undefined' ? window.location.pathname : pathname;
+      const targetPath = getLocalizedPathname(currentPath, nextLocale);
       document.cookie = `NEXT_LOCALE=${nextLocale}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
       setLocale(nextLocale);
       document.documentElement.lang = nextLocale;
       document.documentElement.dir = nextLocale === 'ar' ? 'rtl' : 'ltr';
 
-      if (pathname !== targetPath) {
+      if (currentPath !== targetPath) {
         router.replace(targetPath, { scroll: false });
       } else {
         router.refresh();

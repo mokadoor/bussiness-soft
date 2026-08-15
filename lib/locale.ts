@@ -11,14 +11,19 @@ export function getPathnameWithoutLocale(pathname: string) {
   return pathnameWithoutQuery;
 }
 
-export function getLocaleFromPathname(pathname: string): Locale {
+export function getClientLocaleFromWindow(): Locale | null {
+  if (typeof window === 'undefined') return null;
+  return getLocaleFromPathname(window.location.pathname) ?? null;
+}
+
+export function getLocaleFromPathname(pathname: string): Locale | null {
   const pathnameWithoutQuery = pathname.split('?')[0].split('#')[0];
   const segments = pathnameWithoutQuery.split('/').filter(Boolean);
   const locale = segments[0];
   if (locales.includes(locale as Locale)) {
     return locale as Locale;
   }
-  return 'en';
+  return null;
 }
 
 export function getLocalizedPathname(pathname: string, locale: Locale) {

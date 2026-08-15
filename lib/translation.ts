@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useLocaleContext } from '@/components/providers/locale-provider';
 import { getDictionary } from './i18n';
-import { getLocaleFromPathname } from './locale';
+import { getClientLocaleFromWindow, getLocaleFromPathname } from './locale';
 
 export function useTranslation() {
   const pathname = usePathname();
@@ -12,7 +12,7 @@ export function useTranslation() {
     const { locale } = useLocaleContext();
     return getDictionary(locale);
   } catch {
-    const locale = getLocaleFromPathname(pathname ?? '/');
+    const locale = getClientLocaleFromWindow() ?? getLocaleFromPathname(pathname ?? '/') ?? 'en';
     return getDictionary(locale);
   }
 }
