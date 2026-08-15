@@ -1,0 +1,278 @@
+{
+  "base": "http://localhost:3001",
+  "results": [
+    {
+      "route": "/",
+      "locale": "en",
+      "target": "http://localhost:3001/",
+      "status": 200,
+      "gotoMs": 15042,
+      "navTiming": {
+        "domContentLoaded": 11657,
+        "loadEvent": 14534,
+        "duration": 14534
+      },
+      "timestamp": "2026-08-15T16:58:37.361Z"
+    },
+    {
+      "route": "/",
+      "locale": "fr",
+      "target": "http://localhost:3001/fr",
+      "status": 200,
+      "gotoMs": 772,
+      "navTiming": {
+        "domContentLoaded": 118,
+        "loadEvent": 380,
+        "duration": 380
+      },
+      "timestamp": "2026-08-15T16:58:38.138Z"
+    },
+    {
+      "route": "/",
+      "locale": "ar",
+      "target": "http://localhost:3001/ar",
+      "status": 200,
+      "gotoMs": 745,
+      "navTiming": {
+        "domContentLoaded": 87,
+        "loadEvent": 356,
+        "duration": 356
+      },
+      "timestamp": "2026-08-15T16:58:38.887Z"
+    },
+    {
+      "route": "/about",
+      "locale": "en",
+      "target": "http://localhost:3001/about",
+      "status": 200,
+      "gotoMs": 4945,
+      "navTiming": {
+        "domContentLoaded": 3975,
+        "loadEvent": 4231,
+        "duration": 4231
+      },
+      "timestamp": "2026-08-15T16:58:43.838Z"
+    },
+    {
+      "route": "/about",
+      "locale": "fr",
+      "target": "http://localhost:3001/fr/about",
+      "status": 200,
+      "gotoMs": 738,
+      "navTiming": {
+        "domContentLoaded": 91,
+        "loadEvent": 330,
+        "duration": 330
+      },
+      "timestamp": "2026-08-15T16:58:44.578Z"
+    },
+    {
+      "route": "/about",
+      "locale": "ar",
+      "target": "http://localhost:3001/ar/about",
+      "status": 200,
+      "gotoMs": 744,
+      "navTiming": {
+        "domContentLoaded": 70,
+        "loadEvent": 337,
+        "duration": 337
+      },
+      "timestamp": "2026-08-15T16:58:45.323Z"
+    },
+    {
+      "route": "/products",
+      "locale": "en",
+      "target": "http://localhost:3001/products",
+      "status": 200,
+      "gotoMs": 1274,
+      "navTiming": {
+        "domContentLoaded": 382,
+        "loadEvent": 637,
+        "duration": 637
+      },
+      "timestamp": "2026-08-15T16:58:46.599Z"
+    },
+    {
+      "route": "/products",
+      "locale": "fr",
+      "target": "http://localhost:3001/fr/products",
+      "status": 200,
+      "gotoMs": 712,
+      "navTiming": {
+        "domContentLoaded": 76,
+        "loadEvent": 310,
+        "duration": 310
+      },
+      "timestamp": "2026-08-15T16:58:47.314Z"
+    },
+    {
+      "route": "/products",
+      "locale": "ar",
+      "target": "http://localhost:3001/ar/products",
+      "status": 200,
+      "gotoMs": 716,
+      "navTiming": {
+        "domContentLoaded": 74,
+        "loadEvent": 318,
+        "duration": 318
+      },
+      "timestamp": "2026-08-15T16:58:48.033Z"
+    },
+    {
+      "route": "/services",
+      "locale": "en",
+      "target": "http://localhost:3001/services",
+      "status": 200,
+      "gotoMs": 1466,
+      "navTiming": {
+        "domContentLoaded": 531,
+        "loadEvent": 807,
+        "duration": 807
+      },
+      "timestamp": "2026-08-15T16:58:49.502Z"
+    },
+    {
+      "route": "/services",
+      "locale": "fr",
+      "target": "http://localhost:3001/fr/services",
+      "status": 200,
+      "gotoMs": 754,
+      "navTiming": {
+        "domContentLoaded": 104,
+        "loadEvent": 356,
+        "duration": 356
+      },
+      "timestamp": "2026-08-15T16:58:50.258Z"
+    },
+    {
+      "route": "/services",
+      "locale": "ar",
+      "target": "http://localhost:3001/ar/services",
+      "status": 200,
+      "gotoMs": 727,
+      "navTiming": {
+        "domContentLoaded": 88,
+        "loadEvent": 322,
+        "duration": 322
+      },
+      "timestamp": "2026-08-15T16:58:50.987Z"
+    },
+    {
+      "route": "/industries",
+      "locale": "en",
+      "target": "http://localhost:3001/industries",
+      "status": 200,
+      "gotoMs": 1685,
+      "navTiming": {
+        "domContentLoaded": 748,
+        "loadEvent": 1019,
+        "duration": 1019
+      },
+      "timestamp": "2026-08-15T16:58:52.675Z"
+    },
+    {
+      "route": "/industries",
+      "locale": "fr",
+      "target": "http://localhost:3001/fr/industries",
+      "status": 200,
+      "gotoMs": 857,
+      "navTiming": {
+        "domContentLoaded": 132,
+        "loadEvent": 444,
+        "duration": 444
+      },
+      "timestamp": "2026-08-15T16:58:53.536Z"
+    },
+    {
+      "route": "/industries",
+      "locale": "ar",
+      "target": "http://localhost:3001/ar/industries",
+      "status": 200,
+      "gotoMs": 744,
+      "navTiming": {
+        "domContentLoaded": 90,
+        "loadEvent": 340,
+        "duration": 340
+      },
+      "timestamp": "2026-08-15T16:58:54.282Z"
+    },
+    {
+      "route": "/references",
+      "locale": "en",
+      "target": "http://localhost:3001/references",
+      "status": 200,
+      "gotoMs": 2472,
+      "navTiming": {
+        "domContentLoaded": 1483,
+        "loadEvent": 1741,
+        "duration": 1741
+      },
+      "timestamp": "2026-08-15T16:58:56.757Z"
+    },
+    {
+      "route": "/references",
+      "locale": "fr",
+      "target": "http://localhost:3001/fr/references",
+      "status": 200,
+      "gotoMs": 887,
+      "navTiming": {
+        "domContentLoaded": 92,
+        "loadEvent": 393,
+        "duration": 393
+      },
+      "timestamp": "2026-08-15T16:58:57.646Z"
+    },
+    {
+      "route": "/references",
+      "locale": "ar",
+      "target": "http://localhost:3001/ar/references",
+      "status": 200,
+      "gotoMs": 955,
+      "navTiming": {
+        "domContentLoaded": 77,
+        "loadEvent": 441,
+        "duration": 441
+      },
+      "timestamp": "2026-08-15T16:58:58.604Z"
+    },
+    {
+      "route": "/contact",
+      "locale": "en",
+      "target": "http://localhost:3001/contact",
+      "status": 200,
+      "gotoMs": 2932,
+      "navTiming": {
+        "domContentLoaded": 1906,
+        "loadEvent": 2228,
+        "duration": 2228
+      },
+      "timestamp": "2026-08-15T16:59:01.538Z"
+    },
+    {
+      "route": "/contact",
+      "locale": "fr",
+      "target": "http://localhost:3001/fr/contact",
+      "status": 200,
+      "gotoMs": 748,
+      "navTiming": {
+        "domContentLoaded": 97,
+        "loadEvent": 354,
+        "duration": 354
+      },
+      "timestamp": "2026-08-15T16:59:02.290Z"
+    },
+    {
+      "route": "/contact",
+      "locale": "ar",
+      "target": "http://localhost:3001/ar/contact",
+      "status": 200,
+      "gotoMs": 768,
+      "navTiming": {
+        "domContentLoaded": 88,
+        "loadEvent": 424,
+        "duration": 424
+      },
+      "timestamp": "2026-08-15T16:59:03.172Z"
+    }
+  ]
+}

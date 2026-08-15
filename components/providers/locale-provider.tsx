@@ -34,6 +34,19 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
   }, [pathname]);
 
   React.useEffect(() => {
+    // Prefetch localized routes for all locales to speed up language switches
+    try {
+      locales.forEach((l) => {
+        const p = getLocalizedPathname(pathname, l);
+        if (p !== pathname) {
+          // router.prefetch may be async; fire-and-forget to warm the cache
+          router.prefetch(p).catch(() => {});
+        }
+      });
+    } catch (e) {
+      // ignore
+    }
+
     const handleInternalLinkClick = (event: MouseEvent) => {
       const target = event.target as Element | null;
       const anchor = target?.closest('a[href]') as HTMLAnchorElement | null;
@@ -57,18 +70,39 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
 
   const switchLocale = React.useCallback(
     (nextLocale: Locale) => {
-      const currentPath = typeof window !== 'undefined' ? window.location.pathname : pathname;
-      const targetPath = getLocalizedPathname(currentPath, nextLocale);
-      document.cookie = `NEXT_LOCALE=${nextLocale}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
-      setLocale(nextLocale);
-      document.documentElement.lang = nextLocale;
-      document.documentElement.dir = nextLocale === 'ar' ? 'rtl' : 'ltr';
+      (async () => {
+        const currentPath = typeof window !== 'undefined' ? window.location.pathname : pathname;
+        const targetPath = getLocalizedPathname(currentPath, nextLocale);
+        document.cookie = `NEXT_LOCALE=${nextLocale}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
+        setLocale(nextLocale);
+        document.documentElement.lang = nextLocale;
+        document.documentElement.dir = nextLocale === 'ar' ? 'rtl' : 'ltr';
 
-      if (currentPath !== targetPath) {
-        router.replace(targetPath, { scroll: false });
-      } else {
-        router.refresh();
-      }
+        let prefetchMs = 0;
+        try {
+          const t0 = performance.now();
+          await router.prefetch(targetPath);
+          const t1 = performance.now();
+          prefetchMs = Math.round(t1 - t0);
+        } catch (e) {
+          // ignore prefetch errors
+        }
+
+        if (currentPath !== targetPath) {
+          try {
+            const tNavStart = performance.now();
+            const res = await router.replace(targetPath, { scroll: false });
+            const tNavEnd = performance.now();
+            console.debug(`[locale] switched -> ${nextLocale}; prefetch=${prefetchMs}ms nav=${Math.round(tNavEnd - tNavStart)}ms res=${String(res)}`);
+          } catch (e) {
+            console.debug(`[locale] navigation error switching -> ${nextLocale}`, e);
+          }
+        } else {
+          // refresh doesn't return a promise we can await; log prefetch and trigger a refresh
+          console.debug(`[locale] refresh -> ${nextLocale}; prefetch=${prefetchMs}ms (calling router.refresh())`);
+          router.refresh();
+        }
+      })();
     },
     [pathname, router]
   );
