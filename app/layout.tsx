@@ -1,6 +1,6 @@
+import * as React from 'react';
 import './globals.css';
 import type { Metadata } from 'next';
-import { headers } from 'next/headers';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { LocaleProvider } from '@/components/providers/locale-provider';
