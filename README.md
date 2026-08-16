@@ -18,12 +18,17 @@ Guide d'installation étape par étape depuis GitHub (pour un utilisateur tunisi
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (ou `NEXT_PUBLIC_SUPABASE_ANON_KEY` si tu utilises cette variable)
    - `SUPABASE_SERVICE_ROLE_KEY`
+   - `SQLSERVER_CONNECTION` (obligatoire pour persister les messages de contact et les contenus admin en SQL Server)
 9. Pour inisialiser la base de données Supabase, applique les migrations disponibles dans le dossier `supabase/migrations`.
 10. Enregistrer le fichier `.env`.
 11. Installer les dépendances si nécessaire (par exemple avec npm) :
     `npm install`
 12. Lancer l'application :
     `npm run dev` ou la commande indiquée dans le projet.
+
+Note:
+- Si `SQLSERVER_CONNECTION` n'est pas défini, l'application continue de fonctionner.
+- Dans ce mode, les messages du formulaire contact sont stockés temporairement en mémoire (non persistants).
 13. Dashboard admin:
    Default Email:`admin@bussiness-sfotware.com.tn`
    Default Password:`admin123`

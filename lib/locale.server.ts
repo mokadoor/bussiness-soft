@@ -1,9 +1,12 @@
 import { cookies, headers } from 'next/headers';
+import { cache } from 'react';
 import { getLocaleFromPathname } from './locale';
 import { locales, type Locale } from './i18n';
 
-export function getLocaleFromServer(): Locale {
-  const headerLocale = headers().get('x-next-locale');
+export const getLocaleFromServer = cache(function getLocaleFromServer(): Locale {
+  const requestHeaders = headers();
+
+  const headerLocale = requestHeaders.get('x-next-locale');
   if (headerLocale && locales.includes(headerLocale as Locale)) {
     return headerLocale as Locale;
   }
@@ -13,7 +16,7 @@ export function getLocaleFromServer(): Locale {
     return cookieLocale as Locale;
   }
 
-  const referer = headers().get('referer');
+  const referer = requestHeaders.get('referer');
   if (referer) {
     try {
       const pathname = new URL(referer).pathname;
@@ -27,4 +30,4 @@ export function getLocaleFromServer(): Locale {
   }
 
   return 'en';
-}
+});

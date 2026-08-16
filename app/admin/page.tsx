@@ -83,7 +83,7 @@ export default function AdminDashboard() {
       setCounts(countsMap);
 
       try {
-        const response = await fetch('/api/admin/messages');
+        const response = await fetch('/api/admin/contact_messages');
         const data = await response.json();
         if (Array.isArray(data)) {
           setMessages((data as RecentMessage[]).slice(0, 5));

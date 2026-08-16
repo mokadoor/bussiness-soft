@@ -51,7 +51,7 @@ export default function AdminMessagesPage() {
   const load = React.useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/admin/messages');
+      const response = await fetch('/api/admin/contact_messages');
       const data = await response.json();
       setMessages((Array.isArray(data) ? data : []) as Message[]);
     } catch (error) {
@@ -67,9 +67,9 @@ export default function AdminMessagesPage() {
 
   const updateStatus = async (id: string, status: string) => {
     try {
-      const response = await fetch('/api/admin/messages', {
+      const response = await fetch(`/api/admin/contact_messages?id=${encodeURIComponent(id)}`, {
         method: 'PUT',
-        body: JSON.stringify({ id, status }),
+        body: JSON.stringify({ status }),
         headers: { 'Content-Type': 'application/json' },
       });
       const data = await response.json();
@@ -87,7 +87,7 @@ export default function AdminMessagesPage() {
   const handleDelete = async () => {
     if (!deleteId) return;
     try {
-      const response = await fetch(`/api/admin/messages?id=${encodeURIComponent(deleteId)}`, {
+      const response = await fetch(`/api/admin/contact_messages?id=${encodeURIComponent(deleteId)}`, {
         method: 'DELETE',
       });
       const data = await response.json();

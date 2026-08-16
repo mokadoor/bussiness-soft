@@ -19,12 +19,16 @@ function getCookieLocale(): Locale | null {
   return value && locales.includes(value as Locale) ? (value as Locale) : null;
 }
 
-export function LocaleProvider({ children }: { children: React.ReactNode }) {
+export function LocaleProvider({
+  children,
+  initialLocale,
+}: {
+  children: React.ReactNode;
+  initialLocale: Locale;
+}) {
   const pathname = usePathname() ?? '/';
   const router = useRouter();
-  const [locale, setLocale] = React.useState<Locale>(() => {
-    return getClientLocaleFromWindow() ?? getLocaleFromPathname(pathname) ?? getCookieLocale() ?? 'en';
-  });
+  const [locale, setLocale] = React.useState<Locale>(initialLocale);
 
   React.useEffect(() => {
     const nextLocale = getClientLocaleFromWindow() ?? getLocaleFromPathname(pathname) ?? getCookieLocale() ?? 'en';
@@ -33,76 +37,27 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.dir = nextLocale === 'ar' ? 'rtl' : 'ltr';
   }, [pathname]);
 
-  React.useEffect(() => {
-    // Prefetch localized routes for all locales to speed up language switches
-    try {
-      locales.forEach((l) => {
-        const p = getLocalizedPathname(pathname, l);
-        if (p !== pathname) {
-          // router.prefetch may be async; fire-and-forget to warm the cache
-          router.prefetch(p).catch(() => {});
-        }
-      });
-    } catch (e) {
-      // ignore
-    }
+  const switchLocale = React.useCallback(
+    (nextLocale: Locale) => {
+      const currentPath =
+        typeof window !== 'undefined'
+          ? `${window.location.pathname}${window.location.search}${window.location.hash}`
+          : pathname;
+      const currentLocale = getLocaleFromPathname(currentPath) ?? getCookieLocale() ?? 'en';
+      if (nextLocale === currentLocale) return;
 
-    const handleInternalLinkClick = (event: MouseEvent) => {
-      const target = event.target as Element | null;
-      const anchor = target?.closest('a[href]') as HTMLAnchorElement | null;
-      if (!anchor) return;
+      const targetPath = getLocalizedPathname(currentPath, nextLocale);
+      document.cookie = `NEXT_LOCALE=${nextLocale}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
+      setLocale(nextLocale);
+      document.documentElement.lang = nextLocale;
+      document.documentElement.dir = nextLocale === 'ar' ? 'rtl' : 'ltr';
 
-      const href = anchor.getAttribute('href') ?? '';
-      if (!href.startsWith('/') || href.startsWith('//') || href.startsWith('/_') || href.startsWith('/api')) {
+      if (typeof window !== 'undefined') {
+        window.location.assign(targetPath);
         return;
       }
 
-      const localizedHref = getLocalizedPathname(href, locale);
-      if (href === localizedHref) return;
-
-      event.preventDefault();
-      router.replace(localizedHref, { scroll: false });
-    };
-
-    document.addEventListener('click', handleInternalLinkClick);
-    return () => document.removeEventListener('click', handleInternalLinkClick);
-  }, [locale, router]);
-
-  const switchLocale = React.useCallback(
-    (nextLocale: Locale) => {
-      (async () => {
-        const currentPath = typeof window !== 'undefined' ? window.location.pathname : pathname;
-        const targetPath = getLocalizedPathname(currentPath, nextLocale);
-        document.cookie = `NEXT_LOCALE=${nextLocale}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
-        setLocale(nextLocale);
-        document.documentElement.lang = nextLocale;
-        document.documentElement.dir = nextLocale === 'ar' ? 'rtl' : 'ltr';
-
-        let prefetchMs = 0;
-        try {
-          const t0 = performance.now();
-          await router.prefetch(targetPath);
-          const t1 = performance.now();
-          prefetchMs = Math.round(t1 - t0);
-        } catch (e) {
-          // ignore prefetch errors
-        }
-
-        if (currentPath !== targetPath) {
-          try {
-            const tNavStart = performance.now();
-            const res = await router.replace(targetPath, { scroll: false });
-            const tNavEnd = performance.now();
-            console.debug(`[locale] switched -> ${nextLocale}; prefetch=${prefetchMs}ms nav=${Math.round(tNavEnd - tNavStart)}ms res=${String(res)}`);
-          } catch (e) {
-            console.debug(`[locale] navigation error switching -> ${nextLocale}`, e);
-          }
-        } else {
-          // refresh doesn't return a promise we can await; log prefetch and trigger a refresh
-          console.debug(`[locale] refresh -> ${nextLocale}; prefetch=${prefetchMs}ms (calling router.refresh())`);
-          router.refresh();
-        }
-      })();
+      router.replace(targetPath, { scroll: false });
     },
     [pathname, router]
   );

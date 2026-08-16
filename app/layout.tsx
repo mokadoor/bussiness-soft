@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './globals.css';
+import '@/app/globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/providers/theme-provider';
@@ -106,7 +106,7 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <LocaleProvider>
+          <LocaleProvider initialLocale={locale}>
             <div className="relative flex min-h-screen flex-col">
               <Navbar />
               <main className="flex-1">{children}</main>

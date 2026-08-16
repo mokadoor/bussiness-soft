@@ -718,7 +718,7 @@ export const clients: Client[] = [
     name: 'Tunisie Plast Industries',
     industry: 'Manufacturing',
     products: ['Nexus ERP'],
-    image: 'https://images.pexels.com/photos/3823624/pexels-photo-3823624.jpeg?auto=compress&cs=tinysrgb&w=600',
+    image: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=600',
     description:
       'A leading plastics manufacturer unified finance, production, and inventory on Nexus ERP across two plants.',
   },

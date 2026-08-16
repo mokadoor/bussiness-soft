@@ -83,6 +83,12 @@ export function ContactForm() {
   const consentValue = watch('consent');
 
   const onSubmit = async (data: FormValues) => {
+    const loadingToastId = toast.loading(contactForm.sending, {
+      description: contactForm.sendMessage,
+      className:
+        'border-slate-300 bg-slate-100 text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100',
+    });
+
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -90,14 +96,21 @@ export function ContactForm() {
         body: JSON.stringify(data),
       });
       if (!res.ok) throw new Error('Request failed');
+
+      toast.dismiss(loadingToastId);
       setSubmitted(true);
       reset();
       toast.success(contactForm.thankYou, {
         description: contactForm.sent,
+        className:
+          'border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-100',
       });
     } catch {
-      toast.error(contactForm.sending, {
-        description: contactForm.sendMessage,
+      toast.dismiss(loadingToastId);
+      toast.error('Message not sent', {
+        description: 'Please try again in a moment.',
+        className:
+          'border-red-300 bg-red-50 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100',
       });
     }
   };

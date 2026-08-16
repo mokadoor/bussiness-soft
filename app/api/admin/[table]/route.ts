@@ -16,6 +16,35 @@ const hasSqlServerConfig = Boolean(process.env.SQLSERVER_CONNECTION?.trim());
 
 // Use shared `getSqlPool` from the client module.
 
+type ContactMessageFallback = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  company: string | null;
+  subject: string;
+  message: string;
+  status: string;
+  created_at: string;
+};
+
+function getContactMessagesFallbackStore(): ContactMessageFallback[] {
+  const scope = globalThis as typeof globalThis & {
+    contactMessagesFallbackStore?: ContactMessageFallback[];
+  };
+
+  if (!scope.contactMessagesFallbackStore) {
+    scope.contactMessagesFallbackStore = [];
+  }
+
+  return scope.contactMessagesFallbackStore;
+}
+
+function resolveTableName(table: string) {
+  if (table === 'messages') return 'contact_messages';
+  return table;
+}
+
 function buildFallbackRow(table: string, row: Record<string, unknown>, index: number) {
   const id =
     String(row.id ?? row.slug ?? row.name ?? row.title ?? row.question ?? row.label ?? `${table}-${index}`)
@@ -41,7 +70,7 @@ function createFallbackStore() {
     statistics: fallbackStats.map((row, index) => buildFallbackRow('statistics', row, index)),
     news: fallbackNews.map((row, index) => buildFallbackRow('news', row, index)),
     faqs: fallbackFaqs.map((row, index) => buildFallbackRow('faqs', row, index)),
-    contact_messages: [],
+    contact_messages: getContactMessagesFallbackStore(),
   } as Record<string, Record<string, unknown>[]>;
 }
 
@@ -119,7 +148,7 @@ export async function GET(
   req: Request,
   { params }: { params: { table: string } }
 ) {
-  const table = params.table;
+  const table = resolveTableName(params.table);
   if (!allowedTables.has(table)) {
     return NextResponse.json({ error: 'Invalid table' }, { status: 400 });
   }
@@ -142,7 +171,7 @@ export async function POST(
   req: Request,
   { params }: { params: { table: string } }
 ) {
-  const table = params.table;
+  const table = resolveTableName(params.table);
   if (!allowedTables.has(table)) {
     return NextResponse.json({ error: 'Invalid table' }, { status: 400 });
   }
@@ -167,18 +196,18 @@ export async function PUT(
   req: Request,
   { params }: { params: { table: string } }
 ) {
-  const table = params.table;
+  const table = resolveTableName(params.table);
   if (!allowedTables.has(table)) {
     return NextResponse.json({ error: 'Invalid table' }, { status: 400 });
   }
 
   const url = new URL(req.url);
-  const id = url.searchParams.get('id');
+  const body = await req.json();
+  const id = url.searchParams.get('id') ?? (typeof body.id === 'string' ? body.id : null);
   if (!id) {
     return NextResponse.json({ error: 'Missing id' }, { status: 400 });
   }
 
-  const body = await req.json();
   const data = sanitizeBody(table, body);
 
   if (Object.keys(data).length === 0) {
@@ -198,7 +227,7 @@ export async function DELETE(
   req: Request,
   { params }: { params: { table: string } }
 ) {
-  const table = params.table;
+  const table = resolveTableName(params.table);
   if (!allowedTables.has(table)) {
     return NextResponse.json({ error: 'Invalid table' }, { status: 400 });
   }
