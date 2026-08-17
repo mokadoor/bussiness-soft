@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -221,6 +222,9 @@ export default function AdminMessagesPage() {
           <DialogContent className="sm:max-w-lg">
             <DialogHeader>
               <DialogTitle>Message from {selected.name}</DialogTitle>
+              <DialogDescription>
+                Review the full message and update its status.
+              </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-2">
               <div className="grid grid-cols-2 gap-3 text-sm">

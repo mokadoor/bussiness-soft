@@ -59,6 +59,29 @@ function buildFallbackRow(table: string, row: Record<string, unknown>, index: nu
   };
 }
 
+function updateFallbackRow(table: string, id: string, data: Record<string, unknown>) {
+  const store = fallbackStore[table] as Record<string, unknown>[] | undefined;
+  if (!store) return false;
+
+  const index = store.findIndex((row) => String(row.id ?? '') === id);
+  if (index === -1) return false;
+
+  store[index] = { ...store[index], ...data };
+  return true;
+}
+
+function deleteFallbackRow(table: string, id: string) {
+  const store = fallbackStore[table] as Record<string, unknown>[] | undefined;
+  if (!store) return false;
+
+  const nextLength = store.length;
+  const filtered = store.filter((row) => String(row.id ?? '') !== id);
+  if (filtered.length === nextLength) return false;
+
+  fallbackStore[table] = filtered;
+  return true;
+}
+
 function createFallbackStore() {
   return {
     products: fallbackProducts.map((row, index) => buildFallbackRow('products', row, index)),
@@ -214,6 +237,14 @@ export async function PUT(
     return NextResponse.json({ error: 'No valid fields provided' }, { status: 400 });
   }
 
+  if (!hasSqlServerConfig) {
+    const updated = updateFallbackRow(table, id, data);
+    if (!updated) {
+      return NextResponse.json({ error: 'Record not found' }, { status: 404 });
+    }
+    return NextResponse.json({ success: true });
+  }
+
   try {
     const { sql } = buildUpdateQuery(table, id, data);
     await executeQuery(sql, { ...data, id });
@@ -236,6 +267,14 @@ export async function DELETE(
   const id = url.searchParams.get('id');
   if (!id) {
     return NextResponse.json({ error: 'Missing id' }, { status: 400 });
+  }
+
+  if (!hasSqlServerConfig) {
+    const deleted = deleteFallbackRow(table, id);
+    if (!deleted) {
+      return NextResponse.json({ error: 'Record not found' }, { status: 404 });
+    }
+    return NextResponse.json({ success: true });
   }
 
   try {
